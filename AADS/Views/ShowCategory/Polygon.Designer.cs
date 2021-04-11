@@ -75,7 +75,7 @@ namespace AADS.Views.ShowCategory
             this.panelShowDetail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelShowDetail.Location = new System.Drawing.Point(0, 81);
             this.panelShowDetail.Name = "panelShowDetail";
-            this.panelShowDetail.Size = new System.Drawing.Size(290, 684);
+            this.panelShowDetail.Size = new System.Drawing.Size(1238, 922);
             this.panelShowDetail.TabIndex = 6;
             // 
             // panelTop
@@ -83,7 +83,7 @@ namespace AADS.Views.ShowCategory
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(290, 81);
+            this.panelTop.Size = new System.Drawing.Size(1238, 81);
             this.panelTop.TabIndex = 7;
             // 
             // Polygon
@@ -96,7 +96,7 @@ namespace AADS.Views.ShowCategory
             this.Controls.Add(this.btnShowGeographic);
             this.Controls.Add(this.panelTop);
             this.Name = "Polygon";
-            this.Size = new System.Drawing.Size(290, 765);
+            this.Size = new System.Drawing.Size(1238, 1003);
             this.ResumeLayout(false);
 
         }

@@ -155,6 +155,7 @@
     </Compile>
     <Compile Include="MapMode.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="Polygon.cs" />
     <Compile Include="PositionConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
