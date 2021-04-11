@@ -634,12 +634,12 @@ namespace AADS
             panelControl_isMouseDown = true;
         }
 
-        public bool isGeoPolygonClicked;
+        public bool isPolygonFuncClicked;
         private List<PointLatLng> polygonPoints = new List<PointLatLng>();
 
         private void mainMap_MouseClick_1(object sender, MouseEventArgs e)
         {
-            if (isGeoPolygonClicked)
+            if (isPolygonFuncClicked)
             {
                 if (e.Button == MouseButtons.Left)
                 {

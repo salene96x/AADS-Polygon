@@ -104,6 +104,7 @@ namespace AADS.Views.Filter_Geographic
             this.button1.TabIndex = 5;
             this.button1.Text = "ยืนยัน";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // main
             // 
@@ -120,6 +121,7 @@ namespace AADS.Views.Filter_Geographic
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "main";
             this.Size = new System.Drawing.Size(319, 1240);
+            this.Load += new System.EventHandler(this.main_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -131,10 +133,10 @@ namespace AADS.Views.Filter_Geographic
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.ListBox listBox1;
+        public System.Windows.Forms.TextBox textBox1;
     }
 }

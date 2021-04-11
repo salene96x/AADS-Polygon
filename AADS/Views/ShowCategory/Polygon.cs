@@ -23,7 +23,7 @@ namespace AADS.Views.ShowCategory
             var Geographicpage = new Views.Filter_Geographic.main();
             panelShowDetail.Controls.Clear();
             panelShowDetail.Controls.Add(Geographicpage);
-            mainForm.isGeoPolygonClicked = true;
+            mainForm.isPolygonFuncClicked = true;
         }
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)
@@ -31,6 +31,7 @@ namespace AADS.Views.ShowCategory
             var RestrictedAreapage = new Views.RestrictedArea.main();
             panelShowDetail.Controls.Clear();
             panelShowDetail.Controls.Add(RestrictedAreapage);
+            mainForm.isPolygonFuncClicked = true;
         }
 
         private void btnShowRD_Click(object sender, EventArgs e)
@@ -38,6 +39,7 @@ namespace AADS.Views.ShowCategory
             var ResourceDistributionpage = new Views.Filter_ResourceDistribution.main();
             panelShowDetail.Controls.Clear();
             panelShowDetail.Controls.Add(ResourceDistributionpage);
+            mainForm.isPolygonFuncClicked = true;
         }
     }
 }
