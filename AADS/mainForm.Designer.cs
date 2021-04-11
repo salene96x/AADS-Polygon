@@ -1592,6 +1592,7 @@ namespace AADS
             this.mainMap.TabIndex = 4;
             this.mainMap.Zoom = 2D;
             this.mainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.mainMap_OnMapZoomChanged);
+            this.mainMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseClick_1);
             // 
             // MainForm
             // 
@@ -1619,6 +1620,7 @@ namespace AADS
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.mainForm_FormClosed);
             this.Load += new System.EventHandler(this.mainForm_Load);
+            //this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseClick);
             this.panelTop.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel9.ResumeLayout(false);

@@ -12,6 +12,7 @@ namespace AADS.Views.ShowCategory
 {
     public partial class Polygon : UserControl
     {
+        private MainForm mainForm = MainForm.GetInstance();
         public Polygon()
         {
             InitializeComponent();
@@ -22,6 +23,7 @@ namespace AADS.Views.ShowCategory
             var Geographicpage = new Views.Filter_Geographic.main();
             panelShowDetail.Controls.Clear();
             panelShowDetail.Controls.Add(Geographicpage);
+            mainForm.isGeoPolygonClicked = true;
         }
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)

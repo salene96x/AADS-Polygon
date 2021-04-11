@@ -633,5 +633,21 @@ namespace AADS
             lastPoint = new Point(e.X, e.Y);
             panelControl_isMouseDown = true;
         }
+
+        public bool isGeoPolygonClicked;
+        private List<PointLatLng> polygonPoints = new List<PointLatLng>();
+
+        private void mainMap_MouseClick_1(object sender, MouseEventArgs e)
+        {
+            if (isGeoPolygonClicked)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    polygonPoints.Add(mainMap.FromLocalToLatLng(e.X, e.Y));
+                    Polygon polygon = new Polygon();
+                    polygon.CreatePolygon(polygonPoints);
+                }
+            }
+        }
     }
 }
