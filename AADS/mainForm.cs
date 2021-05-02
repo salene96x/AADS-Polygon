@@ -1,12 +1,15 @@
-﻿using GMap.NET;
+﻿using AADS.Views.Marker;
+using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -22,39 +25,33 @@ namespace AADS
 {
     public partial class MainForm : Form
     {
-        private List<PointLatLng> _points = new List<PointLatLng>();
-        internal readonly GMapOverlay top = new GMapOverlay();
-        internal readonly GMapOverlay markersP = new GMapOverlay("markersP");
-        internal readonly GMapOverlay Radar = new GMapOverlay("Radar");
-        internal readonly GMapOverlay lineDistance = new GMapOverlay("lineDistance");
-        internal readonly GMapOverlay polygons = new GMapOverlay("polygons");
-        internal readonly GMapOverlay objects = new GMapOverlay("objects");
-        internal readonly GMapOverlay Track = new GMapOverlay("Track");
-        internal readonly GMapOverlay Test = new GMapOverlay("Test");
-        internal readonly GMapOverlay BordersTrack = new GMapOverlay("BordersTrack");
-        internal readonly GMapOverlay midlineDistance = new GMapOverlay("midlineDistance");
+        //Event for get Marker
+        public event EventHandler<GMapMarker> MarkerCurrent;
+
+        internal readonly GMapOverlay markerOverlay = new GMapOverlay("markerOverlay");
+        internal readonly GMapOverlay radarOverlay = new GMapOverlay("radarOverlay");
+        internal readonly GMapOverlay trackOverlay = new GMapOverlay("trackOverlay");
+
+        internal readonly GMapOverlay top = new GMapOverlay("top");
 
         internal readonly GMapOverlay minMapOverlay = new GMapOverlay("minMapOverlay");
 
+        // marker detail key = marker, value = marker detail
+        public Dictionary<GMarker, dynamic> detailMarkers = new Dictionary<GMarker, dynamic>();
+ 
+        private Dictionary<string, GMarkerRect> radarMarkers = new Dictionary<string, GMarkerRect>();
+        private Dictionary<string, GMarkerRect> trackMarkers = new Dictionary<string, GMarkerRect>();
+        private Dictionary<string, GMarkerRect> markerMarkers = new Dictionary<string, GMarkerRect>();
+
         public GMapControl gMap;
         public TrackManager trackHandler = new TrackManager();
-        public Views.ViewManager viewManager;
+        public RadarManager radarHandler = new RadarManager();
+        public ControlViews views;
         List<MapMode> mapModes = new List<MapMode>();
         public GMapMarker currentMarker;
-        GMapMarker markertag = null;
-        GMapPolygon polygon;
-        string action = null;
-        static int simID = 300;
         bool minMapAutoZoom = false;
-
-        private void btnConnectServer_Click(object sender, EventArgs e)
-        {
-            bool connected = RadarClient.ConnectToServer(IPAddress.Parse(txtServerAddress.Text));
-            if (!connected)
-            {
-                MessageBox.Show("Cant connect");
-            }
-        }
+        public static MySqlConnection com = new MySqlConnection("host=localhost;user=root;password=1234;database=aads");
+        public static bool isConnected = true;
         public GMapOverlay GetOverlay(string Name)
         {
             return mainMap.Overlays.FirstOrDefault(x => x.Id == Name);
@@ -68,41 +65,24 @@ namespace AADS
             return mainMap;
         }
         public static MainForm Instance;
-        private void readJsonMap()
+        public void Invoke(Action action)
         {
-            using (StreamReader reader = new StreamReader("Maps.json"))
+            if (InvokeRequired)
             {
-                string json = reader.ReadToEnd();
-                JArray list = JArray.Parse(json);
-                foreach (JObject data in list.Children())
-                {
-                    mapModes.Add(new MapMode
-                    {
-                        Name = (string)data["Name"],
-                        MapProvider = GMapProviders.TryGetProvider((string)data["Type"]),
-                        MainMapMinZoom = (int)data["MainMapMinZoom"],
-                        MainMapMaxZoom = (int)data["MainMapMaxZoom"],
-                        MiniMapMinZoom = (int)data["MiniMapMinZoom"],
-                        MiniMapMaxZoom = (int)data["MiniMapMaxZoom"]
-                    });
-                }
+                Invoke(new MethodInvoker(() => Invoke(action)));
+            }
+            else
+            {
+                action();
             }
         }
-        private static PointLatLng radarLocation = new PointLatLng(14.94561195, 102.0929003);
-        private static double radarRadius = 240;
-        private GMapPolygon CreateCircle(PointLatLng point, double radius, float stroke)
+        private void readJsonMap()
         {
-            int segments = 1080;
-            List<PointLatLng> gpollist = new List<PointLatLng>();
-            for (int i = 0; i < segments; i++)
+            using (StreamReader reader = new StreamReader("Resources/Maps.json"))
             {
-                gpollist.Add(FindPointAtDistanceFrom(point, i, radius));
+                string json = reader.ReadToEnd();
+                mapModes = JsonSerializer.Deserialize<List<MapMode>>(json);
             }
-            GMapPolygon gpol = new GMapPolygon(gpollist, "circle");
-            gpol.Fill = new SolidBrush(Color.Transparent);
-            gpol.Stroke = new Pen(Color.CornflowerBlue, stroke);
-            gpol.IsHitTestVisible = true;
-            return gpol;
         }
         public static double DegreesToRadians(double degrees)
         {
@@ -114,7 +94,7 @@ namespace AADS
             const double radToDegFactor = 180 / Math.PI;
             return radians * radToDegFactor;
         }
-        private PointLatLng FindPointAtDistanceFrom(PointLatLng startPoint, double bearingDegree, double distanceKilometres)
+        public static PointLatLng FindPointAtDistance(PointLatLng startPoint, double bearingDegree, double distanceKilometres)
         {
             double radius = 6371.01;
 
@@ -135,109 +115,111 @@ namespace AADS
 
             return new PointLatLng(lat, lon);
         }
-        private void setupRadar()
+        private void radarHandler_RadarClear()
         {
-            Radar.Markers.Clear();
-            Radar.Polygons.Clear();
-            Bitmap image = new Bitmap("Images/radar_site.png");
-            GMapMarker marker = new GMarkerGoogle(radarLocation, image);
-            GMapPolygon circle = CreateCircle(radarLocation, radarRadius, 2.0f);
-            Radar.Markers.Add(marker);
-            Radar.Polygons.Add(circle);
+            radarHandler.Radars.ForEach(x =>
+            {
+                GMarkerRect rect = radarMarkers[x.Name];
+                GMarkerRadar marker = rect.InnerMarker as GMarkerRadar;
+                if (marker.IsRadiusShow)
+                {
+                    radarOverlay.Polygons.Remove(marker.RadiusPolygon);
+                }
+                radarOverlay.Markers.Remove(marker);
+                radarOverlay.Markers.Remove(rect);
+                rect.Dispose();
+            });
+            radarMarkers.Clear();
         }
-        private void trackHandler_TrackClear(TrackFakerType type)
+        private void radarHandler_RadarCreate(RadarSite radar)
         {
-            if (type == TrackFakerType.Client)
+            GMarkerRadar marker = new GMarkerRadar(radar);
+            GMarkerRect rect = new GMarkerRect(marker);
+            radarOverlay.Markers.Add(marker);
+            radarOverlay.Markers.Add(rect);
+            radarMarkers.Add(radar.Name, rect);
+        }
+        private void radarHandler_RadarUpdate(RadarSite radar)
+        {
+            GMarkerRect rect = radarMarkers[radar.Name];
+            GMarkerRadar marker = rect.InnerMarker as GMarkerRadar;
+            radarOverlay.Polygons.Remove(marker.RadiusPolygon);
+            marker.RenewRadius();
+            if (marker.IsRadiusShow)
             {
-                trackHandler.Fakers.ForEach(x => Track.Markers.Remove(trackHandler.fakerMarkers[x.Key]));
+                radarOverlay.Polygons.Add(marker.RadiusPolygon);
             }
-            else
+            rect.SetPosition(radar.Position);
+            mainMap.Invalidate();
+        }
+        private void radarHandler_RadarRemove(RadarSite radar)
+        {
+            GMarkerRect rect = radarMarkers[radar.Name];
+            GMarkerRadar marker = rect.InnerMarker as GMarkerRadar;
+            if (marker.IsRadiusShow)
             {
-                trackHandler.Tracks.ForEach(x => Track.Markers.Remove(trackHandler.trackMarkers[x.Key]));
+                radarOverlay.Polygons.Remove(marker.RadiusPolygon);
             }
+            trackOverlay.Markers.Remove(marker);
+            trackOverlay.Markers.Remove(rect);
+            rect.Dispose();
+            radarMarkers.Remove(radar.Name);
+        }
+        private void trackHandler_TrackClear()
+        {
+            trackHandler.Tracks.ForEach(x =>
+            {
+                GMarkerRect rect = trackMarkers[x.Key];
+                GMarkerTrack marker = rect.InnerMarker as GMarkerTrack;
+                trackOverlay.Markers.Remove(marker);
+                trackOverlay.Markers.Remove(rect);
+                rect.Dispose();
+            });
+            trackMarkers.Clear();
         }
         private void trackHandler_TrackCreate(TrackData item)
         {
-            if (item.Faker == TrackFakerType.Client)
-            {
-                if (!trackHandler.fakerMarkers.ContainsKey(item.Key))
-                {
-                    GMarkerTrack marker = new GMarkerTrack(item);
-                    Track.Markers.Add(marker);
-                    trackHandler.fakerMarkers.Add(item.Key, marker);
-                }
-            }
-            else
-            {
-                if (!trackHandler.trackMarkers.ContainsKey(item.Key))
-                {
-                    GMarkerTrack marker = new GMarkerTrack(item);
-                    Track.Markers.Add(marker);
-                    trackHandler.trackMarkers.Add(item.Key, marker);
-                    if (RadarClient.Connected)
-                    {
-                        if (item.Faker == TrackFakerType.Server)
-                            RadarClient.SendString(JsonSerializer.Serialize(TrackCommand.GetSingle(RadarOperation.Create, item).Wrap()));
-                    }
-                }
-            }
+            MessageBox.Show("Track Event Add");
+            GMarkerTrack marker = new GMarkerTrack(item);
+            GMarkerRect rect = new GMarkerRect(marker);
+            trackOverlay.Markers.Add(marker);
+            trackOverlay.Markers.Add(rect);
+            trackMarkers.Add(item.Key, rect);
         }
         private void trackHandler_TrackUpdate(TrackData item)
         {
-            if (item.Faker == TrackFakerType.Client)
-            {
-                if (trackHandler.fakerMarkers.ContainsKey(item.Key))
-                {
-                    GMarkerTrack marker = trackHandler.fakerMarkers[item.Key];
-                    marker.SetTrack(item);
-                }
-            }
-            else
-            {
-                if (trackHandler.trackMarkers.ContainsKey(item.Key))
-                {
-                    GMarkerTrack marker = trackHandler.trackMarkers[item.Key];
-                    marker.SetTrack(item);
-                }
-            }
+            GMarkerRect rect = trackMarkers[item.Key];
+            GMarkerTrack marker = rect.InnerMarker as GMarkerTrack;
+            rect.SetPosition(item.Position);
+            marker.Track = item;
+            mainMap.Invalidate();
         }
         private void trackHandler_TrackRemove(TrackData item)
         {
-            if (item.Faker == TrackFakerType.Client)
-            {
-                if (trackHandler.fakerMarkers.ContainsKey(item.Key))
-                {
-                    GMarkerTrack marker = trackHandler.fakerMarkers[item.Key];
-                    Track.Markers.Remove(marker);
-                    trackHandler.fakerMarkers.Remove(item.Key);
-                }
-            }
-            else
-            {
-                if (trackHandler.trackMarkers.ContainsKey(item.Key))
-                {
-                    GMarkerTrack marker = trackHandler.trackMarkers[item.Key];
-                    Track.Markers.Remove(marker);
-                    trackHandler.trackMarkers.Remove(item.Key);
-                    if (RadarClient.Connected)
-                    {
-                        if (item.Faker == TrackFakerType.Server)
-                            RadarClient.SendString(JsonSerializer.Serialize(TrackCommand.GetSingle(RadarOperation.Remove, item).Wrap()));
-                    }
-                }
-            }
+            GMarkerRect rect = trackMarkers[item.Key];
+            GMarkerTrack marker = rect.InnerMarker as GMarkerTrack;
+            trackOverlay.Markers.Remove(marker);
+            trackOverlay.Markers.Remove(rect);
+            markerOverlay.Markers.Remove(marker);
+            rect.Dispose();
+            trackMarkers.Remove(item.Key);
         }
         public MainForm()
         {
             InitializeComponent();
             Instance = this;
             gMap = mainMap;
-            viewManager = Views.ViewManager.Instance;
+            views = ControlViews.Instance;
             mainMap.Manager.BoostCacheEngine = true;
             mainMap.MapScaleInfoEnabled = true;
             mainMap.MapScaleInfoPosition = MapScaleInfoPosition.Bottom;
 
             readJsonMap();
+
+            radarHandler.OnRadarClear += radarHandler_RadarClear;
+            radarHandler.OnRadarCreate += radarHandler_RadarCreate;
+            radarHandler.OnRadarUpdate += radarHandler_RadarUpdate;
+            radarHandler.OnRadarRemove += radarHandler_RadarRemove;
 
             trackHandler.OnTrackClear += trackHandler_TrackClear;
             trackHandler.OnTrackCreate += trackHandler_TrackCreate;
@@ -246,31 +228,28 @@ namespace AADS
 
             if (!GMapControl.IsDesignerHosted)
             {
-                mainMap.Overlays.Add(Radar);
-                mainMap.Overlays.Add(polygons);
-                mainMap.Overlays.Add(lineDistance);
-                mainMap.Overlays.Add(midlineDistance);
-                mainMap.Overlays.Add(markersP);
-                mainMap.Overlays.Add(objects);
-                mainMap.Overlays.Add(Test);
-                mainMap.Overlays.Add(Track);
-                mainMap.Overlays.Add(BordersTrack);
+                // Secondary overlay
+                mainMap.Overlays.Add(markerOverlay);
+                mainMap.Overlays.Add(radarOverlay);
+                mainMap.Overlays.Add(trackOverlay);
+                // First overlay
                 mainMap.Overlays.Add(top);
+
                 minMap1.Overlays.Add(minMapOverlay);
 
                 mainMap.Manager.Mode = AccessMode.ServerOnly;
                 mainMap.MapProvider = mapModes[0].MapProvider;
                 mainMap.Position = new PointLatLng(13.7563, 100.5018);
-                mainMap.MinZoom = mapModes[0].MainMapMinZoom;
-                mainMap.MaxZoom = mapModes[0].MainMapMaxZoom;
-                mainMap.Zoom = 8;
+                mainMap.MinZoom = mapModes[0].MainMap.MinZoom;
+                mainMap.MaxZoom = mapModes[0].MainMap.MaxZoom;
+                mainMap.Zoom = mapModes[0].MainMap.Default;
 
                 minMap1.Manager.Mode = AccessMode.ServerOnly;
                 minMap1.MapProvider = mapModes[0].MapProvider;
                 minMap1.Position = new PointLatLng(13.7563, 100.5018);
-                minMap1.MinZoom = mapModes[0].MiniMapMinZoom;
-                minMap1.MaxZoom = mapModes[0].MiniMapMaxZoom;
-                minMap1.Zoom = 4;
+                minMap1.MinZoom = mapModes[0].MiniMap.MinZoom;
+                minMap1.MaxZoom = mapModes[0].MiniMap.MaxZoom;
+                minMap1.Zoom = mapModes[0].MiniMap.Default;
 
                 {
                     mainMap.OnPositionChanged += new PositionChanged(mainMap_OnPositionChanged);
@@ -284,6 +263,10 @@ namespace AADS
                     mainMap.MouseClick += new MouseEventHandler(mainMap_MouseClick);
 
                     mainMap.OnMarkerClick += new MarkerClick(mainMap_OnMarkerClick);
+                    mainMap.OnMarkerEnter += new MarkerEnter(mainMap_OnMarkerEnter);
+                    mainMap.OnMarkerLeave += new MarkerLeave(mainMap_OnMarkerLeave);
+
+                    mainMap.OnPolygonClick += new PolygonClick(mainMap_OnPolygonClick);
                 }
 
                 currentMarker = new GMarkerGoogle(mainMap.Position, GMarkerGoogleType.arrow);
@@ -294,7 +277,7 @@ namespace AADS
                 //Console.WriteLine(CPC.rhumbBearingTo(new PointLatLng(51.127, 1.338),new PointLatLng(50.964, 1.853)).ToString());
             }
         }
-        void updateMinMap()
+        private void updateMinMap()
         {
             minMap1.Position = mainMap.Position;
             List<PointLatLng> plist = new List<PointLatLng>();
@@ -327,26 +310,139 @@ namespace AADS
             }
         }
 
-        #region -- event mainMap --
-        void mainMap_OnPositionChanged(PointLatLng point)
+        private void mainMap_OnPositionChanged(PointLatLng point)
         {
             updateMinMap();
         }
 
-        void mainMap_OnMapTypeChanged(GMapProvider type)
+        private void mainMap_OnMapTypeChanged(GMapProvider type)
         {
 
         }
 
-        void mainMap_OnMapZoomChanged()
+        private void mainMap_OnMapZoomChanged()
         {
             updateMinMap();
         }
-        void mainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        private void mainMap_OnMarkerEnter(GMapMarker item)
+        {
+            if (item is GMarkerRect rect)
+            {
+                if (rect.InnerMarker is GMarkerRadar radar)
+                {
+                    if (!radar.IsRadiusShow)
+                    {
+                        radar.IsRadiusShow = true;
+                        radarOverlay.Polygons.Add(radar.RadiusPolygon);
+                    }
+                }
+            }
+        }
+        private void mainMap_OnMarkerLeave(GMapMarker item)
+        {
+            if (item is GMarkerRect rect)
+            {
+                if (rect.InnerMarker is GMarkerRadar radar)
+                {
+                    if (!radar.LockPolygon && radar.IsRadiusShow)
+                    {
+                        radar.IsRadiusShow = false;
+                        radarOverlay.Polygons.Remove(radar.RadiusPolygon);
+                    }
+                }
+            }
+        }
+        private void mainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        {
+            if (item is GMarkerRect rect)
+            {
+                if (rect.InnerMarker is GMarkerRadar radar)
+                {
+                    radar.LockPolygon = !radar.LockPolygon;
+                }
+                else if (rect.InnerMarker is GMarkerTrack track)
+                {
+                    if (!hasPanelRight)
+                    {
+                        MessageBox.Show("1");
+                        panelRight_Map();
+                        panelRightShowControl(ControlViews.Track);
+                        ControlViews.Track.SetControl(ControlViews.TrackView);
+                        ControlViews.TrackView.setTrackInfo(track.Track);
+                        fadePanelRight();
+                    }
+                    else if (ControlViews.Main.currentControl == ControlViews.Track)
+                    {
+                        MessageBox.Show("2");
+                        ControlViews.Track.SetControl(ControlViews.TrackView);
+                        ControlViews.TrackView.setTrackInfo(track.Track);
+                    }
+                }
+                else if (rect.InnerMarker is GMarker marker)
+                {
+                    // TODO : Request right panel and show this marker data
+                    // See above else if condition for example
+                    if(detailMarkers.ContainsKey(marker))
+                    {
+                        if (detailMarkers[marker].GetType() == typeof(City))
+                        {
+                            ControlViews.Marker.SetControl(ControlViews.CityView);
+                            ControlViews.CityView.setCityInfo(marker, rect);
+                        }
+                        else if (detailMarkers[marker].GetType() == typeof(Airport))
+                        {
+                            //TODO : SetControl Here (Titan to Toon)
+                            //.Show("Airport View", "TEST", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ControlViews.Marker.SetControl(ControlViews.AirportView);
+                            ControlViews.AirportView.setAirportInfo(marker, rect);
+                        }
+                        else if (detailMarkers[marker].GetType() == typeof(FireUnit))
+                        {
+                            //TODO : SetControl Here (Titan to Toon)
+                            //MessageBox.Show("FireUnit View", "TEST", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ControlViews.Marker.SetControl(ControlViews.FireUnitView);
+                            ControlViews.FireUnitView.setFireUnitInfo(marker, rect);
+                        }
+                        else if (detailMarkers[marker].GetType() == typeof(FixedPoint))
+                        {
+                            //TODO : SetControl Here (Titan to Toon)
+                            //MessageBox.Show("FixedPoint View", "TEST", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ControlViews.Marker.SetControl(ControlViews.FixedPointView);
+                            ControlViews.FixedPointView.setFixedPointInfo(marker, rect);
+                        }
+                        else if (detailMarkers[marker].GetType() == typeof(LandMark))
+                        {
+                            //TODO : SetControl Here (Titan to Toon)
+                            //MessageBox.Show("LandMark View", "TEST", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ControlViews.Marker.SetControl(ControlViews.LandmarkView);
+                            ControlViews.LandmarkView.setLandMarkInfo(marker, rect);
+                        }
+                        else if (detailMarkers[marker].GetType() == typeof(VitalAsset))
+                        {
+                            //TODO : SetControl Here (Titan to Toon)
+                            //MessageBox.Show("ViralAsset View", "TEST", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ControlViews.Marker.SetControl(ControlViews.VitalAssetView);
+                            ControlViews.VitalAssetView.setVitalAssetInfo(marker, rect);
+                        }
+                        else
+                        {
+                            //This condition to other error case
+                            MessageBox.Show("Invalid Data", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        
+                        
+                        //markerOverlay.Markers.Remove(rect);
+                        //markerOverlay.Markers.Remove(marker);
+                    }
+                }
+            }
+
+            MarkerCurrent?.Invoke(this, item);
+        }
+        private void mainMap_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
         {
 
         }
-
         bool isMouseDown = false;
         bool isRightClick = false;
         Point lastLocation;
@@ -361,20 +457,31 @@ namespace AADS
             isRightClick = e.Button == MouseButtons.Right;
         }
 
+        void moveCurrentMarker(PointLatLng point)
+        {
+
+            currentMarker.Position = point;
+            //MessageBox.Show(currentMarker.Position.ToString());
+        }
         void mainMap_MouseMove(object sender, MouseEventArgs e)
         {
+            PointLatLng pnew = mainMap.FromLocalToLatLng(e.X, e.Y);
             lastLocation = e.Location;
+            if (isMouseDown && !isRightClick)
+            {
+                moveCurrentMarker(pnew);
+            }
         }
+
 
         void mainMap_MouseClick(object sender, MouseEventArgs e)
         {
             PointLatLng pnew = mainMap.FromLocalToLatLng(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
-                currentMarker.Position = pnew;
+                moveCurrentMarker(pnew);
             }
         }
-        #endregion
 
         private void updateCmbMapMode()
         {
@@ -388,10 +495,7 @@ namespace AADS
 
         private void mainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (RadarClient.Connected)
-            {
-                RadarClient.Exit();
-            }
+
         }
         private void mainForm_Load(object sender, EventArgs e)
         {
@@ -401,13 +505,243 @@ namespace AADS
             timerFakerSimulate.Start();
             updateMinMap();
             updateCmbMapMode();
-            setupRadar();
-            mainMap.Position = radarLocation;
             cmbMapMode.SelectedIndex = 0;
             panelRight.Height = this.Height - panelControl.Height - panelTop.Height - panelBottom.Height;
             panelRight.Location = new Point(1950,93);
             label27Location = new Point(this.Width - label27.Width, label27.Location.Y);
 
+            radarHandler.Create(new RadarSite
+            {
+                Name = "TRML",
+                Type = RadarSiteType.TRML,
+                Position = new PointLatLng(14.94561195, 102.0929003),
+                Radius = 240
+            });
+            radarHandler.Create(new RadarSite
+            {
+                Name = "DR172ADV",
+                Type = RadarSiteType.DR172ADV,
+                Position = new PointLatLng(14.2255556, 100.7208333),
+                Radius = 240
+            });
+
+            
+                try
+                {
+                    com.Open();
+                    com.Close();
+                }
+                catch (MySqlException)
+                {
+                    isConnected = false;
+                }
+            if (isConnected) { 
+            com.Open();
+            string sql = "SELECT max(airport_id) FROM airport " +
+                "UNION SELECT max(city_id) FROM city " +
+                "UNION SELECT max(fireunit_id) FROM fireunit " +
+                "UNION SELECT max(fp_id) FROM fixedpoint" +
+                " UNION SELECT max(landmark_id) FROM landmark " +
+                "UNION SELECT max(vital_id) FROM vitalasset; ";
+            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, com);
+            DataSet dataSet = new DataSet();
+            adapter.Fill(dataSet);
+            foreach (DataTable table in dataSet.Tables)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    foreach (object item in row.ItemArray)
+                    {
+                        string str = item.ToString();
+                        if (str != "")
+                        {
+                            if (str.Substring(0, 2) == "AP")
+                            {
+                                AirportCreation.AutoIncrementID = Int32.Parse(str.Substring(2));
+                            }
+                            else if (str.Substring(0, 2) == "CI")
+                            {
+                                CityCreation.AutoIncrementID = Int32.Parse(str.Substring(2));
+                            }
+                            else if (str.Substring(0, 2) == "FU")
+                            {
+                                FireUnitCreation.AutoIncrementID = Int32.Parse(str.Substring(2));
+                            }
+                            else if (str.Substring(0, 2) == "FP")
+                            {
+                                FixedPointCreation.AutoIncrementID = Int32.Parse(str.Substring(2));
+                            }
+                            else if (str.Substring(0, 2) == "LM")
+                            {
+                                LandmarkCreation.AutoIncrementID = Int32.Parse(str.Substring(2));
+                            }
+                            else if (str.Substring(0, 2) == "VA")
+                            {
+                                VitalAssetCreation.AutoIncrementID = Int32.Parse(str.Substring(2));
+                            }
+                        }  
+                    }
+                }
+            }
+            string sqlGet = "SELECT * FROM markers";
+            MySqlDataAdapter adapterGet = new MySqlDataAdapter(sqlGet, com);
+            DataSet dataSet1 = new DataSet();
+            adapterGet.Fill(dataSet1);
+            foreach (DataTable table in dataSet1.Tables)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    string str = row[0].ToString();
+                    PointLatLng point = PositionConverter.ParsePointFromString(row[1].ToString() + "," + row[2].ToString());
+                    if (str.Substring(0, 2) == "AP")
+                    {
+                        string sqlGetMK = "SELECT * FROM airport INNER JOIN country ON airport_country = country_id WHERE airport_id = @ID";
+                        MySqlCommand cmd = new MySqlCommand(sqlGetMK, com);
+                        cmd.Parameters.AddWithValue("ID", str);
+                        MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+
+                        while (mySqlDataReader.Read())
+                        {
+                            Image image = Image.FromFile("Images/icon/Airport.png");
+                            GMarker marker = new GMarker(point, mySqlDataReader["airport_name"].ToString(), image);
+                            GMarkerRect rect = new GMarkerRect(marker);
+                            Airport airport = new Airport(mySqlDataReader["airport_id"].ToString(), mySqlDataReader["country_name"].ToString(), mySqlDataReader["airport_name"].ToString(),
+                                mySqlDataReader["airport_is_international"].ToString() == "true" ? 1 : 0, mySqlDataReader["airport_icao"].ToString(), mySqlDataReader["airport_iata"].ToString(), point);
+                            detailMarkers.Add(marker, airport);
+                            markerOverlay.Markers.Add(marker);
+                            markerOverlay.Markers.Add(rect);
+                        }
+                        mySqlDataReader.Close();
+                       
+                    }
+                    else if (str.Substring(0, 2) == "CI")
+                    {
+                        string sqlGetMK = "SELECT * FROM city WHERE city_id = @ID";
+                        MySqlCommand cmd = new MySqlCommand(sqlGetMK, com);
+                        cmd.Parameters.AddWithValue("ID", str);
+                        MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+
+                        while (mySqlDataReader.Read())
+                        {
+                            Image image = Image.FromFile("Images/icon/City.png");
+                            GMarker marker = new GMarker(point, mySqlDataReader["city_name"].ToString(), image);
+                            GMarkerRect rect = new GMarkerRect(marker);
+                            City city = new City(mySqlDataReader["city_id"].ToString(), mySqlDataReader["city_name"].ToString(), mySqlDataReader["city_label"].ToString(), 
+                                row[3].ToString(),point);
+                            detailMarkers.Add(marker, city);
+                            markerOverlay.Markers.Add(marker);
+                            markerOverlay.Markers.Add(rect);
+                        }
+                        mySqlDataReader.Close();
+                    }
+                    else if (str.Substring(0, 2) == "FU")
+                    {
+                        // =============== NOT DONE YET ================
+                        //  string sqlGetMK = "SELECT * FROM fireunit INNER JOIN weaponbattery ON weaponbattery_id = weaponbattery.wb_id WHERE fireunit_id = @ID";
+                        // MySqlCommand cmd = new MySqlCommand(sqlGetMK, com);
+                        // cmd.Parameters.AddWithValue("ID", str);
+                        // MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+
+                        // while (mySqlDataReader.Read())
+                        // {
+                        //     Image image = Image.FromFile("Images/icon/FireUnit.png");
+                        //     GMarker marker = new GMarker(point, mySqlDataReader["fireunit_id"].ToString(), image);
+                        //     GMarkerRect rect = new GMarkerRect(marker);
+                        //     City city = new City(mySqlDataReader["city_id"].ToString(), mySqlDataReader["city_name"].ToString(), mySqlDataReader["city_label"].ToString(), 
+                        //         row[3].ToString(),point);
+                        //     detailMarkers.Add(marker, city);
+                        //     markerOverlay.Markers.Add(marker);
+                        //     markerOverlay.Markers.Add(rect);
+                        // }
+                        // mySqlDataReader.Close();
+                    }
+                    else if (str.Substring(0, 2) == "FP")
+                    {
+                        // =============== NOT DONE YET ================
+                        // string sqlGetMK = "SELECT * FROM fixedpoint WHERE fixedpoint_id = @ID";
+                        // MySqlCommand cmd = new MySqlCommand(sqlGetMK, com);
+                        // cmd.Parameters.AddWithValue("ID", str);
+                        // MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+
+                        // while (mySqlDataReader.Read())
+                        // {
+                        //     Image image = Image.FromFile("Images/icon/FireUnit.png");
+                        //     GMarker marker = new GMarker(point, mySqlDataReader["fireunit_id"].ToString(), image);
+                        //     GMarkerRect rect = new GMarkerRect(marker);
+                        //     City city = new City(mySqlDataReader["city_id"].ToString(), mySqlDataReader["city_name"].ToString(), mySqlDataReader["city_label"].ToString(),
+                        //         row[3].ToString(), point);
+                        //     detailMarkers.Add(marker, city);
+                        //     markerOverlay.Markers.Add(marker);
+                        //     markerOverlay.Markers.Add(rect);
+                        // }
+                        // mySqlDataReader.Close();
+                    }
+                    else if (str.Substring(0, 2) == "LM")
+                    {
+                        string sqlGetMK = "SELECT * FROM landmark WHERE landmark_id = @ID";
+                        MySqlCommand cmd = new MySqlCommand(sqlGetMK, com);
+                        cmd.Parameters.AddWithValue("ID", str);
+                        MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+
+                        while (mySqlDataReader.Read())
+                        {
+                            Image image = null;
+                            if (mySqlDataReader["landmark_type"].ToString() == "พระราชวัง")
+                            {
+                                image = Image.FromFile("Images/landmark/040-royal palace.png");
+                            }
+                            else if (mySqlDataReader["landmark_type"].ToString() == "วัด")
+                            {
+                                image = Image.FromFile("Images/landmark/039-temple.png");
+                            }
+                            else if (mySqlDataReader["landmark_type"].ToString() == "สถานีตำรวจ")
+                            {
+                                image = Image.FromFile("Images/landmark/026-police station.png");
+                            }
+                            else if (mySqlDataReader["landmark_type"].ToString() == "โรงพยาบาล")
+                            {
+                                image = Image.FromFile("Images/landmark/014-hospital.png");
+                            }
+                            else if (mySqlDataReader["landmark_type"].ToString() == "โรงเรียน / มหาวิทยาลัย")
+                            {
+                                image = Image.FromFile("Images/landmark/011-education.png");
+                            }
+                            
+                            GMarker marker = new GMarker(point, mySqlDataReader["landmark_label"].ToString(), image);
+                            GMarkerRect rect = new GMarkerRect(marker);
+                            LandMark landMark = new LandMark(mySqlDataReader["landmark_id"].ToString(), mySqlDataReader["landmark_name"].ToString(), mySqlDataReader["landmark_label"].ToString(),
+                               point, mySqlDataReader["landmark_type"].ToString(), row[3].ToString());
+                            detailMarkers.Add(marker, landMark);
+                            markerOverlay.Markers.Add(marker);
+                            markerOverlay.Markers.Add(rect);
+                        }
+                        mySqlDataReader.Close();
+                    }
+                    else if (str.Substring(0, 2) == "VA")
+                    {
+                        string sqlGetMK = "SELECT * FROM vitalasset INNER JOIN province ON FK_province_id = province_id INNER JOIN fireunit ON FK_unit_id = fireunit_id WHERE vital_id = @ID";
+                        MySqlCommand cmd = new MySqlCommand(sqlGetMK, com);
+                        cmd.Parameters.AddWithValue("ID", str);
+                        MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+
+                        while (mySqlDataReader.Read())
+                        {
+                            Image image = Image.FromFile("Images/icon/VitalAsset.png");
+                            GMarker marker = new GMarker(point, mySqlDataReader["vital_name"].ToString(), image);
+                            GMarkerRect rect = new GMarkerRect(marker);
+                            VitalAsset vitalAsset = new VitalAsset(mySqlDataReader["vital_id"].ToString(), mySqlDataReader["vital_name"].ToString(), mySqlDataReader["vital_type"].ToString(),
+                                 Int32.Parse(mySqlDataReader["vital_priority"].ToString()), mySqlDataReader["province_name"].ToString(), mySqlDataReader["vital_size"].ToString(),
+                                  mySqlDataReader["FK_unit_id"].ToString(), mySqlDataReader["fireunit_status"].ToString(), mySqlDataReader["vital_responses_person"].ToString(), point);
+                            detailMarkers.Add(marker, vitalAsset);
+                            markerOverlay.Markers.Add(marker);
+                            markerOverlay.Markers.Add(rect);
+                        }
+                        mySqlDataReader.Close();
+                    }
+                }
+            }
+            com.Close(); 
+            }
         }
         private void closeBox_Click(object sender, EventArgs e)
         {
@@ -439,28 +773,10 @@ namespace AADS
             time_label.Text = Date.ToString("HH:mm:ss");
             labelSetTRKS.Text = trackHandler.Tracks.Count.ToString();
         }
-        private void callFixedPoint()
-        {
-            using (Views.FixedPoint.main form = new Views.FixedPoint.main())
-            {
-                form.OnClickAdd += new EventHandler(fixedPoint_ClickAdd);
-                form.ShowDialog();
-            }
-        }
+
         private void cmbMenu_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbMenu.SelectedIndex > -1)
-            {
-                if (cmbMenu.SelectedItem.ToString().Equals("Fixed Point"))
-                {
-                    callFixedPoint();
-                }
-            }
-        }
-        private void fixedPoint_ClickAdd(object sender, EventArgs e)
-        {
-            action = "fixedPointAdd";
-            labelCurrentAction.Text = "Action: Fixed Point";
+
         }
 
         private void cmbMapMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -471,45 +787,50 @@ namespace AADS
             {
                 mainMap.MapProvider = mode.MapProvider;
                 minMap1.MapProvider = mode.MapProvider;
-                mainMap.MinZoom = mode.MainMapMinZoom;
-                mainMap.MaxZoom = mode.MainMapMaxZoom;
-                minMap1.MinZoom = mode.MiniMapMinZoom;
-                minMap1.MaxZoom = mode.MiniMapMaxZoom;
+                mainMap.MinZoom = mode.MainMap.MinZoom;
+                mainMap.MaxZoom = mode.MainMap.MaxZoom;
+                mainMap.Zoom = mode.MainMap.Default;
+                minMap1.MinZoom = mode.MiniMap.MinZoom;
+                minMap1.MaxZoom = mode.MiniMap.MaxZoom;
+                minMap1.Zoom = mode.MiniMap.Default;
             }
         }
-        private bool hasPanelRight = false;
+        public bool hasPanelRight = false;
         private void label27_Click(object sender, EventArgs e)
+        {
+            fadePanelRight();
+        }
+        public void fadePanelRight()
         {
             timer1.Start();
         }
 
-        
-      
-        private void btnShow_Maker_Click(object sender, EventArgs e)
+        public UserControl currentControl;
+        public void panelRightShowControl(UserControl userControl)
         {
-            var MarkerPage = new Views.ShowCategory.Marker();
+            currentControl = userControl;
             panelRightShow.Controls.Clear();
-            panelRightShow.Controls.Add(MarkerPage);
-
+            panelRightShow.Controls.Add(userControl);
+        }
+        private void btnShow_Marker_Click(object sender, EventArgs e)
+        {
+            panelRightShowControl(ControlViews.Marker);
         }
 
         private void btnShow_Line_Click(object sender, EventArgs e)
         {
-            var LinePage = new Views.ShowCategory.Polygon();
-            panelRightShow.Controls.Clear();
-            panelRightShow.Controls.Add(LinePage);
+            panelRightShowControl(ControlViews.Line);
         }
         private void btnShow_Polygon_Click(object sender, EventArgs e)
         {
-            var PlygonPage = new Views.ShowCategory.Polygon();
-            panelRightShow.Controls.Clear();
-            panelRightShow.Controls.Add(PlygonPage);
+            panelRightShowControl(ControlViews.Polygon);
         }
         private void btnShow_Track_Click(object sender, EventArgs e)
         {
-            var TrackPage = new Views.ShowCategory.Track();
-            panelRightShow.Controls.Clear();
-            panelRightShow.Controls.Add(TrackPage);
+            panelRightShowControl(ControlViews.Track);
+            ControlViews.TrackCreation.setEditMode(false);
+            ControlViews.TrackCreation.clearFields();
+            ControlViews.Track.SetControl(ControlViews.TrackCreation);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -562,40 +883,32 @@ namespace AADS
             }
 
         }
-
-        private void btnUnit_Click(object sender, EventArgs e)
-        {
-            if (panelRightMap.Visible)
-                panelRightShow.Controls.Clear();
-            panelRightMap.Visible = false;
-            panelRightUnit.Visible = true; 
-           
-        }
-        private void btnMap_Click(object sender, EventArgs e)
+        private void panelRight_Map()
         {
             if (!panelRightMap.Visible)
                 panelRightShow.Controls.Clear();
             panelRightMap.Visible = true;
             panelRightUnit.Visible = false;
-           
         }
-
-        private void timerCheckConnection_Tick(object sender, EventArgs e)
+        private void panelRight_Unit()
         {
-            if (RadarClient.Connected)
-            {
-                labelConnect.Text = "Open";
-            }
-            else
-            {
-                labelConnect.Text = "Close";
-            }
+            if (panelRightMap.Visible)
+                panelRightShow.Controls.Clear();
+            panelRightMap.Visible = false;
+            panelRightUnit.Visible = true;
         }
-
+        private void btnUnit_Click(object sender, EventArgs e)
+        {
+            panelRight_Unit();
+        }
+        private void btnMap_Click(object sender, EventArgs e)
+        {
+            panelRight_Map();
+        }
         private void timerFakerSimulate_Tick(object sender, EventArgs e)
         {
             DateTime dt = DateTime.Now;
-            foreach (var faker in trackHandler.Fakers)
+            foreach (var faker in trackHandler.Tracks)
             {
                 PointLatLng point = faker.Position;
                 TimeSpan ts = dt - faker.LastUpdated;
@@ -603,13 +916,25 @@ namespace AADS
                 double speed = faker.Speed / 3600;
                 double bearing = faker.Bearing < 0 ? 360 + faker.Bearing : faker.Bearing;
                 double distance = speed * time * 1.852;
-                faker.Position = FindPointAtDistanceFrom(point, bearing, distance);
+                faker.Position = FindPointAtDistance(point, bearing, distance);
                 faker.LastUpdated = dt;
-                trackHandler.UpdateTrack(faker);
+                trackHandler.Update(faker);
             }
         }
         private Point lastPoint;
         private bool panelControl_isMouseDown = false;
+
+        private void panelControl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            else if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+        }
         private void panelControl_MouseUp(object sender, MouseEventArgs e)
         {
             panelControl_isMouseDown = true;
@@ -634,20 +959,10 @@ namespace AADS
             panelControl_isMouseDown = true;
         }
 
-        public bool isPolygonFuncClicked;
-        private List<PointLatLng> polygonPoints = new List<PointLatLng>();
-
-        private void mainMap_MouseClick_1(object sender, MouseEventArgs e)
+        private void chbHitbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (isPolygonFuncClicked)
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    polygonPoints.Add(mainMap.FromLocalToLatLng(e.X, e.Y));
-                    Polygon polygon = new Polygon();
-                    polygon.CreatePolygon(polygonPoints);
-                }
-            }
+            GMarkerRect.EnableHitbox = chbHitbox.Checked;
+            mainMap.Refresh();
         }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AADS
@@ -18,6 +17,7 @@ namespace AADS
         public RadarSiteType Type { get; set; }
         public PointLatLng Position { get; set; }
         public double Radius { get; set; }
+
         public PointLatLng GetPosition(double PositionX, double PositionY)
         {
             var lat = Position.Lat + PositionY;

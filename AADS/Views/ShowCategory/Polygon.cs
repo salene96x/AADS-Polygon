@@ -12,34 +12,30 @@ namespace AADS.Views.ShowCategory
 {
     public partial class Polygon : UserControl
     {
-        private MainForm mainForm = MainForm.GetInstance();
         public Polygon()
         {
             InitializeComponent();
         }
-
+        public UserControl currentControl;
+        public void SetControl(UserControl control)
+        {
+            currentControl = control;
+            panelShowDetail.Controls.Clear();
+            panelShowDetail.Controls.Add(currentControl);
+        }
         private void btnShowGeographic_Click(object sender, EventArgs e)
         {
-            var Geographicpage = new Views.Filter_Geographic.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(Geographicpage);
-            mainForm.isPolygonFuncClicked = true;
+            SetControl(ControlViews.GeographicCreation);
         }
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)
         {
-            var RestrictedAreapage = new Views.RestrictedArea.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(RestrictedAreapage);
-            mainForm.isPolygonFuncClicked = true;
+
         }
 
         private void btnShowRD_Click(object sender, EventArgs e)
         {
-            var ResourceDistributionpage = new Views.Filter_ResourceDistribution.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(ResourceDistributionpage);
-            mainForm.isPolygonFuncClicked = true;
+
         }
     }
 }

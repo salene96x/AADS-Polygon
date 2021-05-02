@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,6 +10,7 @@
     <RootNamespace>AADS</RootNamespace>
     <AssemblyName>AADS</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -36,35 +37,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="CoordinateSharp, Version=2.10.1.1, Culture=neutral, PublicKeyToken=f45e02df057b7725, processorArchitecture=MSIL">
       <HintPath>..\packages\CoordinateSharp.2.10.1.1\lib\net40\CoordinateSharp.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.Core, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>..\packages\GMap.NET.Core.2.0.1\lib\net40\GMap.NET.Core.dll</HintPath>
+    <Reference Include="GMap.NET.Core, Version=2.0.2.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>..\packages\GMap.NET.Core.2.0.2\lib\net46\GMap.NET.Core.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.WindowsForms, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>..\packages\GMap.NET.WinForms.2.0.1\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
+    <Reference Include="GMap.NET.WindowsForms, Version=2.0.2.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>..\packages\GMap.NET.WinForms.2.0.2\lib\net46\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.WindowsPresentation, Version=2.0.1.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>..\packages\GMap.NET.WinPresentation.2.0.1\lib\net40\GMap.NET.WindowsPresentation.dll</HintPath>
+    <Reference Include="GMap.NET.WindowsPresentation, Version=2.0.2.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>..\packages\GMap.NET.WinPresentation.2.0.2\lib\net46\GMap.NET.WindowsPresentation.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Protobuf, Version=3.11.4.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.11.4\lib\net45\Google.Protobuf.dll</HintPath>
+    <Reference Include="Google.Protobuf, Version=3.15.8.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.15.8\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
-    <Reference Include="K4os.Compression.LZ4, Version=1.1.11.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
-      <HintPath>..\packages\K4os.Compression.LZ4.1.1.11\lib\net46\K4os.Compression.LZ4.dll</HintPath>
+    <Reference Include="K4os.Compression.LZ4, Version=1.2.6.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.1.2.6\lib\net46\K4os.Compression.LZ4.dll</HintPath>
     </Reference>
-    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.1.11.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
-      <HintPath>..\packages\K4os.Compression.LZ4.Streams.1.1.11\lib\net46\K4os.Compression.LZ4.Streams.dll</HintPath>
+    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.2.6.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.Streams.1.2.6\lib\net46\K4os.Compression.LZ4.Streams.dll</HintPath>
     </Reference>
     <Reference Include="K4os.Hash.xxHash, Version=1.0.6.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Hash.xxHash.1.0.6\lib\net46\K4os.Hash.xxHash.dll</HintPath>
@@ -75,11 +76,11 @@
     <Reference Include="MySql.Data, Version=8.0.23.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.8.0.23\lib\net48\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Renci.SshNet, Version=2020.0.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSH.NET.2020.0.0\lib\net40\Renci.SshNet.dll</HintPath>
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -90,6 +91,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.2\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -111,11 +115,14 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.5.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.5.0.1\lib\net461\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.5.0.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.5.0.2\lib\net461\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -141,12 +148,52 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRadarCommand.cs" />
     <Compile Include="CartesianCoordinate.cs" />
-    <Compile Include="ClientRegistration.cs" />
-    <Compile Include="DataSource.cs" />
+    <Compile Include="GMarker.cs" />
+    <Compile Include="IDataCollection.cs" />
+    <Compile Include="MarkersDetail\Airport.cs" />
+    <Compile Include="MarkersDetail\City.cs" />
+    <Compile Include="MarkersDetail\FireUnit.cs" />
+    <Compile Include="MarkersDetail\FixedPoint.cs" />
+    <Compile Include="MarkersDetail\LandMark.cs" />
+    <Compile Include="MarkersDetail\VitalAsset.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Include="TrackCollection.cs" />
+    <Compile Include="Views\Marker\CityView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Marker\CityView.Designer.cs">
+      <DependentUpon>CityView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Marker\FireUnitView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Marker\FireUnitView.Designer.cs">
+      <DependentUpon>FireUnitView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Marker\FixedPointView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Marker\FixedPointView.Designer.cs">
+      <DependentUpon>FixedPointView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Marker\VitalAssetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Marker\VitalAssetView.Designer.cs">
+      <DependentUpon>VitalAssetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Polygon\GeographicCreation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Polygon\GeographicCreation.Designer.cs">
+      <DependentUpon>GeographicCreation.cs</DependentUpon>
+    </Compile>
     <Compile Include="GeorefCoordinate.cs" />
+    <Compile Include="GMarkerRadar.cs" />
+    <Compile Include="GMarkerRect.cs" />
     <Compile Include="GMarkerTrack.cs" />
+    <Compile Include="IDataManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,153 +202,56 @@
     </Compile>
     <Compile Include="MapMode.cs" />
     <Compile Include="Coordinate.cs" />
-    <Compile Include="Polygon.cs" />
     <Compile Include="PositionConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RadarClient.cs" />
-    <Compile Include="RadarCommand.cs" />
-    <Compile Include="RadarFeature.cs" />
-    <Compile Include="RadarOperation.cs" />
+    <Compile Include="RadarManager.cs" />
     <Compile Include="RadarSite.cs" />
-    <Compile Include="RecvCommandWrapper.cs" />
     <Compile Include="ScaleConverter.cs" />
-    <Compile Include="SendCommandWrapper.cs" />
-    <Compile Include="TrackCommand.cs" />
-    <Compile Include="TrackCommandResponse.cs" />
+    <Compile Include="CommandResponse.cs" />
     <Compile Include="TrackData.cs" />
     <Compile Include="TrackManager.cs" />
-    <Compile Include="Views\AircraftSpecific\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\AircraftSpecific\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Airport\main.cs">
+    <Compile Include="Views\Marker\AirportCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Airport\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\AirportCreation.Designer.cs">
+      <DependentUpon>AirportCreation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\City\main.cs">
+    <Compile Include="Views\Marker\AirportView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\City\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\AirportView.Designer.cs">
+      <DependentUpon>AirportView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CommandMessage\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\CommandMessage\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Corridor\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Corridor\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DailyAirMovementReport\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\DailyAirMovementReport\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DefendedArea\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\DefendedArea\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EngagementZone\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EngagementZone\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Engagement\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Engagement\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Filter-DataDistribute\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Filter-DataDistribute\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Filter-Forcetell\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Filter-Forcetell\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Filter-Geographic\main.cs">
+    <Compile Include="Views\Marker\CityCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Filter-Geographic\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\CityCreation.Designer.cs">
+      <DependentUpon>CityCreation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Filter-ResourceDistribution\main.cs">
+    <Compile Include="Views\Marker\FireUnitCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Filter-ResourceDistribution\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\FireUnitCreation.Designer.cs">
+      <DependentUpon>FireUnitCreation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\FireUnit\main.cs">
+    <Compile Include="Views\Marker\FixedPointCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\FireUnit\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\FixedPointCreation.Designer.cs">
+      <DependentUpon>FixedPointCreation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\FixedPoint\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\FixedPoint\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FreeTextMessage\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\FreeTextMessage\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GeneralEquipment\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\GeneralEquipment\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\JADDINSite\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\JADDINSite\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Landmark\main.cs">
+    <Compile Include="Views\Marker\LandmarkCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Landmark\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\LandmarkCreation.Designer.cs">
+      <DependentUpon>LandmarkCreation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pairing\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Pairing\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RestrictedArea\main.cs">
+    <Compile Include="Views\Marker\LandmarkView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\RestrictedArea\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Route\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Route\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Views\Marker\LandmarkView.Designer.cs">
+      <DependentUpon>LandmarkView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ShowCategory\Line.cs">
       <SubType>UserControl</SubType>
@@ -333,17 +283,11 @@
     <Compile Include="Views\ShowCategory\Track.Designer.cs">
       <DependentUpon>Track.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\TacticalMissonLog\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\TacticalMissonLog\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Track\FakerCreation.cs">
+    <Compile Include="Views\Track\TrackCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Track\FakerCreation.Designer.cs">
-      <DependentUpon>FakerCreation.cs</DependentUpon>
+    <Compile Include="Views\Track\TrackCreation.Designer.cs">
+      <DependentUpon>TrackCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Track\main.cs">
       <SubType>Form</SubType>
@@ -351,52 +295,42 @@
     <Compile Include="Views\Track\main.Designer.cs">
       <DependentUpon>main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Track\TrackTable.cs">
+    <Compile Include="Views\Track\TrackView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Track\TrackTable.Designer.cs">
-      <DependentUpon>TrackTable.cs</DependentUpon>
+    <Compile Include="Views\Track\TrackView.Designer.cs">
+      <DependentUpon>TrackView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewManager.cs" />
-    <Compile Include="Views\VitalAsset\main.cs">
+    <Compile Include="ControlViews.cs" />
+    <Compile Include="Views\Marker\VitalAssetCreation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\VitalAsset\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\WeaponsBattery\main.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\WeaponsBattery\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\WeaponType\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\WeaponType\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\WeatherForecast\add.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\WeatherForecast\add.Designer.cs">
-      <DependentUpon>add.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\WeatherForecast\main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\WeatherForecast\main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\WeatherForecast\summary.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\WeatherForecast\summary.Designer.cs">
-      <DependentUpon>summary.cs</DependentUpon>
+    <Compile Include="Views\Marker\VitalAssetCreation.Designer.cs">
+      <DependentUpon>VitalAssetCreation.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\AADS.MainForm.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Properties.Resources.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.AirportCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.AirportView.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.CityCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.FireUnitCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.FixedPointCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.LandmarkCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.LandmarkView.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.VitalAssetCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Marker.VitalAssetView.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Polygon.GeographicCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.ShowCategory.Line.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.ShowCategory.Marker.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.ShowCategory.Polygon.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.ShowCategory.TestShowRightCategory.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.ShowCategory.Track.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Track.main.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Track.TrackCreation.resources" />
+    <EmbeddedResource Include="obj\Debug\AADS.Views.Track.TrackView.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -407,71 +341,41 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\AircraftSpecific\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\AirportCreation.resx">
+      <DependentUpon>AirportCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Airport\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\AirportView.resx">
+      <DependentUpon>AirportView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\City\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\CityCreation.resx">
+      <DependentUpon>CityCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\CommandMessage\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\CityView.resx">
+      <DependentUpon>CityView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Corridor\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\FireUnitCreation.resx">
+      <DependentUpon>FireUnitCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\DailyAirMovementReport\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\FireUnitView.resx">
+      <DependentUpon>FireUnitView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\DefendedArea\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\FixedPointCreation.resx">
+      <DependentUpon>FixedPointCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EngagementZone\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\FixedPointView.resx">
+      <DependentUpon>FixedPointView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Engagement\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\LandmarkCreation.resx">
+      <DependentUpon>LandmarkCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Filter-DataDistribute\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\LandmarkView.resx">
+      <DependentUpon>LandmarkView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Filter-Forcetell\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\VitalAssetView.resx">
+      <DependentUpon>VitalAssetView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Filter-Geographic\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Filter-ResourceDistribution\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\FireUnit\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\FixedPoint\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\FreeTextMessage\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\GeneralEquipment\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\JADDINSite\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Landmark\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Pairing\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\RestrictedArea\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Route\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Polygon\GeographicCreation.resx">
+      <DependentUpon>GeographicCreation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ShowCategory\Line.resx">
       <DependentUpon>Line.cs</DependentUpon>
@@ -488,36 +392,26 @@
     <EmbeddedResource Include="Views\ShowCategory\Track.resx">
       <DependentUpon>Track.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\TacticalMissonLog\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Track\FakerCreation.resx">
-      <DependentUpon>FakerCreation.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Track\TrackCreation.resx">
+      <DependentUpon>TrackCreation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Track\main.resx">
       <DependentUpon>main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Track\TrackTable.resx">
-      <DependentUpon>TrackTable.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Track\TrackView.resx">
+      <DependentUpon>TrackView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\VitalAsset\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Marker\VitalAssetCreation.resx">
+      <DependentUpon>VitalAssetCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\WeaponsBattery\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\WeaponType\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\WeatherForecast\add.resx">
-      <DependentUpon>add.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\WeatherForecast\main.resx">
-      <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\WeatherForecast\summary.resx">
-      <DependentUpon>summary.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="bin\Debug\AADS.exe.config" />
+    <None Include="bin\Debug\Resources\Maps.json" />
+    <None Include="obj\Debug\AADS.csproj.CopyComplete" />
+    <None Include="obj\Debug\AADS.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\AADS.csproj.GenerateResource.cache" />
+    <None Include="obj\Debug\AADS.csprojAssemblyReference.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -568,16 +462,138 @@
   <ItemGroup>
     <None Include="Resources\45cf3151e954736717470cc74e34b7a0-removebg-preview.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include="bin\Debug\AADS.exe" />
+    <Content Include="bin\Debug\AADS.pdb" />
+    <Content Include="bin\Debug\BouncyCastle.Crypto.dll" />
+    <Content Include="bin\Debug\CoordinateSharp.dll" />
+    <Content Include="bin\Debug\CoordinateSharp.xml" />
+    <Content Include="bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\Debug\EntityFramework.xml" />
+    <Content Include="bin\Debug\GMap.NET.Core.dll" />
+    <Content Include="bin\Debug\GMap.NET.WindowsForms.dll" />
+    <Content Include="bin\Debug\GMap.NET.WindowsPresentation.dll" />
+    <Content Include="bin\Debug\Google.Protobuf.dll" />
+    <Content Include="bin\Debug\Google.Protobuf.pdb" />
+    <Content Include="bin\Debug\Google.Protobuf.xml" />
+    <Content Include="bin\Debug\Images\icon\Airport.png" />
+    <Content Include="bin\Debug\Images\icon\City.png" />
+    <Content Include="bin\Debug\Images\icon\corridor.png" />
+    <Content Include="bin\Debug\Images\icon\FireUnit.png" />
+    <Content Include="bin\Debug\Images\icon\FIxedPoint.png" />
+    <Content Include="bin\Debug\Images\icon\Landmark.png" />
+    <Content Include="bin\Debug\Images\icon\Line.png" />
+    <Content Include="bin\Debug\Images\icon\Marker.png" />
+    <Content Include="bin\Debug\Images\icon\polygon.png" />
+    <Content Include="bin\Debug\Images\icon\Radar.png" />
+    <Content Include="bin\Debug\Images\icon\Route.png" />
+    <Content Include="bin\Debug\Images\icon\Track.png" />
+    <Content Include="bin\Debug\Images\icon\unit.png" />
+    <Content Include="bin\Debug\Images\icon\VitalAsset.png" />
+    <Content Include="bin\Debug\Images\icon\WeaponBattery.png" />
+    <Content Include="bin\Debug\Images\landmark\001-airport.png" />
+    <Content Include="bin\Debug\Images\landmark\002-atm.png" />
+    <Content Include="bin\Debug\Images\landmark\003-bicycle.png" />
+    <Content Include="bin\Debug\Images\landmark\004-bus stop.png" />
+    <Content Include="bin\Debug\Images\landmark\005-car repair.png" />
+    <Content Include="bin\Debug\Images\landmark\006-cemetery.png" />
+    <Content Include="bin\Debug\Images\landmark\007-church.png" />
+    <Content Include="bin\Debug\Images\landmark\008-coffee.png" />
+    <Content Include="bin\Debug\Images\landmark\009-credit card.png" />
+    <Content Include="bin\Debug\Images\landmark\010-dessert.png" />
+    <Content Include="bin\Debug\Images\landmark\011-education.png" />
+    <Content Include="bin\Debug\Images\landmark\012-money exchange.png" />
+    <Content Include="bin\Debug\Images\landmark\013-fast food.png" />
+    <Content Include="bin\Debug\Images\landmark\014-hospital.png" />
+    <Content Include="bin\Debug\Images\landmark\015-hotel.png" />
+    <Content Include="bin\Debug\Images\landmark\016-hotel sign.png" />
+    <Content Include="bin\Debug\Images\landmark\017-house.png" />
+    <Content Include="bin\Debug\Images\landmark\018-information.png" />
+    <Content Include="bin\Debug\Images\landmark\019-money.png" />
+    <Content Include="bin\Debug\Images\landmark\020-mosque.png" />
+    <Content Include="bin\Debug\Images\landmark\021-mountain.png" />
+    <Content Include="bin\Debug\Images\landmark\022-museum.png" />
+    <Content Include="bin\Debug\Images\landmark\023-parking.png" />
+    <Content Include="bin\Debug\Images\landmark\024-petrol station.png" />
+    <Content Include="bin\Debug\Images\landmark\025-phone.png" />
+    <Content Include="bin\Debug\Images\landmark\026-police station.png" />
+    <Content Include="bin\Debug\Images\landmark\027-post office.png" />
+    <Content Include="bin\Debug\Images\landmark\028-restaurant.png" />
+    <Content Include="bin\Debug\Images\landmark\029-sea.png" />
+    <Content Include="bin\Debug\Images\landmark\030-shinkansen.png" />
+    <Content Include="bin\Debug\Images\landmark\031-ship.png" />
+    <Content Include="bin\Debug\Images\landmark\032-shopping.png" />
+    <Content Include="bin\Debug\Images\landmark\033-taxi.png" />
+    <Content Include="bin\Debug\Images\landmark\034-tent.png" />
+    <Content Include="bin\Debug\Images\landmark\035-toilet.png" />
+    <Content Include="bin\Debug\Images\landmark\036-train.png" />
+    <Content Include="bin\Debug\Images\landmark\037-transfer.png" />
+    <Content Include="bin\Debug\Images\landmark\038-wifi.png" />
+    <Content Include="bin\Debug\Images\landmark\039-temple.png" />
+    <Content Include="bin\Debug\Images\landmark\040-royal palace.png" />
+    <Content Include="bin\Debug\Images\vital_asset\economic.png" />
+    <Content Include="bin\Debug\Images\vital_asset\military.png" />
+    <Content Include="bin\Debug\Images\vital_asset\political.png" />
+    <Content Include="bin\Debug\Images\vital_asset\psychological.png" />
+    <Content Include="bin\Debug\K4os.Compression.LZ4.dll" />
+    <Content Include="bin\Debug\K4os.Compression.LZ4.Streams.dll" />
+    <Content Include="bin\Debug\K4os.Compression.LZ4.Streams.xml" />
+    <Content Include="bin\Debug\K4os.Compression.LZ4.xml" />
+    <Content Include="bin\Debug\K4os.Hash.xxHash.dll" />
+    <Content Include="bin\Debug\K4os.Hash.xxHash.xml" />
+    <Content Include="bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <Content Include="bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml" />
+    <Content Include="bin\Debug\MySql.Data.dll" />
+    <Content Include="bin\Debug\MySql.Data.xml" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\Renci.SshNet.dll" />
+    <Content Include="bin\Debug\Renci.SshNet.xml" />
+    <Content Include="bin\Debug\System.Buffers.dll" />
+    <Content Include="bin\Debug\System.Buffers.xml" />
+    <Content Include="bin\Debug\System.Data.SqlClient.dll" />
+    <Content Include="bin\Debug\System.Data.SqlClient.xml" />
+    <Content Include="bin\Debug\System.Data.SQLite.dll" />
+    <Content Include="bin\Debug\System.Data.SQLite.EF6.dll" />
+    <Content Include="bin\Debug\System.Data.SQLite.Linq.dll" />
+    <Content Include="bin\Debug\System.Data.SQLite.xml" />
+    <Content Include="bin\Debug\System.Memory.dll" />
+    <Content Include="bin\Debug\System.Memory.xml" />
+    <Content Include="bin\Debug\System.Numerics.Vectors.dll" />
+    <Content Include="bin\Debug\System.Numerics.Vectors.xml" />
+    <Content Include="bin\Debug\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="bin\Debug\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="bin\Debug\System.Security.Principal.Windows.dll" />
+    <Content Include="bin\Debug\System.Security.Principal.Windows.xml" />
+    <Content Include="bin\Debug\System.Text.Encodings.Web.dll" />
+    <Content Include="bin\Debug\System.Text.Encodings.Web.xml" />
+    <Content Include="bin\Debug\System.Text.Json.dll" />
+    <Content Include="bin\Debug\System.Text.Json.xml" />
+    <Content Include="bin\Debug\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\Debug\System.Threading.Tasks.Extensions.xml" />
+    <Content Include="bin\Debug\System.ValueTuple.dll" />
+    <Content Include="bin\Debug\System.ValueTuple.xml" />
+    <Content Include="bin\Debug\Ubiety.Dns.Core.dll" />
+    <Content Include="bin\Debug\x64\SQLite.Interop.dll" />
+    <Content Include="bin\Debug\x86\SQLite.Interop.dll" />
+    <Content Include="bin\Debug\Zstandard.Net.dll" />
+    <Content Include="obj\Debug\AADS.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\AADS.exe" />
+    <Content Include="obj\Debug\AADS.pdb" />
+    <Content Include="obj\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
     <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
-  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

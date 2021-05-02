@@ -9,13 +9,22 @@ using System.Threading.Tasks;
 
 namespace AADS
 {
-    class MapMode
+    public class MapModeZoom
+    {
+        public int Default { get; set; }
+        public int MinZoom { get; set; }
+        public int MaxZoom { get; set; }
+    }
+    public class MapMode
     {
         public string Name { get; set; }
-        public GMapProvider MapProvider { get; set; }
-        public int MainMapMinZoom { get; set; }
-        public int MainMapMaxZoom { get; set; }
-        public int MiniMapMinZoom { get; set; }
-        public int MiniMapMaxZoom { get; set; }
+        public string Type { get; set; }
+        public GMapProvider MapProvider
+        {
+            get => GMapProviders.TryGetProvider(Type);
+        }
+        
+        public MapModeZoom MiniMap { get; set; }
+        public MapModeZoom MainMap { get; set; }
     }
 }

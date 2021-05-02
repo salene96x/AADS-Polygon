@@ -43,10 +43,11 @@ namespace AADS.Views.ShowCategory
             // 
             // btnShowAiport
             // 
+            this.btnShowAiport.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShowAiport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowAiport.Location = new System.Drawing.Point(12, 13);
+            this.btnShowAiport.Location = new System.Drawing.Point(52, 0);
             this.btnShowAiport.Name = "btnShowAiport";
-            this.btnShowAiport.Size = new System.Drawing.Size(91, 61);
+            this.btnShowAiport.Size = new System.Drawing.Size(52, 66);
             this.btnShowAiport.TabIndex = 0;
             this.btnShowAiport.Text = "Airport";
             this.btnShowAiport.UseVisualStyleBackColor = true;
@@ -54,10 +55,11 @@ namespace AADS.Views.ShowCategory
             // 
             // btnShowCity
             // 
+            this.btnShowCity.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShowCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowCity.Location = new System.Drawing.Point(100, 13);
+            this.btnShowCity.Location = new System.Drawing.Point(0, 0);
             this.btnShowCity.Name = "btnShowCity";
-            this.btnShowCity.Size = new System.Drawing.Size(91, 61);
+            this.btnShowCity.Size = new System.Drawing.Size(52, 66);
             this.btnShowCity.TabIndex = 1;
             this.btnShowCity.Text = "City";
             this.btnShowCity.UseVisualStyleBackColor = true;
@@ -65,10 +67,11 @@ namespace AADS.Views.ShowCategory
             // 
             // btnShowFixedPoint
             // 
+            this.btnShowFixedPoint.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShowFixedPoint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowFixedPoint.Location = new System.Drawing.Point(188, 13);
+            this.btnShowFixedPoint.Location = new System.Drawing.Point(104, 0);
             this.btnShowFixedPoint.Name = "btnShowFixedPoint";
-            this.btnShowFixedPoint.Size = new System.Drawing.Size(91, 61);
+            this.btnShowFixedPoint.Size = new System.Drawing.Size(52, 66);
             this.btnShowFixedPoint.TabIndex = 2;
             this.btnShowFixedPoint.Text = "Fixed Point";
             this.btnShowFixedPoint.UseVisualStyleBackColor = true;
@@ -78,9 +81,9 @@ namespace AADS.Views.ShowCategory
             // 
             this.panelShowDetail.BackColor = System.Drawing.Color.Transparent;
             this.panelShowDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelShowDetail.Location = new System.Drawing.Point(0, 206);
+            this.panelShowDetail.Location = new System.Drawing.Point(0, 66);
             this.panelShowDetail.Name = "panelShowDetail";
-            this.panelShowDetail.Size = new System.Drawing.Size(290, 559);
+            this.panelShowDetail.Size = new System.Drawing.Size(366, 699);
             this.panelShowDetail.TabIndex = 3;
             // 
             // panelTop
@@ -95,15 +98,16 @@ namespace AADS.Views.ShowCategory
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(290, 206);
+            this.panelTop.Size = new System.Drawing.Size(366, 66);
             this.panelTop.TabIndex = 4;
             // 
             // btnShowWeaponBattery
             // 
+            this.btnShowWeaponBattery.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShowWeaponBattery.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowWeaponBattery.Location = new System.Drawing.Point(12, 133);
+            this.btnShowWeaponBattery.Location = new System.Drawing.Point(312, 0);
             this.btnShowWeaponBattery.Name = "btnShowWeaponBattery";
-            this.btnShowWeaponBattery.Size = new System.Drawing.Size(91, 61);
+            this.btnShowWeaponBattery.Size = new System.Drawing.Size(52, 66);
             this.btnShowWeaponBattery.TabIndex = 6;
             this.btnShowWeaponBattery.Text = "Weapon Battery";
             this.btnShowWeaponBattery.UseVisualStyleBackColor = true;
@@ -111,10 +115,11 @@ namespace AADS.Views.ShowCategory
             // 
             // btnShowVitalAsset
             // 
+            this.btnShowVitalAsset.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShowVitalAsset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowVitalAsset.Location = new System.Drawing.Point(188, 73);
+            this.btnShowVitalAsset.Location = new System.Drawing.Point(260, 0);
             this.btnShowVitalAsset.Name = "btnShowVitalAsset";
-            this.btnShowVitalAsset.Size = new System.Drawing.Size(91, 61);
+            this.btnShowVitalAsset.Size = new System.Drawing.Size(52, 66);
             this.btnShowVitalAsset.TabIndex = 5;
             this.btnShowVitalAsset.Text = "Vital Asset";
             this.btnShowVitalAsset.UseVisualStyleBackColor = true;
@@ -122,21 +127,23 @@ namespace AADS.Views.ShowCategory
             // 
             // button3
             // 
+            this.button3.Dock = System.Windows.Forms.DockStyle.Left;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(102, 73);
+            this.button3.Location = new System.Drawing.Point(208, 0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(91, 61);
+            this.button3.Size = new System.Drawing.Size(52, 66);
             this.button3.TabIndex = 4;
-            this.button3.Text = "LandMark";
+            this.button3.Text = "Landmark";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnShowFireUnit
             // 
+            this.btnShowFireUnit.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShowFireUnit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowFireUnit.Location = new System.Drawing.Point(12, 73);
+            this.btnShowFireUnit.Location = new System.Drawing.Point(156, 0);
             this.btnShowFireUnit.Name = "btnShowFireUnit";
-            this.btnShowFireUnit.Size = new System.Drawing.Size(91, 61);
+            this.btnShowFireUnit.Size = new System.Drawing.Size(52, 66);
             this.btnShowFireUnit.TabIndex = 3;
             this.btnShowFireUnit.Text = "Fire Unit";
             this.btnShowFireUnit.UseVisualStyleBackColor = true;
@@ -149,7 +156,7 @@ namespace AADS.Views.ShowCategory
             this.Controls.Add(this.panelShowDetail);
             this.Controls.Add(this.panelTop);
             this.Name = "Marker";
-            this.Size = new System.Drawing.Size(290, 765);
+            this.Size = new System.Drawing.Size(366, 765);
             this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 

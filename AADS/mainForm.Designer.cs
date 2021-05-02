@@ -107,9 +107,7 @@ namespace AADS
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.txtServerAddress = new System.Windows.Forms.TextBox();
-            this.labelConnect = new System.Windows.Forms.Label();
-            this.btnConnectServer = new System.Windows.Forms.Button();
+            this.chbHitbox = new System.Windows.Forms.CheckBox();
             this.cmbMapMode = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
@@ -126,9 +124,9 @@ namespace AADS
             this.button11 = new System.Windows.Forms.Button();
             this.panelRightMap = new System.Windows.Forms.Panel();
             this.btnTrack = new System.Windows.Forms.Button();
-            this.btnShow_Marker = new System.Windows.Forms.Button();
             this.btnShow_Line = new System.Windows.Forms.Button();
             this.btnShow_Polygon = new System.Windows.Forms.Button();
+            this.btnShow_Marker = new System.Windows.Forms.Button();
             this.paneltype = new System.Windows.Forms.Panel();
             this.btnUnit = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -1215,9 +1213,7 @@ namespace AADS
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.txtServerAddress);
-            this.panel2.Controls.Add(this.labelConnect);
-            this.panel2.Controls.Add(this.btnConnectServer);
+            this.panel2.Controls.Add(this.chbHitbox);
             this.panel2.Controls.Add(this.cmbMapMode);
             this.panel2.Controls.Add(this.tableLayoutPanel13);
             this.panel2.Controls.Add(this.minMap1);
@@ -1230,35 +1226,17 @@ namespace AADS
             this.panel2.Size = new System.Drawing.Size(267, 575);
             this.panel2.TabIndex = 10;
             // 
-            // txtServerAddress
+            // chbHitbox
             // 
-            this.txtServerAddress.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtServerAddress.Location = new System.Drawing.Point(16, 521);
-            this.txtServerAddress.Name = "txtServerAddress";
-            this.txtServerAddress.Size = new System.Drawing.Size(100, 20);
-            this.txtServerAddress.TabIndex = 13;
-            this.txtServerAddress.Text = "127.0.0.1";
-            // 
-            // labelConnect
-            // 
-            this.labelConnect.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelConnect.AutoSize = true;
-            this.labelConnect.Location = new System.Drawing.Point(127, 552);
-            this.labelConnect.Name = "labelConnect";
-            this.labelConnect.Size = new System.Drawing.Size(33, 13);
-            this.labelConnect.TabIndex = 11;
-            this.labelConnect.Text = "Close";
-            // 
-            // btnConnectServer
-            // 
-            this.btnConnectServer.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnConnectServer.Location = new System.Drawing.Point(16, 547);
-            this.btnConnectServer.Name = "btnConnectServer";
-            this.btnConnectServer.Size = new System.Drawing.Size(105, 23);
-            this.btnConnectServer.TabIndex = 10;
-            this.btnConnectServer.Text = "Connect Server";
-            this.btnConnectServer.UseVisualStyleBackColor = true;
-            this.btnConnectServer.Click += new System.EventHandler(this.btnConnectServer_Click);
+            this.chbHitbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chbHitbox.AutoSize = true;
+            this.chbHitbox.Location = new System.Drawing.Point(152, 496);
+            this.chbHitbox.Name = "chbHitbox";
+            this.chbHitbox.Size = new System.Drawing.Size(92, 17);
+            this.chbHitbox.TabIndex = 14;
+            this.chbHitbox.Text = "Enable Hitbox";
+            this.chbHitbox.UseVisualStyleBackColor = true;
+            this.chbHitbox.CheckedChanged += new System.EventHandler(this.chbHitbox_CheckedChanged);
             // 
             // cmbMapMode
             // 
@@ -1353,6 +1331,7 @@ namespace AADS
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(1291, 33);
             this.panelControl.TabIndex = 11;
+            this.panelControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panelControl_MouseDoubleClick);
             this.panelControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelControl_MouseDown);
             this.panelControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelControl_MouseMove);
             this.panelControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelControl_MouseUp);
@@ -1394,40 +1373,44 @@ namespace AADS
             // 
             // button8
             // 
+            this.button8.Dock = System.Windows.Forms.DockStyle.Left;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Location = new System.Drawing.Point(219, 0);
+            this.button8.Location = new System.Drawing.Point(273, 0);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(73, 55);
+            this.button8.Size = new System.Drawing.Size(91, 59);
             this.button8.TabIndex = 3;
             this.button8.Text = "Track";
             this.button8.UseVisualStyleBackColor = true;
             // 
             // button9
             // 
+            this.button9.Dock = System.Windows.Forms.DockStyle.Left;
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button9.Location = new System.Drawing.Point(0, 0);
+            this.button9.Location = new System.Drawing.Point(182, 0);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(73, 55);
+            this.button9.Size = new System.Drawing.Size(91, 59);
             this.button9.TabIndex = 0;
             this.button9.Text = "unit1";
             this.button9.UseVisualStyleBackColor = true;
             // 
             // button10
             // 
+            this.button10.Dock = System.Windows.Forms.DockStyle.Left;
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button10.Location = new System.Drawing.Point(73, 0);
+            this.button10.Location = new System.Drawing.Point(91, 0);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(73, 55);
+            this.button10.Size = new System.Drawing.Size(91, 59);
             this.button10.TabIndex = 1;
             this.button10.Text = "unit2";
             this.button10.UseVisualStyleBackColor = true;
             // 
             // button11
             // 
+            this.button11.Dock = System.Windows.Forms.DockStyle.Left;
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button11.Location = new System.Drawing.Point(146, 0);
+            this.button11.Location = new System.Drawing.Point(0, 0);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(73, 55);
+            this.button11.Size = new System.Drawing.Size(91, 59);
             this.button11.TabIndex = 2;
             this.button11.Text = "Polygon";
             this.button11.UseVisualStyleBackColor = true;
@@ -1436,9 +1419,9 @@ namespace AADS
             // 
             this.panelRightMap.BackColor = System.Drawing.Color.Transparent;
             this.panelRightMap.Controls.Add(this.btnTrack);
-            this.panelRightMap.Controls.Add(this.btnShow_Marker);
             this.panelRightMap.Controls.Add(this.btnShow_Line);
             this.panelRightMap.Controls.Add(this.btnShow_Polygon);
+            this.panelRightMap.Controls.Add(this.btnShow_Marker);
             this.panelRightMap.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelRightMap.Location = new System.Drawing.Point(0, 44);
             this.panelRightMap.Name = "panelRightMap";
@@ -1448,32 +1431,23 @@ namespace AADS
             // 
             // btnTrack
             // 
+            this.btnTrack.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnTrack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTrack.Location = new System.Drawing.Point(219, 0);
+            this.btnTrack.Location = new System.Drawing.Point(273, 0);
             this.btnTrack.Name = "btnTrack";
-            this.btnTrack.Size = new System.Drawing.Size(73, 55);
+            this.btnTrack.Size = new System.Drawing.Size(91, 59);
             this.btnTrack.TabIndex = 3;
             this.btnTrack.Text = "Track";
             this.btnTrack.UseVisualStyleBackColor = true;
             this.btnTrack.Click += new System.EventHandler(this.btnShow_Track_Click);
             // 
-            // btnShow_Marker
-            // 
-            this.btnShow_Marker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShow_Marker.Location = new System.Drawing.Point(0, 0);
-            this.btnShow_Marker.Name = "btnShow_Marker";
-            this.btnShow_Marker.Size = new System.Drawing.Size(73, 55);
-            this.btnShow_Marker.TabIndex = 0;
-            this.btnShow_Marker.Text = "Marker";
-            this.btnShow_Marker.UseVisualStyleBackColor = true;
-            this.btnShow_Marker.Click += new System.EventHandler(this.btnShow_Maker_Click);
-            // 
             // btnShow_Line
             // 
+            this.btnShow_Line.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShow_Line.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShow_Line.Location = new System.Drawing.Point(73, 0);
+            this.btnShow_Line.Location = new System.Drawing.Point(182, 0);
             this.btnShow_Line.Name = "btnShow_Line";
-            this.btnShow_Line.Size = new System.Drawing.Size(73, 55);
+            this.btnShow_Line.Size = new System.Drawing.Size(91, 59);
             this.btnShow_Line.TabIndex = 1;
             this.btnShow_Line.Text = "Line";
             this.btnShow_Line.UseVisualStyleBackColor = true;
@@ -1481,14 +1455,27 @@ namespace AADS
             // 
             // btnShow_Polygon
             // 
+            this.btnShow_Polygon.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnShow_Polygon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShow_Polygon.Location = new System.Drawing.Point(146, 0);
+            this.btnShow_Polygon.Location = new System.Drawing.Point(91, 0);
             this.btnShow_Polygon.Name = "btnShow_Polygon";
-            this.btnShow_Polygon.Size = new System.Drawing.Size(73, 55);
+            this.btnShow_Polygon.Size = new System.Drawing.Size(91, 59);
             this.btnShow_Polygon.TabIndex = 2;
             this.btnShow_Polygon.Text = "Polygon";
             this.btnShow_Polygon.UseVisualStyleBackColor = true;
             this.btnShow_Polygon.Click += new System.EventHandler(this.btnShow_Polygon_Click);
+            // 
+            // btnShow_Marker
+            // 
+            this.btnShow_Marker.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnShow_Marker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShow_Marker.Location = new System.Drawing.Point(0, 0);
+            this.btnShow_Marker.Name = "btnShow_Marker";
+            this.btnShow_Marker.Size = new System.Drawing.Size(91, 59);
+            this.btnShow_Marker.TabIndex = 0;
+            this.btnShow_Marker.Text = "Marker";
+            this.btnShow_Marker.UseVisualStyleBackColor = true;
+            this.btnShow_Marker.Click += new System.EventHandler(this.btnShow_Marker_Click);
             // 
             // paneltype
             // 
@@ -1504,9 +1491,9 @@ namespace AADS
             // 
             this.btnUnit.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnUnit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUnit.Location = new System.Drawing.Point(146, 0);
+            this.btnUnit.Location = new System.Drawing.Point(183, 0);
             this.btnUnit.Name = "btnUnit";
-            this.btnUnit.Size = new System.Drawing.Size(146, 44);
+            this.btnUnit.Size = new System.Drawing.Size(183, 44);
             this.btnUnit.TabIndex = 1;
             this.btnUnit.Text = "Unit";
             this.btnUnit.UseVisualStyleBackColor = true;
@@ -1518,7 +1505,7 @@ namespace AADS
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Location = new System.Drawing.Point(0, 0);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(146, 44);
+            this.button6.Size = new System.Drawing.Size(183, 44);
             this.button6.TabIndex = 0;
             this.button6.Text = "map";
             this.button6.UseVisualStyleBackColor = true;
@@ -1551,10 +1538,6 @@ namespace AADS
             // 
             this.timerClose.Interval = 1;
             this.timerClose.Tick += new System.EventHandler(this.timerClose_);
-            // 
-            // timerCheckConnection
-            // 
-            this.timerCheckConnection.Tick += new System.EventHandler(this.timerCheckConnection_Tick);
             // 
             // timerFakerSimulate
             // 
@@ -1592,7 +1575,6 @@ namespace AADS
             this.mainMap.TabIndex = 4;
             this.mainMap.Zoom = 2D;
             this.mainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.mainMap_OnMapZoomChanged);
-            this.mainMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseClick_1);
             // 
             // MainForm
             // 
@@ -1616,7 +1598,7 @@ namespace AADS
             this.Name = "MainForm";
             this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Jaddin";
+            this.Text = "AADS";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.mainForm_FormClosed);
             this.Load += new System.EventHandler(this.mainForm_Load);
@@ -1777,12 +1759,10 @@ namespace AADS
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button btnConnectServer;
-        private System.Windows.Forms.Label labelConnect;
         private System.Windows.Forms.Timer timerCheckConnection;
-        private System.Windows.Forms.TextBox txtServerAddress;
         private System.Windows.Forms.Timer timerFakerSimulate;
         private GMap.NET.WindowsForms.GMapControl mainMap;
+        private System.Windows.Forms.CheckBox chbHitbox;
     }
 }
 

@@ -18,51 +18,49 @@ namespace AADS.Views.ShowCategory
             
         }
 
+
+        public UserControl currentControl;
+
+        public void SetControl(UserControl control)
+        {
+            currentControl = control;
+            panelShowDetail.Controls.Clear();
+            panelShowDetail.Controls.Add(currentControl);
+        }
+
         private void btnShowAiport_Click(object sender, EventArgs e)
         {
-            var Airportpage = new Views.Airport.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(Airportpage);
+            SetControl(ControlViews.AirportCreation);
         }
 
         private void btnShowCity_Click(object sender, EventArgs e)
         {
-            var Citypage = new Views.City.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(Citypage);
+            SetControl(ControlViews.CityCreation);
         }
 
         private void btnShowFixedPoint_Click(object sender, EventArgs e)
         {
-           
+            SetControl(ControlViews.FixedPointCreation);
         }
 
         private void btnShowFireUnit_Click(object sender, EventArgs e)
         {
-            var Fireunitpage = new Views.FireUnit.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(Fireunitpage);
+            SetControl(ControlViews.FireUnitCreation);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var Landmarkpage = new Views.Landmark.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(Landmarkpage);
+            SetControl(ControlViews.LandmarkCreation);
         }
 
         private void btnShowVitalAsset_Click(object sender, EventArgs e)
         {
-            var VitalAssetpage = new Views.VitalAsset.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(VitalAssetpage);
+            SetControl(ControlViews.VitalAssetCreation);
         }
 
         private void btnShowWeaponBattery_Click(object sender, EventArgs e)
         {
-            var WeaponsBatterypage = new Views.WeaponsBattery.main();
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(WeaponsBatterypage);
+
         }
     }
 }

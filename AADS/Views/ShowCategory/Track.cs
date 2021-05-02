@@ -16,17 +16,12 @@ namespace AADS.Views.ShowCategory
         {
             InitializeComponent();
         }
-        public static ViewManager views = ViewManager.Instance;
-        private void btnShowTrackTable_Click(object sender, EventArgs e)
+        public UserControl currentControl;
+        public void SetControl(UserControl control)
         {
+            currentControl = control;
             panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(views.trackTable);
-        }
-
-        private void btnShowFakerCreation_Click(object sender, EventArgs e)
-        {
-            panelShowDetail.Controls.Clear();
-            panelShowDetail.Controls.Add(views.fakerCreation);
+            panelShowDetail.Controls.Add(currentControl);
         }
     }
 }

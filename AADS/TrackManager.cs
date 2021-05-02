@@ -1,175 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AADS
 {
-    public delegate void TrackClear(TrackFakerType type);
+    public delegate void TrackClear();
     public delegate void TrackCreate(TrackData item);
     public delegate void TrackUpdate(TrackData item);
     public delegate void TrackRemove(TrackData item);
-    public class TrackManager
+    public class TrackManager : IDataManager<TrackData>
     {
-        private Dictionary<string, TrackData> tracks = new Dictionary<string, TrackData>();
-        public Dictionary<string, GMarkerTrack> trackMarkers = new Dictionary<string, GMarkerTrack>();
-        private Dictionary<string, TrackData> fakers = new Dictionary<string, TrackData>();
-        public Dictionary<string, GMarkerTrack> fakerMarkers = new Dictionary<string, GMarkerTrack>();
+        private TrackCollection collection = new TrackCollection();
         public event TrackClear OnTrackClear;
         public event TrackCreate OnTrackCreate;
         public event TrackUpdate OnTrackUpdate;
         public event TrackRemove OnTrackRemove;
+        public TrackManager()
+        {
+            collection.PerformAction = true;
+        }
         public void Clear()
         {
-            OnTrackClear?.Invoke(TrackFakerType.None);
-            this.tracks.Clear();
-            trackMarkers.Clear();
-        }
-        public void ClearFaker()
-        {
-            OnTrackClear?.Invoke(TrackFakerType.Client);
-            fakers.Clear();
-            fakerMarkers.Clear();
+            OnTrackClear?.Invoke();
+            collection.Clear();
         }
         public List<TrackData> Tracks
         {
-            get => new List<TrackData>(tracks.Values);
+            get => collection.Tracks;
         }
-        public List<TrackData> Fakers
+        public TrackData Get(string key)
         {
-            get => new List<TrackData>(fakers.Values);
+            return collection[key];
         }
-        public TrackData GetTrack(string key)
+        public void AddCollection(TrackCollection collection)
         {
-            if (tracks.ContainsKey(key))
+            collection.Tracks.ForEach(x => Create(x));
+        }
+        public void UpdateCollection(TrackCollection collection)
+        {
+            collection.Tracks.ForEach(x => Update(x));
+        }
+        public void RemoveCollection(TrackCollection collection)
+        {
+            collection.Tracks.ForEach(x => Remove(x.Key));
+        }
+        public CommandResponse Create(TrackData track)
+        {
+            CommandResponse response = new CommandResponse
             {
-                return tracks[key];
-            }
-            return null;
-        }
-        public TrackCommandResponse CreateTrack(TrackData track)
-        {
-            var key = track.Key;
-            TrackCommandResponse response = new TrackCommandResponse
-            {
-                Code = TrackCommandResponseCode.Error
+                Code = CommandResponseCode.Error
             };
-            if (track.Faker == TrackFakerType.None || track.Faker == TrackFakerType.Server)
+            if (collection.Add(track))
             {
-                if (tracks.ContainsKey(key))
-                {
-                    response.Message = "DUPLICATE_KEY";
-                }
-                else
-                {
-                    tracks.Add(key, track);
-                    response.Code = TrackCommandResponseCode.Success;
-                    OnTrackCreate?.Invoke(track);
-                }
+                response.Code = CommandResponseCode.Success;
+                OnTrackCreate?.Invoke(track);
             }
             else
             {
-                if (fakers.ContainsKey(key))
-                {
-                    response.Message = "DUPLICATE_KEY";
-                }
-                else
-                {
-                    fakers.Add(key, track);
-                    response.Code = TrackCommandResponseCode.Success;
-                    OnTrackCreate?.Invoke(track);
-                }
+                response.Message = "DUPLICATE_KEY";
             }
             return response;
         }
-        public TrackCommandResponse UpdateTrack(TrackData track)
+        public CommandResponse Update(TrackData track)
         {
-            var key = track.Key;
-            TrackCommandResponse response = new TrackCommandResponse
+            CommandResponse response = new CommandResponse
             {
-                Code = TrackCommandResponseCode.Error
+                Code = CommandResponseCode.Error
             };
-            if (track.Faker == TrackFakerType.None || track.Faker == TrackFakerType.Server)
+            TrackData _track = collection.Update(track);
+            if (_track != null)
             {
-                if (tracks.ContainsKey(key))
-                {
-                    tracks[key] = track;
-                    response.Code = TrackCommandResponseCode.Success;
-                    OnTrackUpdate?.Invoke(track);
-                }
-                else
-                {
-                    response.Message = "KEY_NOT_FOUND";
-                }
+                response.Code = CommandResponseCode.Success;
+                OnTrackUpdate?.Invoke(_track);
             }
             else
             {
-                if (fakers.ContainsKey(key))
-                {
-                    fakers[key] = track;
-                    response.Code = TrackCommandResponseCode.Success;
-                    OnTrackUpdate?.Invoke(track);
-                }
-                else
-                {
-                    response.Message = "KEY_NOT_FOUND";
-                }
+                response.Message = "KEY_NOT_FOUND";
             }
             return response;
         }
-        public TrackCommandResponse CreateOrUpdateTrack(TrackData track)
+        public CommandResponse Remove(string key)
         {
-            var key = track.Key;
-            if (track.Faker == TrackFakerType.None || track.Faker == TrackFakerType.Server)
+            CommandResponse response = new CommandResponse
             {
-                if (tracks.ContainsKey(key))
-                {
-                    return UpdateTrack(track);
-                }
-                else
-                {
-                    return CreateTrack(track);
-                }
-            }
-            return new TrackCommandResponse
-            {
-                Code = TrackCommandResponseCode.Error
+                Code = CommandResponseCode.Error
             };
-        }
-        public TrackCommandResponse RemoveTrack(string key, TrackFakerType type)
-        {
-            TrackCommandResponse response = new TrackCommandResponse
+            TrackData track = collection.Remove(key);
+            if (track != null)
             {
-                Code = TrackCommandResponseCode.Error
-            };
-            if (type == TrackFakerType.None || type == TrackFakerType.Server)
-            {
-                if (tracks.ContainsKey(key))
-                {
-                    var track = tracks[key];
-                    tracks.Remove(key);
-                    response.Code = TrackCommandResponseCode.Success;
-                    OnTrackRemove?.Invoke(track);
-                }
-                else
-                {
-                    response.Message = "KEY_NOT_FOUND";
-                }
+                response.Code = CommandResponseCode.Success;
+                OnTrackRemove?.Invoke(track);
             }
             else
             {
-                if (fakers.ContainsKey(key))
-                {
-                    var faker = fakers[key];
-                    fakers.Remove(key);
-                    response.Code = TrackCommandResponseCode.Success;
-                    OnTrackRemove?.Invoke(faker);
-                }
-                else
-                {
-                    response.Message = "KEY_NOT_FOUND";
-                }
+                response.Message = "KEY_NOT_FOUND";
             }
             return response;
         }

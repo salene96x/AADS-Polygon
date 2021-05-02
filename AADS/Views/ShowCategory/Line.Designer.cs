@@ -69,7 +69,7 @@ namespace AADS.Views.ShowCategory
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Line";
-            this.Size = new System.Drawing.Size(292, 705);
+            this.Size = new System.Drawing.Size(366, 705);
             this.ResumeLayout(false);
 
         }

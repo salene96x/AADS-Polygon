@@ -11,53 +11,51 @@ using System.Windows.Forms;
 
 namespace AADS
 {
-    public class GMarkerTrack : GMapMarker, ISerializable
+    public class GMarkerTrack : GMapMarker
     {
-        public TrackData track;
-        public static Pen _TailColor = new Pen(Brushes.DeepSkyBlue);
-        public bool Tile;
-        public string _caption;
-        public Point[] Arrow = new Point[] { new Point(-7, 7), new Point(0, -22), new Point(7, 7), new Point(0, 2) };
-        public Point[] Box = new Point[] { new Point(-7, 7), new Point(7, 7), new Point(7, -7), new Point(-7, -7) };
-        public Brush Fill = new SolidBrush(Color.FromArgb(255, Color.Gray));
-        private float scale = 1;
-
-        public static Pen TailColor
-        {
-            get { return _TailColor; }
-            set { _TailColor = value; }
-        }
+        private TrackData _Track;
+        private Point[] Arrow = new Point[] { new Point(-8, 8), new Point(0, -22), new Point(8, 8), new Point(0, 2) };
+        private readonly GMapControl map = ControlViews.Main.gMap;
 
         public GMarkerTrack(TrackData track) : base(track.Position)
         {
-            this.track = track;
-            Scale = 1;
+            this._Track = track;
         }
-        public void SetTrack(TrackData track)
+        public TrackData Track
         {
-            this.track = track;
-            Position = track.Position;
-        }
-        public float Scale
-        {
-            get
-            {
-                return scale;
-            }
+            get => _Track;
             set
             {
-                scale = value;
-
-                Size = new System.Drawing.Size((int)(12 * scale), (int)(12 * scale));
-                Offset = new System.Drawing.Point(-Size.Width / 2, (int)(-Size.Height / 1.4));
+                this._Track = value;
+                Position = value.Position;
             }
         }
-
-        private static Brush CaptionColor
+        public Brush PlaneColor
         {
             get
             {
-                GMapControl map = MainForm.GetInstance().gMap;
+                if (Track.Status == TrackStatus.Friendly)
+                {
+                    return new SolidBrush(Color.FromArgb(255, Color.DarkGreen));
+                }
+                else if (Track.Status == TrackStatus.Hostile)
+                {
+                    return new SolidBrush(Color.FromArgb(255, Color.Red));
+                }
+                else
+                {
+                    return new SolidBrush(Color.FromArgb(255, Color.Gray));
+                }
+            }
+        }
+        private Pen TailColor
+        {
+            get => new Pen(PlaneColor, 2);
+        }
+        private Brush CaptionColor
+        {
+            get
+            {
                 bool provider = map.NegativeMode;
                 if (provider == false)
                 {
@@ -66,39 +64,11 @@ namespace AADS
                 return Brushes.White;
             }
         }
-        Bitmap Resize(Image image, int w, int h)
-        {
-            Bitmap bmp = new Bitmap(w, h);
-            Graphics graphic = Graphics.FromImage(bmp);
-            graphic.DrawImage(image, 0, 0, w, h);
-            graphic.Dispose();
-
-            return bmp;
-        }
-        public void setIcon(char status)
-        {
-            if (status == 'F')
-            {
-                Fill = new SolidBrush(Color.FromArgb(255, Color.Green));
-            }
-            else if (status == 'H')
-            {
-                Fill = new SolidBrush(Color.FromArgb(255, Color.Red));
-            }
-            else if (status == 'U')
-            {
-                Fill = new SolidBrush(Color.FromArgb(255, Color.YellowGreen));
-            }
-            else
-            {
-                Fill = new SolidBrush(Color.FromArgb(255, Color.Gray));
-            }
-        }
         private double Length
         {
             get
             {
-                var speed = track.Speed;
+                var speed = Track.Speed;
                 if (speed >= 125 && speed <= 300)
                 {
                     return 2;
@@ -123,32 +93,22 @@ namespace AADS
         }
         public override void OnRender(Graphics g)
         {
-            Font _font = new Font("Angsana New", (float)14, FontStyle.Bold);
-            _caption = track.Key;
-            var stringSize = g.MeasureString(_caption, _font);
-            var localPoint = new PointF((LocalPosition.X + 30) - (stringSize.Width / 2), (LocalPosition.Y) + (stringSize.Height / 2));
-            {
-                double angle = ((track.Bearing + 180) % 360) * Math.PI / 180;
-                GPoint start = new GPoint(LocalPosition.X + 7, LocalPosition.Y + 12);
-                double deltaX = Length * Math.Sin(angle);
-                double deltaY = Length * Math.Cos(angle);
-                GPoint end = new GPoint((int)(start.X + deltaX * 5), (int)(start.Y - deltaY * 5));
+            Font font = new Font("Angsana New", 14, FontStyle.Bold);
+            double angle = ((Track.Bearing + 180) % 360) * Math.PI / 180;
+            GPoint start = new GPoint(LocalPosition.X, LocalPosition.Y);
+            double deltaX = Length * Math.Sin(angle);
+            double deltaY = Length * Math.Cos(angle);
+            GPoint end = new GPoint((int)(start.X + deltaX * 5), (int)(start.Y - deltaY * 5));
+            g.DrawLine(TailColor, start.X, start.Y, end.X, end.Y);
+            var stringSize = g.MeasureString(Track.CallSign, font);
+            var localPoint = new PointF((LocalPosition.X + 20) - (stringSize.Width / 2), (LocalPosition.Y - 5) + (stringSize.Height / 2));
+            g.DrawString(Track.CallSign, font, CaptionColor, localPoint);
 
-                _TailColor.Width = 2.0f;
-                g.DrawLine(_TailColor, start.X, start.Y, end.X, end.Y);
-                g.DrawString(_caption, _font, CaptionColor, localPoint);
-
-                Matrix temp = g.Transform;
-                g.TranslateTransform(LocalPosition.X + 7, LocalPosition.Y + 12);
-                var c = g.BeginContainer();
-                g.ScaleTransform(Scale, Scale);
-                g.RotateTransform((float)track.Bearing - Overlay.Control.Bearing);
-
-                g.FillPolygon(Fill, Arrow);
-                g.EndContainer(c);
-                //g.TranslateTransform(LocalPosition.X+7, LocalPosition.Y+12);
-                g.Transform = temp;
-            }
+            Matrix temp = g.Transform;
+            g.TranslateTransform(start.X, start.Y);
+            g.RotateTransform((float)Track.Bearing - Overlay.Control.Bearing);
+            g.FillPolygon(PlaneColor, Arrow);
+            g.Transform = temp;
         }
     }
 
