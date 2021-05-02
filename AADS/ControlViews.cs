@@ -29,6 +29,8 @@ namespace AADS
         private Views.Marker.VitalAssetView vitalAssetView = new Views.Marker.VitalAssetView();
         // Polygon
         private Views.Polygon.GeographicCreation geographicCreation = new Views.Polygon.GeographicCreation();
+        private Views.Polygon.ResourceCreation resourceCreation = new Views.Polygon.ResourceCreation();
+        private Views.Polygon.RestrictedAreaCreation restrictedAreaCreation = new Views.Polygon.RestrictedAreaCreation();
         // Track
         private Views.Track.TrackCreation trackCreation = new Views.Track.TrackCreation();
         private Views.Track.TrackView trackView = new Views.Track.TrackView();
@@ -113,6 +115,14 @@ namespace AADS
         public static Views.Polygon.GeographicCreation GeographicCreation
         {
             get => Instance.geographicCreation;
+        }
+        public static Views.Polygon.ResourceCreation ResourceCreation
+        {
+            get => Instance.resourceCreation;
+        }
+        public static Views.Polygon.RestrictedAreaCreation RestrictedAreaCreation
+        {
+            get => Instance.restrictedAreaCreation;
         }
         // Track
         public static Views.Track.TrackCreation TrackCreation

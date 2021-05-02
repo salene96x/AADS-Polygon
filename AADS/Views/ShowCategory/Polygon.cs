@@ -30,12 +30,12 @@ namespace AADS.Views.ShowCategory
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)
         {
-
+            SetControl(ControlViews.RestrictedAreaCreation);
         }
 
         private void btnShowRD_Click(object sender, EventArgs e)
         {
-
+            SetControl(ControlViews.ResourceCreation);
         }
     }
 }

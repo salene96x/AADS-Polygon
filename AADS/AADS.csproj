@@ -157,6 +157,8 @@
     <Compile Include="MarkersDetail\FixedPoint.cs" />
     <Compile Include="MarkersDetail\LandMark.cs" />
     <Compile Include="MarkersDetail\VitalAsset.cs" />
+    <Compile Include="ObjectsManager\PolygonCreation.cs" />
+    <Compile Include="ObjectsManager\PolygonCollectionManager.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="TrackCollection.cs" />
     <Compile Include="Views\Marker\CityView.cs">
@@ -252,6 +254,18 @@
     </Compile>
     <Compile Include="Views\Marker\LandmarkView.Designer.cs">
       <DependentUpon>LandmarkView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Polygon\ResourceCreation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Polygon\ResourceCreation.Designer.cs">
+      <DependentUpon>ResourceCreation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Polygon\RestrictedAreaCreation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Polygon\RestrictedAreaCreation.Designer.cs">
+      <DependentUpon>RestrictedAreaCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ShowCategory\Line.cs">
       <SubType>UserControl</SubType>
@@ -376,6 +390,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Polygon\GeographicCreation.resx">
       <DependentUpon>GeographicCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Polygon\ResourceCreation.resx">
+      <DependentUpon>ResourceCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Polygon\RestrictedAreaCreation.resx">
+      <DependentUpon>RestrictedAreaCreation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ShowCategory\Line.resx">
       <DependentUpon>Line.cs</DependentUpon>
