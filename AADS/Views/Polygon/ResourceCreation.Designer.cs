@@ -37,6 +37,7 @@ namespace AADS.Views.Polygon
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.btnConfirm = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBox1
@@ -44,10 +45,10 @@ namespace AADS.Views.Polygon
             this.listBox1.Font = new System.Drawing.Font("TH SarabunPSK", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 18;
-            this.listBox1.Location = new System.Drawing.Point(132, 123);
+            this.listBox1.Location = new System.Drawing.Point(132, 129);
             this.listBox1.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(223, 1462);
+            this.listBox1.Size = new System.Drawing.Size(223, 904);
             this.listBox1.TabIndex = 23;
             // 
             // label4
@@ -120,10 +121,21 @@ namespace AADS.Views.Polygon
             this.comboBox2.Size = new System.Drawing.Size(121, 32);
             this.comboBox2.TabIndex = 25;
             // 
+            // btnConfirm
+            // 
+            this.btnConfirm.Location = new System.Drawing.Point(7, 168);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(113, 46);
+            this.btnConfirm.TabIndex = 26;
+            this.btnConfirm.Text = "ยืนยัน";
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
+            // 
             // ResourceCreation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.listBox1);
@@ -151,5 +163,6 @@ namespace AADS.Views.Polygon
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Button btnConfirm;
     }
 }

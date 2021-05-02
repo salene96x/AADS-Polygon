@@ -12,7 +12,10 @@ namespace AADS.ObjectsManager
     class PolygonManager
     {
         private static MainForm main = MainForm.GetInstance();
+        public static List<PointLatLng> _points;
         private static GMapControl mainMap = main.GetmainMap();
+        public static PolygonManager instance;
+        private GMapPolygon polygon;
         private PolygonCollectionManager collectionManager = new PolygonCollectionManager();
         private GMapOverlay PrevOverlay = main.GetOverlay("previewOverlay");
         private GMapOverlay mainOverlay = main.GetOverlay("polygonOverlay");
@@ -24,10 +27,12 @@ namespace AADS.ObjectsManager
         }
         public void Preview(List<PointLatLng> _points)
         {
-            GMapPolygon polygonPrev = new GMapPolygon(_points, "prevPolygon");
-            PrevOverlay.Polygons.Add(polygonPrev);
+            PrevOverlay.Polygons.Remove(polygon);
+            polygon = new GMapPolygon(_points, "prevPolygon");
+            PrevOverlay.Polygons.Add(polygon);
             PointCreate(_points[index]);
             index++;
+            _points = _points;
         }
         public void Edit(int index, PointLatLng pointChanged, GMapPolygon polygon)
         {
@@ -41,6 +46,14 @@ namespace AADS.ObjectsManager
         {
             GMapMarker points = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
             PrevOverlay.Markers.Add(points);
+        }
+        public static PolygonManager GetInstance()
+        {
+            return instance;
+        }
+        public List<PointLatLng> GetPoints()
+        {
+            return _points;
         }
     }
 }
