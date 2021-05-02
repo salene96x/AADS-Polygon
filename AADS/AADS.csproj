@@ -157,7 +157,7 @@
     <Compile Include="MarkersDetail\FixedPoint.cs" />
     <Compile Include="MarkersDetail\LandMark.cs" />
     <Compile Include="MarkersDetail\VitalAsset.cs" />
-    <Compile Include="ObjectsManager\PolygonCreation.cs" />
+    <Compile Include="ObjectsManager\PolygonManager.cs" />
     <Compile Include="ObjectsManager\PolygonCollectionManager.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="TrackCollection.cs" />

@@ -31,6 +31,8 @@ namespace AADS
         internal readonly GMapOverlay markerOverlay = new GMapOverlay("markerOverlay");
         internal readonly GMapOverlay radarOverlay = new GMapOverlay("radarOverlay");
         internal readonly GMapOverlay trackOverlay = new GMapOverlay("trackOverlay");
+        internal readonly GMapOverlay polygonOverlay = new GMapOverlay("polygonOverlay");
+        internal readonly GMapOverlay previewOverlay = new GMapOverlay("previewOverlay");
 
         internal readonly GMapOverlay top = new GMapOverlay("top");
 
@@ -473,13 +475,23 @@ namespace AADS
             }
         }
 
-
+        public bool isPolygonFuncClicked = false;
+        private List<PointLatLng> _pointsPoly = new List<PointLatLng>();
         void mainMap_MouseClick(object sender, MouseEventArgs e)
         {
             PointLatLng pnew = mainMap.FromLocalToLatLng(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
                 moveCurrentMarker(pnew);
+            }
+            if (isPolygonFuncClicked)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    var polygonManager = new ObjectsManager.PolygonManager();
+                    _pointsPoly.Add(mainMap.FromLocalToLatLng(e.X, e.Y));
+                    polygonManager.Preview(_pointsPoly);
+                }
             }
         }
 
@@ -509,7 +521,7 @@ namespace AADS
             panelRight.Height = this.Height - panelControl.Height - panelTop.Height - panelBottom.Height;
             panelRight.Location = new Point(1950,93);
             label27Location = new Point(this.Width - label27.Width, label27.Location.Y);
-
+            mainMap.Overlays.Add(previewOverlay);
             radarHandler.Create(new RadarSite
             {
                 Name = "TRML",

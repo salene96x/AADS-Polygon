@@ -16,6 +16,7 @@ namespace AADS.Views.ShowCategory
         {
             InitializeComponent();
         }
+        private MainForm main = MainForm.GetInstance();
         public UserControl currentControl;
         public void SetControl(UserControl control)
         {
@@ -26,16 +27,19 @@ namespace AADS.Views.ShowCategory
         private void btnShowGeographic_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.GeographicCreation);
+            main.isPolygonFuncClicked = true;
         }
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.RestrictedAreaCreation);
+            main.isPolygonFuncClicked = true;
         }
 
         private void btnShowRD_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.ResourceCreation);
+            main.isPolygonFuncClicked = true;
         }
     }
 }
