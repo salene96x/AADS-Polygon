@@ -38,6 +38,7 @@ namespace AADS.Views.Polygon
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.btnConfirm = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // listBox1
@@ -131,10 +132,21 @@ namespace AADS.Views.Polygon
             this.btnConfirm.UseVisualStyleBackColor = true;
             this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(259, 49);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(59, 28);
+            this.checkBox1.TabIndex = 27;
+            this.checkBox1.Text = "พรีวิว";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // ResourceCreation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
@@ -148,6 +160,7 @@ namespace AADS.Views.Polygon
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "ResourceCreation";
             this.Size = new System.Drawing.Size(377, 1554);
+            this.Load += new System.EventHandler(this.ResourceCreation_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,5 +177,6 @@ namespace AADS.Views.Polygon
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button btnConfirm;
+        public System.Windows.Forms.CheckBox checkBox1;
     }
 }

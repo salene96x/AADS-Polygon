@@ -16,6 +16,8 @@ namespace AADS.ObjectsManager
         private Dictionary<string, string> _name = new Dictionary<string, string>();
         private Dictionary<string, string> _statusExclusive = new Dictionary<string, string>();
         private Dictionary<string, string> _statusInclusive = new Dictionary<string, string>();
+        private MainForm main = MainForm.GetInstance();
+        private static int number = 001;
 
         public void Add(string name, string statusEx, string statusIn, string id, List<PointLatLng> points)
         {
@@ -72,6 +74,17 @@ namespace AADS.ObjectsManager
         public void SetPoints(string id, List<PointLatLng> pointsUpdated)
         {
             _pointsClick[id] = pointsUpdated;
+        }
+        public string GenerateId()
+        {
+            string prefix = "";
+            int num = number;
+            if (main.isRdClicked)
+            {
+                prefix = "rd";
+            }
+            string id = prefix + num.ToString();
+            return id;
         }
     }
 }

@@ -476,6 +476,7 @@ namespace AADS
         }
 
         public bool isPolygonFuncClicked = false;
+        public bool isRdClicked = false;
         private List<PointLatLng> _pointsPoly = new List<PointLatLng>();
         void mainMap_MouseClick(object sender, MouseEventArgs e)
         {
@@ -522,6 +523,7 @@ namespace AADS
             panelRight.Location = new Point(1950,93);
             label27Location = new Point(this.Width - label27.Width, label27.Location.Y);
             mainMap.Overlays.Add(previewOverlay);
+            mainMap.Overlays.Add(polygonOverlay);
             radarHandler.Create(new RadarSite
             {
                 Name = "TRML",

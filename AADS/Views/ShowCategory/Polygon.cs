@@ -40,6 +40,7 @@ namespace AADS.Views.ShowCategory
         {
             SetControl(ControlViews.ResourceCreation);
             main.isPolygonFuncClicked = true;
+            main.isRdClicked = true;
         }
     }
 }

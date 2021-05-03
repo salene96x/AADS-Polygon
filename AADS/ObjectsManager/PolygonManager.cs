@@ -14,25 +14,36 @@ namespace AADS.ObjectsManager
         private static MainForm main = MainForm.GetInstance();
         public static List<PointLatLng> _points;
         private static GMapControl mainMap = main.GetmainMap();
-        public static PolygonManager instance;
         private GMapPolygon polygon;
         private PolygonCollectionManager collectionManager = new PolygonCollectionManager();
-        private GMapOverlay PrevOverlay = main.GetOverlay("previewOverlay");
-        private GMapOverlay mainOverlay = main.GetOverlay("polygonOverlay");
         private static int index = 0;
-        public PolygonManager() { }
+        private Views.Polygon.ResourceCreation instanceResource = Views.Polygon.ResourceCreation.GetInstance();
+        public bool isPreview;
+        public PolygonManager() 
+        {
+        }
         public void CreatePolygon(List<PointLatLng> _points)
         {
+            var previewOverlay = main.GetOverlay("previewOverlay");
+            previewOverlay.IsVisibile = false;
+            var overlay = main.GetOverlay("polygonOverlay");
             GMapPolygon polygon = new GMapPolygon(_points, "polygon");
+            overlay.Polygons.Add(polygon);
         }
         public void Preview(List<PointLatLng> _points)
         {
-            PrevOverlay.Polygons.Remove(polygon);
-            polygon = new GMapPolygon(_points, "prevPolygon");
-            PrevOverlay.Polygons.Add(polygon);
-            PointCreate(_points[index]);
-            index++;
-            _points = _points;
+            isPreview = true;
+            if (isPreview)
+            {
+                var previewOverlay = main.GetOverlay("previewOverlay");
+                previewOverlay.Polygons.Remove(polygon);
+                polygon = new GMapPolygon(_points, "prevPolygon");
+                previewOverlay.Polygons.Add(polygon);
+                PointCreate(_points[index]);
+                index++;
+                instanceResource.SetPoints(_points);
+            }
+            
         }
         public void Edit(int index, PointLatLng pointChanged, GMapPolygon polygon)
         {
@@ -44,16 +55,28 @@ namespace AADS.ObjectsManager
         }
         public void PointCreate(PointLatLng point)
         {
-            GMapMarker points = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
-            PrevOverlay.Markers.Add(points);
-        }
-        public static PolygonManager GetInstance()
-        {
-            return instance;
+            if (isPreview)
+            {
+                var previewOverlay = main.GetOverlay("previewOverlay");
+                GMapMarker points = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
+                previewOverlay.Markers.Add(points);
+            }
         }
         public List<PointLatLng> GetPoints()
         {
             return _points;
+        }
+        public void CreateRealPoints(List<PointLatLng> _pointsToCreate)
+        {
+            if (!(isPreview))
+            {
+                GMapOverlay overlay = main.GetOverlay("polygonOverlay");
+                foreach (var j in _pointsToCreate)
+                {
+                    GMapMarker point = new GMarkerGoogle(j, GMarkerGoogleType.red_small);
+                    overlay.Markers.Add(point);
+                }
+            }
         }
     }
 }
