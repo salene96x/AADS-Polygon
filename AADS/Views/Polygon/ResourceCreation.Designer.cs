@@ -29,28 +29,28 @@ namespace AADS.Views.Polygon
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lbPoints = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cmbStatusEx = new System.Windows.Forms.ComboBox();
+            this.cmbStatusIn = new System.Windows.Forms.ComboBox();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // listBox1
+            // lbPoints
             // 
-            this.listBox1.Font = new System.Drawing.Font("TH SarabunPSK", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 18;
-            this.listBox1.Location = new System.Drawing.Point(132, 129);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(223, 904);
-            this.listBox1.TabIndex = 23;
+            this.lbPoints.Font = new System.Drawing.Font("TH SarabunPSK", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPoints.FormattingEnabled = true;
+            this.lbPoints.ItemHeight = 18;
+            this.lbPoints.Location = new System.Drawing.Point(132, 129);
+            this.lbPoints.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
+            this.lbPoints.Name = "lbPoints";
+            this.lbPoints.Size = new System.Drawing.Size(223, 904);
+            this.lbPoints.TabIndex = 23;
             // 
             // label4
             // 
@@ -62,13 +62,13 @@ namespace AADS.Views.Polygon
             this.label4.TabIndex = 22;
             this.label4.Text = "รัศมีอาณาเขต :";
             // 
-            // textBox1
+            // txtName
             // 
-            this.textBox1.Location = new System.Drawing.Point(132, 8);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(171, 31);
-            this.textBox1.TabIndex = 19;
+            this.txtName.Location = new System.Drawing.Point(132, 8);
+            this.txtName.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(171, 31);
+            this.txtName.TabIndex = 19;
             // 
             // label3
             // 
@@ -100,27 +100,27 @@ namespace AADS.Views.Polygon
             this.label5.TabIndex = 16;
             this.label5.Text = "ชื่ออาณาเขต :";
             // 
-            // comboBox1
+            // cmbStatusEx
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cmbStatusEx.FormattingEnabled = true;
+            this.cmbStatusEx.Items.AddRange(new object[] {
             "Active",
             "Inactive"});
-            this.comboBox1.Location = new System.Drawing.Point(132, 45);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 32);
-            this.comboBox1.TabIndex = 24;
+            this.cmbStatusEx.Location = new System.Drawing.Point(132, 45);
+            this.cmbStatusEx.Name = "cmbStatusEx";
+            this.cmbStatusEx.Size = new System.Drawing.Size(121, 32);
+            this.cmbStatusEx.TabIndex = 24;
             // 
-            // comboBox2
+            // cmbStatusIn
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.cmbStatusIn.FormattingEnabled = true;
+            this.cmbStatusIn.Items.AddRange(new object[] {
             "Active",
             "Inactive"});
-            this.comboBox2.Location = new System.Drawing.Point(132, 83);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 32);
-            this.comboBox2.TabIndex = 25;
+            this.cmbStatusIn.Location = new System.Drawing.Point(132, 83);
+            this.cmbStatusIn.Name = "cmbStatusIn";
+            this.cmbStatusIn.Size = new System.Drawing.Size(121, 32);
+            this.cmbStatusIn.TabIndex = 25;
             // 
             // btnConfirm
             // 
@@ -148,11 +148,11 @@ namespace AADS.Views.Polygon
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnConfirm);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.cmbStatusIn);
+            this.Controls.Add(this.cmbStatusEx);
+            this.Controls.Add(this.lbPoints);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label5);
@@ -168,14 +168,14 @@ namespace AADS.Views.Polygon
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lbPoints;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cmbStatusEx;
+        private System.Windows.Forms.ComboBox cmbStatusIn;
         private System.Windows.Forms.Button btnConfirm;
         public System.Windows.Forms.CheckBox checkBox1;
     }

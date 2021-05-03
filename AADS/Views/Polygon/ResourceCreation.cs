@@ -57,9 +57,9 @@ namespace AADS.Views.Polygon
         {
             string id = polygonCollectionManager.GenerateId();
             polygonCollectionManager.Add(
-                textBox1.Text, 
-                comboBox1.SelectedItem.ToString(), 
-                comboBox2.SelectedItem.ToString(), 
+                txtName.Text, 
+                cmbStatusEx.SelectedItem.ToString(), 
+                cmbStatusIn.SelectedItem.ToString(), 
                 id, _points);
         }
     }

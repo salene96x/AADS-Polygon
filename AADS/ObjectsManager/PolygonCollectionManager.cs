@@ -84,6 +84,7 @@ namespace AADS.ObjectsManager
                 prefix = "rd";
             }
             string id = prefix + num.ToString();
+            number++;
             return id;
         }
     }
