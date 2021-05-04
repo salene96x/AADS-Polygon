@@ -443,7 +443,8 @@ namespace AADS
         }
         private void mainMap_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
         {
-
+            var polygonManager = new ObjectsManager.PolygonManager();
+            polygonManager.View(item);
         }
         bool isMouseDown = false;
         bool isRightClick = false;
@@ -475,8 +476,10 @@ namespace AADS
             }
         }
 
-        public bool isPolygonFuncClicked = false;
-        public bool isRdClicked = false;
+        public bool isPolygonFuncClicked { get; set; } = false;
+        public bool isRdClicked { get; set; } = false;
+        public bool isGeoClicked { get; set; } = false;
+        public bool isRaClicked { get; set; } = false;
         private List<PointLatLng> _pointsPoly = new List<PointLatLng>();
         void mainMap_MouseClick(object sender, MouseEventArgs e)
         {

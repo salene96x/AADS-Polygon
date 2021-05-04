@@ -167,8 +167,6 @@ namespace AADS.Views.Polygon
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox lbPoints;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label3;
@@ -178,5 +176,6 @@ namespace AADS.Views.Polygon
         private System.Windows.Forms.ComboBox cmbStatusIn;
         private System.Windows.Forms.Button btnConfirm;
         public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.ListBox lbPoints;
     }
 }

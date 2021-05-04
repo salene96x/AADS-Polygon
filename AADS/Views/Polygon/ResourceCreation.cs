@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,8 @@ namespace AADS.Views.Polygon
         private ObjectsManager.PolygonManager polygonManager;
         public List<PointLatLng> _points = new List<PointLatLng>();
         private static ResourceCreation instance;
-        private MainForm main;
-        private ObjectsManager.PolygonCollectionManager polygonCollectionManager;
-        private bool isNew;
+        private static int count = 1;
+        private MainForm main = MainForm.GetInstance();
         public ResourceCreation()
         {
             InitializeComponent();
@@ -28,10 +28,19 @@ namespace AADS.Views.Polygon
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            polygonManager.CreatePolygon(_points);
-            polygonManager.isPreview = false;
-            polygonManager.CreateRealPoints(_points);
-            AddDataToCollection();
+            if (!this.CheckNull())
+            {
+                MessageBox.Show("กรุณากรอกข้อมูลให้ครบถ้วน", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                polygonManager.CreatePolygon(_points);
+                polygonManager.isPreview = false;
+                polygonManager.CreateRealPoints(_points);
+                AddDataToCollection();
+                Reset();
+                main.isPolygonFuncClicked = false;
+            }
         }
 
         public static ResourceCreation GetInstance()
@@ -43,10 +52,7 @@ namespace AADS.Views.Polygon
         {
             instance = this;
             var polygonManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonManager");
-            var polygonCollectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
             polygonManager = (ObjectsManager.PolygonManager)polygonManagerWrap.Unwrap();
-            polygonCollectionManager = (ObjectsManager.PolygonCollectionManager)polygonCollectionManagerWrap.Unwrap();
-            main = MainForm.GetInstance();
         }
 
         public void SetPoints(List<PointLatLng> _points)
@@ -55,12 +61,73 @@ namespace AADS.Views.Polygon
         }
         private void AddDataToCollection()
         {
-            string id = polygonCollectionManager.GenerateId();
-            polygonCollectionManager.Add(
-                txtName.Text, 
-                cmbStatusEx.SelectedItem.ToString(), 
-                cmbStatusIn.SelectedItem.ToString(), 
-                id, _points);
+            string id = polygonManager.GenerateId();
+            var polygonObj = new ObjectsManager.PolygonDataCollection(txtName.Text, _points, cmbStatusEx.SelectedItem.ToString(), 
+                                                                      cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
+            polygonManager.Add(id, polygonObj);
+            
+        }
+        private bool CheckNull()
+        {
+            bool check = true;
+            foreach (var j in this.Controls.OfType<ComboBox>())
+            {
+                if (j.SelectedIndex == -1)
+                {
+                    check = false;
+                }
+            }
+            if (txtName.Text == "")
+            {
+                check = false;
+            }
+            else
+            {
+                check = true;
+            }
+            
+            return check;
+        }
+        private void Reset()
+        {
+            txtName.Text = null;
+            cmbStatusEx.SelectedIndex = -1;
+            cmbStatusIn.SelectedIndex = -1;
+            lbPoints.Items.Clear();
+            count = 1;
+        }
+        public void SetListBox(PointLatLng point)
+        {
+            lbPoints.Items.Add("จุดที่ "+ count.ToString() + " = " + point.Lat.ToString() + " , " + point.Lng.ToString());
+            count++;
+        }
+        public void FillAttributes(string name, string statusEx, string statusIn, List<PointLatLng> points)
+        {
+            txtName.Text = name;
+            if (statusEx == "Inactive")
+            {
+                _ = cmbStatusEx.SelectedIndex == 0;
+            }
+            else
+            {
+                _ = cmbStatusEx.SelectedIndex == 1;
+            }
+
+            if (statusIn == "Inactive")
+            {
+                _ = cmbStatusIn.SelectedIndex == 0;
+            }
+            else
+            {
+                _ = cmbStatusIn.SelectedIndex == 1;
+            }
+            int countP = 1;
+            foreach (var j in points)
+            {
+                lbPoints.Items.Add("จุดที่ " + countP.ToString() + " = " + j.Lat.ToString() + " , " + j.Lng.ToString());
+                countP++;
+            }
+
         }
     }
 }
