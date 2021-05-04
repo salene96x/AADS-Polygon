@@ -22,7 +22,9 @@ namespace AADS.Views.Polygon
         private static ResourceCreation instance;
         private static int count = 1;
         private MainForm main = MainForm.GetInstance();
+        private bool isEdit;
         public static GMapPolygon obj { get; set; }
+        public string id;
         public ResourceCreation()
         {
             InitializeComponent();
@@ -105,8 +107,9 @@ namespace AADS.Views.Polygon
             lbPoints.Items.Add("จุดที่ "+ count.ToString() + " = " + point.Lat.ToString() + " , " + point.Lng.ToString());
             count++;
         }
-        public void FillAttributes(string name, string statusEx, string statusIn, List<PointLatLng> points)
+        public void FillAttributes(string name, string statusEx, string statusIn, List<PointLatLng> points, string id)
         {
+            this.id = id;
             txtName.Text = name;
             if (statusEx == "Inactive")
             {
@@ -146,6 +149,23 @@ namespace AADS.Views.Polygon
             {
                 polygonManager.Remove(obj);
                 Reset();
+            }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            btnDel.Visible = false;
+            this.isEdit = true;
+        }
+
+        private void btnEditConfirm_Click(object sender, EventArgs e)
+        {
+            if (this.isEdit)
+            {
+                var polygonData = collectionManager.GetPolygonData(this.id);
+                polygonData.name = txtName.Text;
+                polygonData.statusEx = cmbStatusEx.SelectedItem.ToString();
+                polygonData.statusIn = cmbStatusIn.SelectedItem.ToString();
             }
         }
     }

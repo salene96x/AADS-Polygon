@@ -89,7 +89,7 @@ namespace AADS.ObjectsManager
         {
             string id = PolygonCollectionManager.FindId(viewObj);
             var polygonData = PolygonCollectionManager.GetPolygonData(id);
-            instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point);
+            instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point, id);
         }
         public void Remove(GMapPolygon removeObj)
         {
