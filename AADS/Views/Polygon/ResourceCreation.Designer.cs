@@ -39,6 +39,11 @@ namespace AADS.Views.Polygon
             this.cmbStatusIn = new System.Windows.Forms.ComboBox();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.panelEditDel = new System.Windows.Forms.Panel();
+            this.btnDel = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnEditConfirm = new System.Windows.Forms.Button();
+            this.panelEditDel.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbPoints
@@ -142,10 +147,50 @@ namespace AADS.Views.Polygon
             this.checkBox1.Text = "พรีวิว";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // panelEditDel
+            // 
+            this.panelEditDel.Controls.Add(this.btnEditConfirm);
+            this.panelEditDel.Controls.Add(this.btnEdit);
+            this.panelEditDel.Controls.Add(this.btnDel);
+            this.panelEditDel.Location = new System.Drawing.Point(7, 168);
+            this.panelEditDel.Name = "panelEditDel";
+            this.panelEditDel.Size = new System.Drawing.Size(113, 184);
+            this.panelEditDel.TabIndex = 28;
+            this.panelEditDel.Visible = false;
+            // 
+            // btnDel
+            // 
+            this.btnDel.Location = new System.Drawing.Point(0, 0);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(113, 46);
+            this.btnDel.TabIndex = 27;
+            this.btnDel.Text = "ลบ";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(0, 52);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(113, 46);
+            this.btnEdit.TabIndex = 28;
+            this.btnEdit.Text = "แก้ไข";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            // 
+            // btnEditConfirm
+            // 
+            this.btnEditConfirm.Location = new System.Drawing.Point(0, 104);
+            this.btnEditConfirm.Name = "btnEditConfirm";
+            this.btnEditConfirm.Size = new System.Drawing.Size(113, 46);
+            this.btnEditConfirm.TabIndex = 29;
+            this.btnEditConfirm.Text = "ยืนยัน";
+            this.btnEditConfirm.UseVisualStyleBackColor = true;
+            // 
             // ResourceCreation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panelEditDel);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.cmbStatusIn);
@@ -161,6 +206,7 @@ namespace AADS.Views.Polygon
             this.Name = "ResourceCreation";
             this.Size = new System.Drawing.Size(377, 1554);
             this.Load += new System.EventHandler(this.ResourceCreation_Load);
+            this.panelEditDel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,5 +223,9 @@ namespace AADS.Views.Polygon
         private System.Windows.Forms.Button btnConfirm;
         public System.Windows.Forms.CheckBox checkBox1;
         public System.Windows.Forms.ListBox lbPoints;
+        private System.Windows.Forms.Panel panelEditDel;
+        private System.Windows.Forms.Button btnEditConfirm;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnDel;
     }
 }

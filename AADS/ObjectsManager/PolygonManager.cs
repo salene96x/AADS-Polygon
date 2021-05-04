@@ -87,10 +87,17 @@ namespace AADS.ObjectsManager
         }
         public void View(GMapPolygon viewObj)
         {
-            Debug.WriteLine(PolygonCollectionManager._polygonDict.Count);
             string id = PolygonCollectionManager.FindId(viewObj);
             var polygonData = PolygonCollectionManager.GetPolygonData(id);
             instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point);
+        }
+        public void Remove(GMapPolygon removeObj)
+        {
+            var overlay = main.GetOverlay("polygonOverlay");
+            overlay.Polygons.Remove(removeObj);
+            PolygonCollectionManager.Remove(removeObj);
+            overlay.Markers.Clear();
+            Debug.WriteLine("Delete Polygon ID = " + PolygonCollectionManager.FindId(removeObj));
         }
     }
 }

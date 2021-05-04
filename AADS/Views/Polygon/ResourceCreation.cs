@@ -22,6 +22,7 @@ namespace AADS.Views.Polygon
         private static ResourceCreation instance;
         private static int count = 1;
         private MainForm main = MainForm.GetInstance();
+        public static GMapPolygon obj { get; set; }
         public ResourceCreation()
         {
             InitializeComponent();
@@ -130,7 +131,22 @@ namespace AADS.Views.Polygon
                 lbPoints.Items.Add("จุดที่ " + countP.ToString() + " = " + j.Lat.ToString() + " , " + j.Lng.ToString());
                 countP++;
             }
-
+            ViewMode();
+        }
+        public void ViewMode()
+        {
+            btnConfirm.Visible = false;
+            panelEditDel.Visible = true;
+        }
+        public void SetPolygon(GMapPolygon obj2) { obj = obj2; }
+        private void btnDel_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("ยืนยันที่จะลบอาณาเขตนี้หรือไม่", "อาณาเขต", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                polygonManager.Remove(obj);
+                Reset();
+            }
         }
     }
 }

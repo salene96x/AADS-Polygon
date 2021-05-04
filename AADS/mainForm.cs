@@ -443,8 +443,19 @@ namespace AADS
         }
         private void mainMap_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
         {
-            var polygonManager = new ObjectsManager.PolygonManager();
-            polygonManager.View(item);
+            if (e.Button == MouseButtons.Left)
+            {
+                var polygonManager = new ObjectsManager.PolygonManager();
+                polygonManager.View(item);
+                var polygonCollectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
+                var polygonCollectionManager = (ObjectsManager.PolygonCollectionManager)polygonCollectionManagerWrap.Unwrap();
+                Debug.WriteLine("Click on Polygon ID " + polygonCollectionManager.FindId(item));
+                if (isRdClicked)
+                {
+                    var rdCreation = Views.Polygon.ResourceCreation.GetInstance();
+                    rdCreation.SetPolygon(item);
+                }
+            }
         }
         bool isMouseDown = false;
         bool isRightClick = false;
@@ -496,6 +507,7 @@ namespace AADS
                     _pointsPoly.Add(mainMap.FromLocalToLatLng(e.X, e.Y));
                     polygonManager.Preview(_pointsPoly);
                 }
+
             }
         }
 
