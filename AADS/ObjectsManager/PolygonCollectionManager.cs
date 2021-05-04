@@ -11,7 +11,7 @@ namespace AADS.ObjectsManager
     class PolygonCollectionManager
     {
         public PolygonCollectionManager() { }
-        public Dictionary<string, PolygonDataCollection> _polygonDict { get; set; } = new Dictionary<string, PolygonDataCollection>();
+        public static Dictionary<string, PolygonDataCollection> _polygonDict { get; set; } = new Dictionary<string, PolygonDataCollection>();
         private MainForm main = MainForm.GetInstance();
         private static int number = 001;
         public int test { get; set; } = 0;

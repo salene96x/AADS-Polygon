@@ -17,6 +17,7 @@ namespace AADS.Views.Polygon
     public partial class ResourceCreation : UserControl
     {
         private ObjectsManager.PolygonManager polygonManager;
+        private ObjectsManager.PolygonCollectionManager collectionManager;
         public List<PointLatLng> _points = new List<PointLatLng>();
         private static ResourceCreation instance;
         private static int count = 1;
@@ -52,7 +53,9 @@ namespace AADS.Views.Polygon
         {
             instance = this;
             var polygonManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonManager");
+            var collectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
             polygonManager = (ObjectsManager.PolygonManager)polygonManagerWrap.Unwrap();
+            collectionManager = (ObjectsManager.PolygonCollectionManager)collectionManagerWrap.Unwrap();
         }
 
         public void SetPoints(List<PointLatLng> _points)
@@ -61,10 +64,10 @@ namespace AADS.Views.Polygon
         }
         private void AddDataToCollection()
         {
-            string id = polygonManager.GenerateId();
+            string id = collectionManager.GenerateId();
             var polygonObj = new ObjectsManager.PolygonDataCollection(txtName.Text, _points, cmbStatusEx.SelectedItem.ToString(), 
                                                                       cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
-            polygonManager.Add(id, polygonObj);
+            collectionManager.Add(id, polygonObj);
             
         }
         private bool CheckNull()
@@ -106,20 +109,20 @@ namespace AADS.Views.Polygon
             txtName.Text = name;
             if (statusEx == "Inactive")
             {
-                _ = cmbStatusEx.SelectedIndex == 0;
+                cmbStatusEx.SelectedItem = "Inactive";
             }
             else
             {
-                _ = cmbStatusEx.SelectedIndex == 1;
+                cmbStatusEx.SelectedItem = "Active";
             }
 
             if (statusIn == "Inactive")
             {
-                _ = cmbStatusIn.SelectedIndex == 0;
+                cmbStatusIn.SelectedItem = "Inactive";
             }
             else
             {
-                _ = cmbStatusIn.SelectedIndex == 1;
+                cmbStatusIn.SelectedItem = "Active";
             }
             int countP = 1;
             foreach (var j in points)

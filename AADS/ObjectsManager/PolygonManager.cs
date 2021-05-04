@@ -87,10 +87,10 @@ namespace AADS.ObjectsManager
         }
         public void View(GMapPolygon viewObj)
         {
-            Debug.WriteLine(PolygonCollectionManager._polygonDict.Count)
-            //string id = PolygonCollectionManager.FindId(viewObj);
-            //var polygonData = PolygonCollectionManager.GetPolygonData(id);
-
+            Debug.WriteLine(PolygonCollectionManager._polygonDict.Count);
+            string id = PolygonCollectionManager.FindId(viewObj);
+            var polygonData = PolygonCollectionManager.GetPolygonData(id);
+            instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point);
         }
     }
 }
