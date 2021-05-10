@@ -7,21 +7,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AADS.ObjectsManager
 {
     class PolygonManager
     {
         private static MainForm main = MainForm.GetInstance();
-        public static List<PointLatLng> _points;
         private static GMapControl mainMap = main.GetmainMap();
         public GMapPolygon polygon { get; set; }
         private PolygonCollectionManager collectionManager;
-        private static int index = 0;
+        public static int index = 0;
         private Views.Polygon.ResourceCreation instanceResource = Views.Polygon.ResourceCreation.GetInstance();
         private ObjectsManager.PolygonCollectionManager PolygonCollectionManager;
         public bool isPreview;
-        public PolygonManager() 
+        public PolygonManager()
         {
             var collectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
             PolygonCollectionManager = (PolygonCollectionManager)collectionManagerWrap.Unwrap();
@@ -34,7 +34,13 @@ namespace AADS.ObjectsManager
             GMapPolygon polygon = new GMapPolygon(_points, "polygon");
             this.polygon = polygon;
             this.polygon.IsHitTestVisible = true;
+            this.CreateRealPoints(_points);
+            this.instanceResource.SetPoint(_points);
             overlay.Polygons.Add(polygon);
+        }
+        public void ClearIndex()
+        {
+            index = 0;
         }
         public void Preview(List<PointLatLng> _points)
         {
@@ -42,14 +48,16 @@ namespace AADS.ObjectsManager
             if (isPreview)
             {
                 var previewOverlay = main.GetOverlay("previewOverlay");
+                previewOverlay.IsVisibile = true;
+                previewOverlay.Polygons.Clear();
                 previewOverlay.Polygons.Remove(polygon);
                 polygon = new GMapPolygon(_points, "prevPolygon");
                 previewOverlay.Polygons.Add(polygon);
                 PointCreate(_points[index]);
                 index++;
-                instanceResource.SetPoints(_points);
+                instanceResource.SetPoint(_points);
             }
-            
+
         }
         public void Edit(int index, PointLatLng pointChanged, GMapPolygon polygon)
         {
@@ -69,10 +77,6 @@ namespace AADS.ObjectsManager
                 instanceResource.SetListBox(point);
             }
         }
-        public List<PointLatLng> GetPoints()
-        {
-            return _points;
-        }
         public void CreateRealPoints(List<PointLatLng> _pointsToCreate)
         {
             if (!(isPreview))
@@ -89,15 +93,31 @@ namespace AADS.ObjectsManager
         {
             string id = PolygonCollectionManager.FindId(viewObj);
             var polygonData = PolygonCollectionManager.GetPolygonData(id);
+            Debug.WriteLine(polygonData._point.Count);
             instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point, id);
         }
+        private int indexRemove = 0;
         public void Remove(GMapPolygon removeObj)
         {
             var overlay = main.GetOverlay("polygonOverlay");
-            overlay.Polygons.Remove(removeObj);
+            string id = PolygonCollectionManager.FindId(removeObj);
+            var polygonData = PolygonCollectionManager.GetPolygonData(id);
+            var _points = polygonData._point;
+            foreach (var j in _points)
+            {
+                Debug.WriteLine(j.ToString());
+            }
+            //foreach (var j in overlay.Markers)
+            //{
+            //    if (j.Position == polygonData._point[indexRemove])
+            //    {
+            //        overlay.Markers.Remove(j);
+            //        this.indexRemove++;
+            //    }
+            //}
+            Debug.WriteLine("Delete Polygon ID = " + id);
             PolygonCollectionManager.Remove(removeObj);
-            overlay.Markers.Clear();
-            Debug.WriteLine("Delete Polygon ID = " + PolygonCollectionManager.FindId(removeObj));
+            overlay.Polygons.Remove(removeObj);
         }
     }
 }

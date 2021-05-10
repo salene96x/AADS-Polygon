@@ -27,19 +27,19 @@ namespace AADS.Views.ShowCategory
         private void btnShowGeographic_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.GeographicCreation);
-            main.isPolygonFuncClicked = true;
+            main.SetPolygonFuncClick(true);
         }
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.RestrictedAreaCreation);
-            main.isPolygonFuncClicked = true;
+            main.SetPolygonFuncClick(true);
         }
 
         private void btnShowRD_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.ResourceCreation);
-            main.isPolygonFuncClicked = true;
+            main.SetPolygonFuncClick(true);
             main.isRdClicked = true;
         }
     }

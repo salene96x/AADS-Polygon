@@ -449,7 +449,7 @@ namespace AADS
                 polygonManager.View(item);
                 var polygonCollectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
                 var polygonCollectionManager = (ObjectsManager.PolygonCollectionManager)polygonCollectionManagerWrap.Unwrap();
-                Debug.WriteLine("Click on Polygon ID " + polygonCollectionManager.FindId(item));
+                Debug.WriteLine("Click on Polygon ID " + (string) polygonCollectionManager.FindId(item));
                 if (isRdClicked)
                 {
                     var rdCreation = Views.Polygon.ResourceCreation.GetInstance();
@@ -487,11 +487,15 @@ namespace AADS
             }
         }
 
-        public bool isPolygonFuncClicked { get; set; } = false;
+        public static bool isPolygonFuncClicked { get; set; } = false;
+        public void SetPolygonFuncClick(bool isClicked)
+        {
+            isPolygonFuncClicked = isClicked;
+        }
         public bool isRdClicked { get; set; } = false;
         public bool isGeoClicked { get; set; } = false;
         public bool isRaClicked { get; set; } = false;
-        private List<PointLatLng> _pointsPoly = new List<PointLatLng>();
+        public List<PointLatLng> _pointsPoly = new List<PointLatLng>();
         void mainMap_MouseClick(object sender, MouseEventArgs e)
         {
             PointLatLng pnew = mainMap.FromLocalToLatLng(e.X, e.Y);

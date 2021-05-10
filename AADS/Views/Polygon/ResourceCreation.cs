@@ -18,7 +18,7 @@ namespace AADS.Views.Polygon
     {
         private ObjectsManager.PolygonManager polygonManager;
         private ObjectsManager.PolygonCollectionManager collectionManager;
-        public List<PointLatLng> _points = new List<PointLatLng>();
+        public static List<PointLatLng> points;
         private static ResourceCreation instance;
         private static int count = 1;
         private MainForm main = MainForm.GetInstance();
@@ -29,7 +29,6 @@ namespace AADS.Views.Polygon
         {
             InitializeComponent();
         }
-
         private void btnConfirm_Click(object sender, EventArgs e)
         {
             if (!this.CheckNull())
@@ -38,12 +37,14 @@ namespace AADS.Views.Polygon
             }
             else
             {
-                polygonManager.CreatePolygon(_points);
+                polygonManager.CreatePolygon(points);
                 polygonManager.isPreview = false;
-                polygonManager.CreateRealPoints(_points);
-                AddDataToCollection();
+                polygonManager.CreateRealPoints(points);
+                AddDataToCollection(txtName.Text, points, cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
                 Reset();
-                main.isPolygonFuncClicked = false;
+                main.SetPolygonFuncClick(false);
+                this.isEdit = false;
+                polygonManager.ClearIndex();
             }
         }
 
@@ -59,19 +60,18 @@ namespace AADS.Views.Polygon
             var collectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
             polygonManager = (ObjectsManager.PolygonManager)polygonManagerWrap.Unwrap();
             collectionManager = (ObjectsManager.PolygonCollectionManager)collectionManagerWrap.Unwrap();
+            this.panelEditDel.Visible = false;
         }
 
-        public void SetPoints(List<PointLatLng> _points)
-        {
-            this._points = _points;
-        }
-        private void AddDataToCollection()
+        private void AddDataToCollection(string name, List<PointLatLng> points, string statusEx, string statusIn, GMapPolygon polygon)
         {
             string id = collectionManager.GenerateId();
-            var polygonObj = new ObjectsManager.PolygonDataCollection(txtName.Text, _points, cmbStatusEx.SelectedItem.ToString(), 
-                                                                      cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
+            var polygonObj = new ObjectsManager.PolygonDataCollection(name, points, statusEx, statusIn, polygon);
             collectionManager.Add(id, polygonObj);
             
+            Debug.WriteLine(polygonObj._point.Count);
+            main._pointsPoly.Clear();
+
         }
         private bool CheckNull()
         {
@@ -144,17 +144,19 @@ namespace AADS.Views.Polygon
         public void SetPolygon(GMapPolygon obj2) { obj = obj2; }
         private void btnDel_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("ยืนยันที่จะลบอาณาเขตนี้หรือไม่", "อาณาเขต", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dialogResult = MessageBox.Show("ยืนยันที่จะลบอาณาเขตนี้หรือไม่", "อาณาเขต", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
                 polygonManager.Remove(obj);
                 Reset();
+                this.btnConfirm.Visible = true;
+                this.panelEditDel.Visible = false;
             }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            btnDel.Visible = false;
+            this.btnDel.Visible = false;
             this.isEdit = true;
         }
 
@@ -167,6 +169,10 @@ namespace AADS.Views.Polygon
                 polygonData.statusEx = cmbStatusEx.SelectedItem.ToString();
                 polygonData.statusIn = cmbStatusIn.SelectedItem.ToString();
             }
+        }
+        public void SetPoint(List<PointLatLng> pointLatLngs)
+        {
+            points = pointLatLngs;
         }
     }
 }
