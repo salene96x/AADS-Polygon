@@ -40,7 +40,7 @@ namespace AADS.Views.Polygon
                 polygonManager.CreatePolygon(points);
                 polygonManager.isPreview = false;
                 polygonManager.CreateRealPoints(points);
-                AddDataToCollection(txtName.Text, points, cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
+                AddDataToCollection(txtName.Text, new List<PointLatLng>(main._pointsPoly), cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
                 Reset();
                 main.SetPolygonFuncClick(false);
                 this.isEdit = false;

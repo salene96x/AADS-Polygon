@@ -96,25 +96,12 @@ namespace AADS.ObjectsManager
             Debug.WriteLine(polygonData._point.Count);
             instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point, id);
         }
-        private int indexRemove = 0;
         public void Remove(GMapPolygon removeObj)
         {
             var overlay = main.GetOverlay("polygonOverlay");
             string id = PolygonCollectionManager.FindId(removeObj);
             var polygonData = PolygonCollectionManager.GetPolygonData(id);
-            var _points = polygonData._point;
-            foreach (var j in _points)
-            {
-                Debug.WriteLine(j.ToString());
-            }
-            //foreach (var j in overlay.Markers)
-            //{
-            //    if (j.Position == polygonData._point[indexRemove])
-            //    {
-            //        overlay.Markers.Remove(j);
-            //        this.indexRemove++;
-            //    }
-            //}
+            overlay.Markers.Clear();
             Debug.WriteLine("Delete Polygon ID = " + id);
             PolygonCollectionManager.Remove(removeObj);
             overlay.Polygons.Remove(removeObj);

@@ -76,7 +76,12 @@ namespace AADS.ObjectsManager
 
         public PolygonDataCollection GetPolygonData (string id)
         {
-            return _polygonDict[id];
+            try
+            {
+                return _polygonDict[id];
+            }
+            catch { }
+            return null;
         }
     }
 }
