@@ -1574,6 +1574,7 @@ namespace AADS
             this.mainMap.Size = new System.Drawing.Size(1024, 515);
             this.mainMap.TabIndex = 4;
             this.mainMap.Zoom = 2D;
+            this.mainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.mainMap_OnMarkerClick_1);
             this.mainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.mainMap_OnMapZoomChanged);
             // 
             // MainForm

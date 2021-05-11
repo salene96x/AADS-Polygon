@@ -354,8 +354,10 @@ namespace AADS
                 }
             }
         }
+        GMapMarker alternateMarker;
         private void mainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
+            alternateMarker = item;
             if (item is GMarkerRect rect)
             {
                 if (rect.InnerMarker is GMarkerRadar radar)
@@ -446,15 +448,27 @@ namespace AADS
             if (e.Button == MouseButtons.Left)
             {
                 var polygonManager = new ObjectsManager.PolygonManager();
-                polygonManager.View(item);
                 var polygonCollectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
                 var polygonCollectionManager = (ObjectsManager.PolygonCollectionManager)polygonCollectionManagerWrap.Unwrap();
                 Debug.WriteLine("Click on Polygon ID " + (string) polygonCollectionManager.FindId(item));
+                if ((string) polygonCollectionManager.FindId(item).Substring(0,2) == "ra")
+                {
+                    this.isRaClicked = true;
+                }
+                else if ((string) polygonCollectionManager.FindId(item).Substring(0, 2) == "rd")
+                {
+                    this.isRdClicked = true;
+                }
+                else if ((string) polygonCollectionManager.FindId(item).Substring(0, 2) == "geo")
+                {
+                    this.isGeoClicked = true;
+                }
                 if (isRdClicked)
                 {
                     var rdCreation = Views.Polygon.ResourceCreation.GetInstance();
                     rdCreation.SetPolygon(item);
                 }
+                polygonManager.View(item);
             }
         }
         bool isMouseDown = false;
@@ -484,6 +498,7 @@ namespace AADS
             if (isMouseDown && !isRightClick)
             {
                 moveCurrentMarker(pnew);
+                alternateMarker.Position = pnew;
             }
         }
 
@@ -996,6 +1011,11 @@ namespace AADS
         {
             GMarkerRect.EnableHitbox = chbHitbox.Checked;
             mainMap.Refresh();
+        }
+
+        private void mainMap_OnMarkerClick_1(GMapMarker item, MouseEventArgs e)
+        {
+
         }
     }
 }

@@ -38,11 +38,11 @@ namespace AADS.Views.Polygon
             this.cmbStatusEx = new System.Windows.Forms.ComboBox();
             this.cmbStatusIn = new System.Windows.Forms.ComboBox();
             this.btnConfirm = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panelEditDel = new System.Windows.Forms.Panel();
             this.btnEditConfirm = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDel = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panelEditDel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,25 +51,25 @@ namespace AADS.Views.Polygon
             this.lbPoints.Font = new System.Drawing.Font("TH SarabunPSK", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPoints.FormattingEnabled = true;
             this.lbPoints.ItemHeight = 18;
-            this.lbPoints.Location = new System.Drawing.Point(132, 129);
+            this.lbPoints.Location = new System.Drawing.Point(128, 157);
             this.lbPoints.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
             this.lbPoints.Name = "lbPoints";
-            this.lbPoints.Size = new System.Drawing.Size(223, 904);
+            this.lbPoints.Size = new System.Drawing.Size(223, 292);
             this.lbPoints.TabIndex = 23;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 123);
+            this.label4.Location = new System.Drawing.Point(20, 157);
             this.label4.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(94, 24);
+            this.label4.Size = new System.Drawing.Size(96, 24);
             this.label4.TabIndex = 22;
-            this.label4.Text = "รัศมีอาณาเขต :";
+            this.label4.Text = "พิกัดอาณาเขต :";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(132, 8);
+            this.txtName.Location = new System.Drawing.Point(128, 36);
             this.txtName.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(171, 31);
@@ -78,7 +78,7 @@ namespace AADS.Views.Polygon
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 83);
+            this.label3.Location = new System.Drawing.Point(-1, 111);
             this.label3.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(117, 24);
@@ -88,7 +88,7 @@ namespace AADS.Views.Polygon
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 46);
+            this.label2.Location = new System.Drawing.Point(20, 74);
             this.label2.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 24);
@@ -98,7 +98,7 @@ namespace AADS.Views.Polygon
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(33, 11);
+            this.label5.Location = new System.Drawing.Point(29, 39);
             this.label5.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 24);
@@ -111,7 +111,7 @@ namespace AADS.Views.Polygon
             this.cmbStatusEx.Items.AddRange(new object[] {
             "Active",
             "Inactive"});
-            this.cmbStatusEx.Location = new System.Drawing.Point(132, 45);
+            this.cmbStatusEx.Location = new System.Drawing.Point(128, 73);
             this.cmbStatusEx.Name = "cmbStatusEx";
             this.cmbStatusEx.Size = new System.Drawing.Size(121, 32);
             this.cmbStatusEx.TabIndex = 24;
@@ -122,14 +122,14 @@ namespace AADS.Views.Polygon
             this.cmbStatusIn.Items.AddRange(new object[] {
             "Active",
             "Inactive"});
-            this.cmbStatusIn.Location = new System.Drawing.Point(132, 83);
+            this.cmbStatusIn.Location = new System.Drawing.Point(128, 111);
             this.cmbStatusIn.Name = "cmbStatusIn";
             this.cmbStatusIn.Size = new System.Drawing.Size(121, 32);
             this.cmbStatusIn.TabIndex = 25;
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(7, 168);
+            this.btnConfirm.Location = new System.Drawing.Point(3, 196);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(113, 46);
             this.btnConfirm.TabIndex = 26;
@@ -137,22 +137,12 @@ namespace AADS.Views.Polygon
             this.btnConfirm.UseVisualStyleBackColor = true;
             this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(259, 49);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(59, 28);
-            this.checkBox1.TabIndex = 27;
-            this.checkBox1.Text = "พรีวิว";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // panelEditDel
             // 
             this.panelEditDel.Controls.Add(this.btnEditConfirm);
             this.panelEditDel.Controls.Add(this.btnEdit);
             this.panelEditDel.Controls.Add(this.btnDel);
-            this.panelEditDel.Location = new System.Drawing.Point(7, 168);
+            this.panelEditDel.Location = new System.Drawing.Point(3, 196);
             this.panelEditDel.Name = "panelEditDel";
             this.panelEditDel.Size = new System.Drawing.Size(113, 184);
             this.panelEditDel.TabIndex = 28;
@@ -188,12 +178,22 @@ namespace AADS.Views.Polygon
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("TH SarabunPSK", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(78, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(187, 33);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "พื้นที่กระจายทรัพยากร";
+            // 
             // ResourceCreation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panelEditDel);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.cmbStatusIn);
             this.Controls.Add(this.cmbStatusEx);
@@ -223,11 +223,11 @@ namespace AADS.Views.Polygon
         private System.Windows.Forms.ComboBox cmbStatusEx;
         private System.Windows.Forms.ComboBox cmbStatusIn;
         private System.Windows.Forms.Button btnConfirm;
-        public System.Windows.Forms.CheckBox checkBox1;
         public System.Windows.Forms.ListBox lbPoints;
         private System.Windows.Forms.Panel panelEditDel;
         private System.Windows.Forms.Button btnEditConfirm;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDel;
+        private System.Windows.Forms.Label label1;
     }
 }

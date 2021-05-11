@@ -15,7 +15,7 @@ namespace AADS.ObjectsManager
         public string statusEx { get; set; }
         public string statusIn { get; set; }
         public GMapPolygon polygon { get; set; }
-        public PolygonDataCollection(string name, List<PointLatLng> _point, string statusEx, string statusIn, GMapPolygon polygon)
+        public PolygonDataCollection(string name, List<PointLatLng> _point, GMapPolygon polygon, string statusEx = null, string statusIn = null)
         {
             this.name = name;
             this._point = _point;

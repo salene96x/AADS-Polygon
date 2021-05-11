@@ -45,6 +45,8 @@ namespace AADS.Views.Polygon
                 main.SetPolygonFuncClick(false);
                 this.isEdit = false;
                 polygonManager.ClearIndex();
+                main._pointsPoly.Clear();
+                main.isRdClicked = false;
             }
         }
 
@@ -66,7 +68,7 @@ namespace AADS.Views.Polygon
         private void AddDataToCollection(string name, List<PointLatLng> points, string statusEx, string statusIn, GMapPolygon polygon)
         {
             string id = collectionManager.GenerateId();
-            var polygonObj = new ObjectsManager.PolygonDataCollection(name, points, statusEx, statusIn, polygon);
+            var polygonObj = new ObjectsManager.PolygonDataCollection(name, points, polygon, statusEx, statusIn);
             collectionManager.Add(id, polygonObj);
             
             Debug.WriteLine(polygonObj._point.Count);

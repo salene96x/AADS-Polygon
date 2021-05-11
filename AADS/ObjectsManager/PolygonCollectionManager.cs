@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +15,13 @@ namespace AADS.ObjectsManager
         public static Dictionary<string, PolygonDataCollection> _polygonDict { get; set; } = new Dictionary<string, PolygonDataCollection>();
         private MainForm main = MainForm.GetInstance();
         private static int number = 001;
-        public int test { get; set; } = 0;
 
         public void Add(string id, PolygonDataCollection data)
         {
             if (!(_polygonDict.ContainsKey(id)))
             {
                 _polygonDict.Add(id, data);
+                Debug.WriteLine(id + " " + "Polygon data has been added");
             }
         }
         public string FindId(GMapPolygon polygon)
@@ -76,12 +77,7 @@ namespace AADS.ObjectsManager
 
         public PolygonDataCollection GetPolygonData (string id)
         {
-            try
-            {
-                return _polygonDict[id];
-            }
-            catch { }
-            return null;
+            return _polygonDict[id];
         }
     }
 }

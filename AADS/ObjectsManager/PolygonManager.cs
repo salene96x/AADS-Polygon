@@ -19,6 +19,7 @@ namespace AADS.ObjectsManager
         private PolygonCollectionManager collectionManager;
         public static int index = 0;
         private Views.Polygon.ResourceCreation instanceResource = Views.Polygon.ResourceCreation.GetInstance();
+        private Views.Polygon.RestrictedAreaCreation instanceRa = Views.Polygon.RestrictedAreaCreation.GetInstance();
         private ObjectsManager.PolygonCollectionManager PolygonCollectionManager;
         public bool isPreview;
         public PolygonManager()
@@ -35,7 +36,18 @@ namespace AADS.ObjectsManager
             this.polygon = polygon;
             this.polygon.IsHitTestVisible = true;
             this.CreateRealPoints(_points);
-            this.instanceResource.SetPoint(_points);
+            if (main.isRdClicked)
+            {
+                this.instanceResource.SetPoint(_points);
+            }
+            else if (main.isRaClicked)
+            {
+                this.instanceRa.polygon = polygon;
+                foreach (var j in _points)
+                {
+                    this.instanceRa.SetLb(j);
+                }
+            }
             overlay.Polygons.Add(polygon);
         }
         public void ClearIndex()
@@ -47,6 +59,15 @@ namespace AADS.ObjectsManager
             isPreview = true;
             if (isPreview)
             {
+                if (main.isRaClicked)
+                {
+                    instanceRa.points = new List<PointLatLng>(_points);
+                    //instanceRa.SetLb(_points);
+                }
+                else if (main.isRdClicked)
+                {
+                    instanceResource.SetPoint(_points);
+                }
                 var previewOverlay = main.GetOverlay("previewOverlay");
                 previewOverlay.IsVisibile = true;
                 previewOverlay.Polygons.Clear();
@@ -55,7 +76,6 @@ namespace AADS.ObjectsManager
                 previewOverlay.Polygons.Add(polygon);
                 PointCreate(_points[index]);
                 index++;
-                instanceResource.SetPoint(_points);
             }
 
         }
@@ -74,7 +94,15 @@ namespace AADS.ObjectsManager
                 var previewOverlay = main.GetOverlay("previewOverlay");
                 GMapMarker points = new GMarkerGoogle(point, GMarkerGoogleType.red_small);
                 previewOverlay.Markers.Add(points);
-                instanceResource.SetListBox(point);
+                if (main.isRdClicked)
+                {
+                    instanceResource.SetListBox(point);
+                }
+                else if (main.isRaClicked)
+                {
+                    instanceRa.SetLb(point);
+                }
+                
             }
         }
         public void CreateRealPoints(List<PointLatLng> _pointsToCreate)
@@ -92,9 +120,22 @@ namespace AADS.ObjectsManager
         public void View(GMapPolygon viewObj)
         {
             string id = PolygonCollectionManager.FindId(viewObj);
+            
+            if (id != null)
+            {
+                Debug.WriteLine(id);
+            }
             var polygonData = PolygonCollectionManager.GetPolygonData(id);
-            Debug.WriteLine(polygonData._point.Count);
-            instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point, id);
+            if (main.isRdClicked)
+            {
+                instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point, id);
+            }
+            else if (main.isRaClicked)
+            {
+                instanceRa.FillAttributes(polygonData.name, polygonData._point);
+                instanceRa.SetObject(viewObj);
+            }
+            
         }
         public void Remove(GMapPolygon removeObj)
         {

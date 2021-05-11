@@ -28,12 +28,18 @@ namespace AADS.Views.ShowCategory
         {
             SetControl(ControlViews.GeographicCreation);
             main.SetPolygonFuncClick(true);
+            main.isGeoClicked = true;
+            main.isRaClicked = false;
+            main.isRdClicked = false;
         }
 
         private void btnShowRestrictedArea_Click(object sender, EventArgs e)
         {
             SetControl(ControlViews.RestrictedAreaCreation);
             main.SetPolygonFuncClick(true);
+            main.isRaClicked = true;
+            main.isRdClicked = false;
+            main.isGeoClicked = false;
         }
 
         private void btnShowRD_Click(object sender, EventArgs e)
@@ -41,6 +47,8 @@ namespace AADS.Views.ShowCategory
             SetControl(ControlViews.ResourceCreation);
             main.SetPolygonFuncClick(true);
             main.isRdClicked = true;
+            main.isRaClicked = false;
+            main.isGeoClicked = false;
         }
     }
 }
