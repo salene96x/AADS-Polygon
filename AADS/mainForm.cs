@@ -498,7 +498,11 @@ namespace AADS
             if (isMouseDown && !isRightClick)
             {
                 moveCurrentMarker(pnew);
-                alternateMarker.Position = pnew;
+                if (alternateMarker != null)
+                {
+                    alternateMarker.Position = pnew;
+                }
+                
             }
         }
 

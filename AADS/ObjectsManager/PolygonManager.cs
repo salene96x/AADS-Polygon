@@ -29,8 +29,10 @@ namespace AADS.ObjectsManager
         }
         public void CreatePolygon(List<PointLatLng> _points)
         {
+            ClearIndex();
             var previewOverlay = main.GetOverlay("previewOverlay");
             previewOverlay.IsVisibile = false;
+            previewOverlay.Markers.Clear();
             var overlay = main.GetOverlay("polygonOverlay");
             GMapPolygon polygon = new GMapPolygon(_points, "polygon");
             this.polygon = polygon;
