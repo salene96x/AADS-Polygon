@@ -17,6 +17,7 @@ namespace AADS.Views.ShowCategory
             InitializeComponent();
         }
         private MainForm main = MainForm.GetInstance();
+        public static Polygon currentControlPolygon;
         public UserControl currentControl;
         public void SetControl(UserControl control)
         {
@@ -49,6 +50,10 @@ namespace AADS.Views.ShowCategory
             main.isRdClicked = true;
             main.isRaClicked = false;
             main.isGeoClicked = false;
+        }
+        public static Polygon GetControl()
+        {
+            return currentControlPolygon;
         }
     }
 }

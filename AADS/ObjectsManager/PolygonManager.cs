@@ -37,7 +37,6 @@ namespace AADS.ObjectsManager
             GMapPolygon polygon = new GMapPolygon(_points, "polygon");
             this.polygon = polygon;
             this.polygon.IsHitTestVisible = true;
-            this.CreateRealPoints(_points);
             if (main.isRdClicked)
             {
                 this.instanceResource.SetPoint(_points);
@@ -47,7 +46,13 @@ namespace AADS.ObjectsManager
                 this.instanceRa.polygon = polygon;
                 foreach (var j in _points)
                 {
-                    this.instanceRa.SetLb(j);
+                    if (_points.Count == this.instanceRa.lbPoints.Items.Count)
+                    {
+                    }
+                    else
+                    {
+                        this.instanceRa.SetLb(j);
+                    }
                 }
             }
             overlay.Polygons.Add(polygon);
@@ -81,7 +86,7 @@ namespace AADS.ObjectsManager
             }
 
         }
-        public void Edit(int index, PointLatLng pointChanged, GMapPolygon polygon)
+        public void Edit(int index, GMapPolygon polygon = null)
         {
             string id = collectionManager.FindId(polygon);
             //List<PointLatLng> _clickedPoints = collectionManager.GetPoints(id);
@@ -130,6 +135,7 @@ namespace AADS.ObjectsManager
             var polygonData = PolygonCollectionManager.GetPolygonData(id);
             if (main.isRdClicked)
             {
+                instanceResource.SetObj(viewObj);
                 instanceResource.FillAttributes(polygonData.name, polygonData.statusEx, polygonData.statusIn, polygonData._point, id);
             }
             else if (main.isRaClicked)

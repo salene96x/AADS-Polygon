@@ -23,7 +23,7 @@ namespace AADS.Views.Polygon
         private static int count = 1;
         private MainForm main = MainForm.GetInstance();
         private bool isEdit;
-        public static GMapPolygon obj { get; set; }
+        public GMapPolygon obj { get; set; }
         public string id;
         public ResourceCreation()
         {
@@ -39,7 +39,7 @@ namespace AADS.Views.Polygon
             {
                 polygonManager.CreatePolygon(points);
                 polygonManager.isPreview = false;
-                polygonManager.CreateRealPoints(points);
+                //polygonManager.CreateRealPoints(points);
                 AddDataToCollection(txtName.Text, new List<PointLatLng>(main._pointsPoly), cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
                 Reset();
                 main.SetPolygonFuncClick(false);
@@ -93,8 +93,12 @@ namespace AADS.Views.Polygon
             {
                 check = true;
             }
-            
+
             return check;
+        }
+        public void SetObj(GMapPolygon objToSet)
+        {
+            this.obj = objToSet;
         }
         private void Reset()
         {

@@ -30,15 +30,15 @@ namespace AADS.Views.Polygon
         private void InitializeComponent()
         {
             this.panelLabels = new System.Windows.Forms.Panel();
+            this.panelEditDel = new System.Windows.Forms.Panel();
+            this.btnEditConfirm = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lbPoints = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.panelEditDel = new System.Windows.Forms.Panel();
-            this.btnEditConfirm = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDel = new System.Windows.Forms.Button();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.panelLabels.SuspendLayout();
             this.panelEditDel.SuspendLayout();
@@ -55,51 +55,6 @@ namespace AADS.Views.Polygon
             this.panelLabels.Name = "panelLabels";
             this.panelLabels.Size = new System.Drawing.Size(132, 1112);
             this.panelLabels.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 22);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "พิกัดสร้างอาณาเขต : ";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 22);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ชื่ออาณาเขต : ";
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(115, 35);
-            this.txtName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(188, 29);
-            this.txtName.TabIndex = 1;
-            // 
-            // lbPoints
-            // 
-            this.lbPoints.FormattingEnabled = true;
-            this.lbPoints.ItemHeight = 22;
-            this.lbPoints.Location = new System.Drawing.Point(115, 72);
-            this.lbPoints.Name = "lbPoints";
-            this.lbPoints.Size = new System.Drawing.Size(188, 246);
-            this.lbPoints.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("TH SarabunPSK", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(77, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(160, 30);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "พื้นที่ความเข้มงวดสูง";
             // 
             // panelEditDel
             // 
@@ -140,6 +95,51 @@ namespace AADS.Views.Polygon
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(117, 26);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "พิกัดสร้างอาณาเขต : ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(38, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 26);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "ชื่ออาณาเขต : ";
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(115, 35);
+            this.txtName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(188, 32);
+            this.txtName.TabIndex = 1;
+            // 
+            // lbPoints
+            // 
+            this.lbPoints.FormattingEnabled = true;
+            this.lbPoints.ItemHeight = 26;
+            this.lbPoints.Location = new System.Drawing.Point(115, 72);
+            this.lbPoints.Name = "lbPoints";
+            this.lbPoints.Size = new System.Drawing.Size(188, 238);
+            this.lbPoints.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("TH SarabunPSK", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(77, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(162, 36);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "พื้นที่ความเข้มงวดสูง";
+            // 
             // btnConfirm
             // 
             this.btnConfirm.Location = new System.Drawing.Point(115, 324);
@@ -152,7 +152,7 @@ namespace AADS.Views.Polygon
             // 
             // RestrictedAreaCreation
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.label3);
@@ -178,12 +178,12 @@ namespace AADS.Views.Polygon
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.ListBox lbPoints;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelEditDel;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnEditConfirm;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDel;
+        public System.Windows.Forms.ListBox lbPoints;
     }
 }

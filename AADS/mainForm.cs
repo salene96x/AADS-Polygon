@@ -447,27 +447,38 @@ namespace AADS
         {
             if (e.Button == MouseButtons.Left)
             {
+                item.Stroke = new Pen(Color.Yellow, 3);
                 var polygonManager = new ObjectsManager.PolygonManager();
                 var polygonCollectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
                 var polygonCollectionManager = (ObjectsManager.PolygonCollectionManager)polygonCollectionManagerWrap.Unwrap();
+                var controlSet = new Views.ShowCategory.Polygon();
+                panelRightShow.Controls.Clear();
+                panelRightShow.Controls.Add(controlSet);
                 Debug.WriteLine("Click on Polygon ID " + (string) polygonCollectionManager.FindId(item));
                 if ((string) polygonCollectionManager.FindId(item).Substring(0,2) == "ra")
                 {
                     this.isRaClicked = true;
+                    controlSet.SetControl(ControlViews.RestrictedAreaCreation);
+                    SetPolygonFuncClick(false);
                 }
                 else if ((string) polygonCollectionManager.FindId(item).Substring(0, 2) == "rd")
                 {
                     this.isRdClicked = true;
+                    controlSet.SetControl(ControlViews.ResourceCreation);
+                    SetPolygonFuncClick(false);
                 }
                 else if ((string) polygonCollectionManager.FindId(item).Substring(0, 2) == "geo")
                 {
                     this.isGeoClicked = true;
+                    controlSet.SetControl(ControlViews.GeographicCreation);
+                    SetPolygonFuncClick(false);
                 }
-                if (isRdClicked)
-                {
-                    var rdCreation = Views.Polygon.ResourceCreation.GetInstance();
-                    rdCreation.SetPolygon(item);
-                }
+                //if (isRdClicked)
+                //{
+                //    var rdCreation = Views.Polygon.ResourceCreation.GetInstance();
+                //    rdCreation.SetPolygon(item);
+                //    SetPolygonFuncClick(false);
+                //}
                 polygonManager.View(item);
             }
         }
@@ -1021,5 +1032,9 @@ namespace AADS
         {
 
         }
+
+        private void mainMap_OnPolygonEnter(GMapPolygon item) => item.Stroke = new Pen(Color.Red, 3);
+
+        private void mainMap_OnPolygonLeave(GMapPolygon item) => item.Stroke = new Pen(Color.DarkBlue, 3);
     }
 }

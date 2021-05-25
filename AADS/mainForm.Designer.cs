@@ -1575,6 +1575,8 @@ namespace AADS
             this.mainMap.TabIndex = 4;
             this.mainMap.Zoom = 2D;
             this.mainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.mainMap_OnMarkerClick_1);
+            this.mainMap.OnPolygonEnter += new GMap.NET.WindowsForms.PolygonEnter(this.mainMap_OnPolygonEnter);
+            this.mainMap.OnPolygonLeave += new GMap.NET.WindowsForms.PolygonLeave(this.mainMap_OnPolygonLeave);
             this.mainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.mainMap_OnMapZoomChanged);
             // 
             // MainForm
