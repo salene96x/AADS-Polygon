@@ -148,7 +148,6 @@ namespace AADS.Views.Polygon
             previewOverlay.IsVisibile = false;
             previewOverlay.Polygons.Clear();
             previewOverlay.Markers.Clear();
-            polygonOverlay.Polygons.Remove(instanceObj);
             GMapPolygon polygon = new GMapPolygon(cacheList, "polygon") ;
             polygonOverlay.Polygons.Add(polygon);
             polygon.IsHitTestVisible = true;
