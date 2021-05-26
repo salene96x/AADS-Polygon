@@ -134,7 +134,7 @@ namespace AADS.Views.Polygon
             markerList = new List<GMarkerGoogle>();
             foreach (var j in polygon._point)
             {
-                var preMarker = new GMarkerGoogle(j, GMarkerGoogleType.orange_dot);
+                var preMarker = new GMarkerGoogle(j, GMarkerGoogleType.orange_small);
                 prevOvl.Markers.Add(preMarker);
                 markerList.Add(preMarker);
             }
@@ -144,10 +144,10 @@ namespace AADS.Views.Polygon
             var polygonOverlay = instanceMain.GetOverlay("polygonOverlay");
             polygonOverlay.Polygons.Remove(instanceObj);
             var previewOverlay = instanceMain.GetOverlay("previewOverlay");
+            polygonOverlay.IsVisibile = true;
             previewOverlay.IsVisibile = false;
             previewOverlay.Polygons.Clear();
             previewOverlay.Markers.Clear();
-            polygonOverlay.IsVisibile = true;
             polygonOverlay.Polygons.Remove(instanceObj);
             GMapPolygon polygon = new GMapPolygon(cacheList, "polygon") ;
             polygonOverlay.Polygons.Add(polygon);
