@@ -36,9 +36,9 @@ namespace AADS.Views.Polygon
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panelEditDel = new System.Windows.Forms.Panel();
-            this.btnDel = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
             this.btnEditConfirm = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDel = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.panelEditDel.SuspendLayout();
             this.SuspendLayout();
@@ -109,15 +109,15 @@ namespace AADS.Views.Polygon
             this.panelEditDel.TabIndex = 29;
             this.panelEditDel.Visible = false;
             // 
-            // btnDel
+            // btnEditConfirm
             // 
-            this.btnDel.Location = new System.Drawing.Point(0, 0);
-            this.btnDel.Name = "btnDel";
-            this.btnDel.Size = new System.Drawing.Size(113, 46);
-            this.btnDel.TabIndex = 27;
-            this.btnDel.Text = "ลบ";
-            this.btnDel.UseVisualStyleBackColor = true;
-            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
+            this.btnEditConfirm.Location = new System.Drawing.Point(0, 104);
+            this.btnEditConfirm.Name = "btnEditConfirm";
+            this.btnEditConfirm.Size = new System.Drawing.Size(113, 46);
+            this.btnEditConfirm.TabIndex = 29;
+            this.btnEditConfirm.Text = "ยืนยันการแก้ไข";
+            this.btnEditConfirm.UseVisualStyleBackColor = true;
+            this.btnEditConfirm.Click += new System.EventHandler(this.btnEditConfirm_Click);
             // 
             // btnEdit
             // 
@@ -129,15 +129,15 @@ namespace AADS.Views.Polygon
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
-            // btnEditConfirm
+            // btnDel
             // 
-            this.btnEditConfirm.Location = new System.Drawing.Point(0, 104);
-            this.btnEditConfirm.Name = "btnEditConfirm";
-            this.btnEditConfirm.Size = new System.Drawing.Size(113, 46);
-            this.btnEditConfirm.TabIndex = 29;
-            this.btnEditConfirm.Text = "ยืนยันการแก้ไข";
-            this.btnEditConfirm.UseVisualStyleBackColor = true;
-            this.btnEditConfirm.Click += new System.EventHandler(this.btnEditConfirm_Click);
+            this.btnDel.Location = new System.Drawing.Point(0, 0);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(113, 46);
+            this.btnDel.TabIndex = 27;
+            this.btnDel.Text = "ลบ";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // btnCancel
             // 
@@ -147,6 +147,7 @@ namespace AADS.Views.Polygon
             this.btnCancel.TabIndex = 31;
             this.btnCancel.Text = "ยกเลิก";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // RestrictedAreaCreation
             // 

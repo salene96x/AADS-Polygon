@@ -47,24 +47,29 @@ namespace AADS.Views.Polygon
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            //create a real polygon which is not a preview polygon
-            PolygonManager.CreatePolygon(points);
+            DialogResult dialogResult = MessageBox.Show("คุณต้องการที่จะสร้างพื้นที่ควบคุมสูงที่ตำแหน่งเหล่านี้ใช่หรือไม่", "อาณาเขต", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                //create a real polygon which is not a preview polygon
+                PolygonManager.CreatePolygon(points);
 
-            //Create an object to collect data of polygon
-            var polygonData = new ObjectsManager.PolygonDataCollection(txtName.Text, points, polygon);
-            string id = PolygonCollectionManager.GenerateId();
+                //Create an object to collect data of polygon
+                var polygonData = new ObjectsManager.PolygonDataCollection(txtName.Text, points, polygon);
+                string id = PolygonCollectionManager.GenerateId();
 
-            //Add to dict of polygon
-            PolygonCollectionManager.Add(id, polygonData);
+                //Add to dict of polygon
+                PolygonCollectionManager.Add(id, polygonData);
 
-            //reset index value
-            index = 1;
+                //reset index value
+                index = 1;
 
-            //reset attributes
-            Reset();
-            instanceMain.isRaClicked = false;
-            instanceMain.SetPolygonFuncClick(false);
-            instanceMain._pointsPoly.Clear();
+                //reset attributes
+                Reset();
+                instanceMain.isRaClicked = false;
+                instanceMain.SetPolygonFuncClick(false);
+                instanceMain._pointsPoly.Clear();
+            }
+               
         }
         public static RestrictedAreaCreation GetInstance()
         {
@@ -159,6 +164,7 @@ namespace AADS.Views.Polygon
             this.btnDel.Visible = true;
             this.btnEdit.Visible = true;
             this.btnCancel.Visible = true;
+            this.isEdit = false;
             if (this.txtName.Text != "")
             {
                 string id = PolygonCollectionManager.FindId(instanceObj);
@@ -171,31 +177,56 @@ namespace AADS.Views.Polygon
                 this.btnConfirm.Visible = false;
                 MessageBox.Show("แก้ไขข้อมูลเสร็จสิ้น", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Reset();
+                btnEditConfirm.Visible = false;
+                btnEdit.Visible = true;
             }
             else
             {
                 MessageBox.Show("กรุณากรอกข้อมูลให้ครบถ้วน", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+            PolygonManager.ClearIndex();
         }
-        public void SetLb (PointLatLng point)
-        {
-            lbPoints.Items.Add("จุดที่ " + index + " " + point.Lat + " " + point.Lng);
+        public void SetLb(PointLatLng point) 
+        { 
+            this.lbPoints.Items.Add("จุดที่ " + index + " พิกัด" + " = " + point.Lat + " , " + point.Lng);
             index++;
         }
         public void FillAttributes(string name, List<PointLatLng> pointsToFill)
         {
+            this.lbPoints.Items.Clear();
             this.panelEditDel.Visible = true;
             this.txtName.Text = name;
+            int indexCount = 1;
             foreach (var j in pointsToFill)
             {
-                this.SetLb(j);
+                this.lbPoints.Items.Add("จุดที่ " + indexCount + "พิกัด" + " = " + j.Lat + " , " + j.Lng);
+                indexCount++;
             }
+            indexCount = 1;
         }
         void Reset()
         {
             txtName.Text = "";
             lbPoints.Items.Clear();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (this.isEdit)
+            {
+                this.btnConfirm.Visible = false;
+                this.btnEdit.Visible = true;
+                this.btnEditConfirm.Visible = false;
+                this.btnDel.Visible = true;
+                var polygonOverlay = instanceMain.GetOverlay("polygonOverlay");
+                polygonOverlay.IsVisibile = true;
+                foreach (var j in polygonOverlay.Polygons)
+                {
+                    j.IsHitTestVisible = true;
+                }
+                PolygonManager.ClearIndex();
+            }
+            this.instanceMain.panelRightShow.Controls.Clear();
         }
     }
 }

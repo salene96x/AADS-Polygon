@@ -115,6 +115,7 @@ namespace AADS.Views.Polygon
         }
         public void FillAttributes(string name, string statusEx, string statusIn, List<PointLatLng> points, string id)
         {
+            lbPoints.Items.Clear();
             this.id = id;
             txtName.Text = name;
             if (statusEx == "Inactive")
@@ -140,6 +141,7 @@ namespace AADS.Views.Polygon
                 lbPoints.Items.Add("จุดที่ " + countP.ToString() + " = " + j.Lat.ToString() + " , " + j.Lng.ToString());
                 countP++;
             }
+            countP = 1;
             ViewMode();
         }
         public void ViewMode()
@@ -236,6 +238,7 @@ namespace AADS.Views.Polygon
                 this.Reset();
                 this.btnEditConfirm.Visible = false;
                 this.btnConfirm.Visible = true;
+                polygonManager.ClearIndex();
             }
         }
         public void SetPoint(List<PointLatLng> pointLatLngs)

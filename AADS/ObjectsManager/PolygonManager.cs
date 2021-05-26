@@ -64,6 +64,9 @@ namespace AADS.ObjectsManager
         }
         public void Preview(List<PointLatLng> _points)
         {
+            var previewOverlay = main.GetOverlay("previewOverlay");
+            previewOverlay.IsVisibile = true;
+            previewOverlay.Polygons.Clear();
             isPreview = true;
             if (isPreview)
             {
@@ -75,10 +78,7 @@ namespace AADS.ObjectsManager
                 else if (main.isRdClicked)
                 {
                     instanceResource.SetPoint(_points);
-                }
-                var previewOverlay = main.GetOverlay("previewOverlay");
-                previewOverlay.IsVisibile = true;
-                previewOverlay.Polygons.Clear();
+                } 
                 previewOverlay.Polygons.Remove(polygon);
                 polygon = new GMapPolygon(_points, "prevPolygon");
                 previewOverlay.Polygons.Add(polygon);
@@ -86,14 +86,6 @@ namespace AADS.ObjectsManager
                 index++;
             }
 
-        }
-        public void Edit(int index, GMapPolygon polygon = null)
-        {
-            string id = collectionManager.FindId(polygon);
-            //List<PointLatLng> _clickedPoints = collectionManager.GetPoints(id);
-            //_clickedPoints[index] = pointChanged;
-            //collectionManager.SetPoints(id, _clickedPoints);
-            //Preview(_clickedPoints);
         }
         public void PointCreate(PointLatLng point)
         {
