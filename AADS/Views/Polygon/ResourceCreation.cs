@@ -62,7 +62,7 @@ namespace AADS.Views.Polygon
             var collectionManagerWrap = Activator.CreateInstance(null, "AADS.ObjectsManager.PolygonCollectionManager");
             polygonManager = (ObjectsManager.PolygonManager)polygonManagerWrap.Unwrap();
             collectionManager = (ObjectsManager.PolygonCollectionManager)collectionManagerWrap.Unwrap();
-            this.panelEditDel.Visible = false;
+            //this.panelEditDel.Visible = false;
         }
 
         private void AddDataToCollection(string name, List<PointLatLng> points, string statusEx, string statusIn, GMapPolygon polygon)
@@ -145,7 +145,8 @@ namespace AADS.Views.Polygon
         public void ViewMode()
         {
             btnConfirm.Visible = false;
-            panelEditDel.Visible = true;
+            btnDel.Visible = true;
+            btnEdit.Visible = true;
         }
         public void SetPolygon(GMapPolygon obj2) { obj = obj2; }
         private void btnDel_Click(object sender, EventArgs e)
@@ -156,29 +157,101 @@ namespace AADS.Views.Polygon
                 polygonManager.Remove(obj);
                 Reset();
                 this.btnConfirm.Visible = true;
-                this.panelEditDel.Visible = false;
+                this.btnEditConfirm.Visible = this.btnDel.Visible = this.btnEdit.Visible = false;
+                //this.panelEditDel.Visible = false;
             }
         }
-
+        List<PointLatLng> cacheList;
+        List<GMarkerGoogle> markerList = new List<GMarkerGoogle>();
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            this.main.isPolygonEdit = true;
+            this.btnEdit.Visible = false;
             this.btnDel.Visible = false;
             this.isEdit = true;
+            this.btnEditConfirm.Visible = true;
+            string id = collectionManager.FindId(obj);
+            var polygonData = collectionManager.GetPolygonData(id);
+            this.cacheList = new List<PointLatLng>(polygonData._point);
+            foreach (var j in polygonData._point) 
+            {
+                GMapOverlay previewOverlay = main.GetOverlay("previewOverlay");
+                previewOverlay.IsVisibile = true;
+                GMarkerGoogle marker = new GMarkerGoogle(j, GMarkerGoogleType.orange_small);
+                this.markerList.Add(marker);
+                previewOverlay.Markers.Add(marker);
+            }
+            var polygonOverlay = main.GetOverlay("polygonOverlay");
+            polygonOverlay.IsVisibile = false;
         }
-
+        public void CheckChangedPosition(GMapMarker marker)
+        {
+            var previewOverlay = main.GetOverlay("previewOverlay");
+            for (int i = 0; i < markerList.Count; i++)
+            {
+                if ((GMarkerGoogle) markerList[i] == marker)
+                {
+                    var temp = cacheList[i];
+                    temp.Lat = marker.Position.Lat;
+                    temp.Lng = marker.Position.Lng;
+                    cacheList[i] = temp;
+                    var polygon = new GMapPolygon(cacheList, "polygon");
+                    previewOverlay.Polygons.Clear();
+                    previewOverlay.Polygons.Add(polygon);
+                    
+                }
+            }
+        }
+        void CreateRealEdittedPolygon()
+        {
+            var polygonOverlay = main.GetOverlay("polygonOverlay");
+            polygonOverlay.Polygons.Remove(obj);
+            polygonOverlay.IsVisibile = true;
+            var previewOverlay = main.GetOverlay("previewOverlay");
+            previewOverlay.Markers.Clear();
+            previewOverlay.Polygons.Clear();
+            previewOverlay.IsVisibile = false;
+            var polygon = new GMapPolygon(cacheList, "polygon");
+            polygon.IsHitTestVisible = true;
+            polygonOverlay.Polygons.Add(polygon);
+            obj = polygon;
+            main.isPolygonEdit = false;
+        }
         private void btnEditConfirm_Click(object sender, EventArgs e)
         {
-            if (this.isEdit)
+            if (!this.CheckNull())
+            {
+                MessageBox.Show("กรุณากรอกข้อมูลให้ครบถ้วน", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
             {
                 var polygonData = collectionManager.GetPolygonData(this.id);
+                this.CreateRealEdittedPolygon();
                 polygonData.name = txtName.Text;
                 polygonData.statusEx = cmbStatusEx.SelectedItem.ToString();
                 polygonData.statusIn = cmbStatusIn.SelectedItem.ToString();
+                polygonData._point = new List<PointLatLng>(cacheList);
+                polygonData.polygon = obj;
+                MessageBox.Show("แก้ไขข้อมูลเสร็จสิ้น", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Reset();
+                this.btnEditConfirm.Visible = false;
+                this.btnConfirm.Visible = true;
             }
         }
         public void SetPoint(List<PointLatLng> pointLatLngs)
         {
             points = pointLatLngs;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            polygonManager.prevOvl.Markers.Clear();
+            polygonManager.prevOvl.Polygons.Clear();
+            main.panelRightShow.Controls.Clear();
+            main.SetPolygonFuncClick(false);
+            main.isGeoClicked = false;
+            main.isRaClicked = false;
+            main.isRdClicked = false;
         }
     }
 }

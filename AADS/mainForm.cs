@@ -502,6 +502,7 @@ namespace AADS
             currentMarker.Position = point;
             //MessageBox.Show(currentMarker.Position.ToString());
         }
+        public bool isPolygonEdit = false;
         void mainMap_MouseMove(object sender, MouseEventArgs e)
         {
             PointLatLng pnew = mainMap.FromLocalToLatLng(e.X, e.Y);
@@ -511,6 +512,20 @@ namespace AADS
                 moveCurrentMarker(pnew);
                 if (alternateMarker != null)
                 {
+                    if (isPolygonEdit)
+                    {
+                        if (this.isRaClicked)
+                        {
+                            var instanceRa = Views.Polygon.RestrictedAreaCreation.GetInstance();
+                            instanceRa.CheckChangedPosition(alternateMarker);
+                        }
+                        else if (this.isRdClicked)
+                        {
+                            var instanceRd = Views.Polygon.ResourceCreation.GetInstance();
+                            instanceRd.CheckChangedPosition(alternateMarker);
+                        }
+                        
+                    }
                     alternateMarker.Position = pnew;
                 }
                 

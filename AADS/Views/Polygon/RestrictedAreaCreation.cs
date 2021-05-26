@@ -1,5 +1,6 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,17 +90,94 @@ namespace AADS.Views.Polygon
         {
             this.isEdit = true;
             this.btnEdit.Visible = false;
+            this.btnDel.Visible = false;
+            this.btnConfirm.Visible = false;
+            this.btnCancel.Visible = false;
             this.btnEditConfirm.Visible = true;
             this.btnEditConfirm.Location = this.btnEdit.Location;
+            this.instanceMain.isPolygonEdit = true;
+            this.CreateMarker();  
         }
-
-        private void btnEditConfirm_Click(object sender, EventArgs e)
+        List<PointLatLng> cacheList;
+        List<PointLatLng> secondCacheList;
+        List<GMarkerGoogle> markerList;
+        List<PointLatLng> tempList;
+        public void CheckChangedPosition(GMapMarker marker)
+        {
+            var polygonOverlay = instanceMain.GetOverlay("polygonOverlay");
+            polygonOverlay.IsVisibile = false;
+            for (int i = 0; i < markerList.Count; i++)
+            {
+                if ((GMapMarker) markerList[i] == marker)
+                {
+                    var v = cacheList[i];
+                    v.Lat = marker.Position.Lat;
+                    v.Lng = marker.Position.Lng;
+                    cacheList[i] = v;
+                    GMapOverlay ovl = instanceMain.GetOverlay("previewOverlay");
+                    GMapPolygon poly = new GMapPolygon(cacheList, "polygon");
+                    ovl.Polygons.Clear();
+                    ovl.Polygons.Add(poly);
+                }
+            }
+        }
+        public void CreateMarker()
         {
             string id = PolygonCollectionManager.FindId(instanceObj);
-            var polygonData = PolygonCollectionManager.GetPolygonData(id);
-            polygonData.name = String.Copy(txtName.Text);
-            this.isEdit = false;
-            this.btnConfirm.Visible = false;
+            var polygon = PolygonCollectionManager.GetPolygonData(id);
+            cacheList = new List<PointLatLng>(polygon._point);
+            tempList = new List<PointLatLng>(polygon._point);
+            var prevOvl = instanceMain.GetOverlay("previewOverlay");
+            prevOvl.IsVisibile = true;
+            prevOvl.Polygons.Clear();
+            prevOvl.Markers.Clear();
+            markerList = new List<GMarkerGoogle>();
+            foreach (var j in polygon._point)
+            {
+                var preMarker = new GMarkerGoogle(j, GMarkerGoogleType.orange_dot);
+                prevOvl.Markers.Add(preMarker);
+                markerList.Add(preMarker);
+            }
+        }
+        void CreateRealPolygonAfterEditted()
+        {
+            var polygonOverlay = instanceMain.GetOverlay("polygonOverlay");
+            polygonOverlay.Polygons.Remove(instanceObj);
+            var previewOverlay = instanceMain.GetOverlay("previewOverlay");
+            previewOverlay.IsVisibile = false;
+            previewOverlay.Polygons.Clear();
+            previewOverlay.Markers.Clear();
+            polygonOverlay.IsVisibile = true;
+            polygonOverlay.Polygons.Remove(instanceObj);
+            GMapPolygon polygon = new GMapPolygon(cacheList, "polygon") ;
+            polygonOverlay.Polygons.Add(polygon);
+            polygon.IsHitTestVisible = true;
+            instanceObj = polygon;
+            this.instanceMain.isPolygonEdit = false;
+        }
+        private void btnEditConfirm_Click(object sender, EventArgs e)
+        {
+            this.btnDel.Visible = true;
+            this.btnEdit.Visible = true;
+            this.btnCancel.Visible = true;
+            if (this.txtName.Text != "")
+            {
+                string id = PolygonCollectionManager.FindId(instanceObj);
+                var polygonData = PolygonCollectionManager.GetPolygonData(id);
+                this.CreateRealPolygonAfterEditted();
+                polygonData.name = String.Copy(txtName.Text);
+                polygonData._point = new List<PointLatLng>(cacheList);
+                polygonData.polygon = instanceObj;
+                this.isEdit = false;
+                this.btnConfirm.Visible = false;
+                MessageBox.Show("แก้ไขข้อมูลเสร็จสิ้น", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Reset();
+            }
+            else
+            {
+                MessageBox.Show("กรุณากรอกข้อมูลให้ครบถ้วน", "อาณาเขต", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
         }
         public void SetLb (PointLatLng point)
         {

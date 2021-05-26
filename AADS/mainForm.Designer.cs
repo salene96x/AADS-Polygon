@@ -1746,7 +1746,6 @@ namespace AADS
         private System.Windows.Forms.Panel panelRight;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Panel panelRightMap;
-        private System.Windows.Forms.Panel panelRightShow;
         private System.Windows.Forms.Button btnShow_Polygon;
         private System.Windows.Forms.Button btnShow_Line;
         private System.Windows.Forms.Button btnShow_Marker;
@@ -1766,6 +1765,7 @@ namespace AADS
         private System.Windows.Forms.Timer timerFakerSimulate;
         private GMap.NET.WindowsForms.GMapControl mainMap;
         private System.Windows.Forms.CheckBox chbHitbox;
+        public System.Windows.Forms.Panel panelRightShow;
     }
 }
 

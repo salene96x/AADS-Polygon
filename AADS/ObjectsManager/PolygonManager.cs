@@ -21,6 +21,7 @@ namespace AADS.ObjectsManager
         private Views.Polygon.ResourceCreation instanceResource = Views.Polygon.ResourceCreation.GetInstance();
         private Views.Polygon.RestrictedAreaCreation instanceRa = Views.Polygon.RestrictedAreaCreation.GetInstance();
         private ObjectsManager.PolygonCollectionManager PolygonCollectionManager;
+        public GMapOverlay prevOvl = main.GetOverlay("previewOverlay"); 
         public bool isPreview;
         public PolygonManager()
         {
