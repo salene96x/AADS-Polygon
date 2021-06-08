@@ -123,6 +123,12 @@ namespace AADS.Views.Polygon
                     GMapPolygon poly = new GMapPolygon(cacheList, "polygon");
                     ovl.Polygons.Clear();
                     ovl.Polygons.Add(poly);
+                    lbPoints.Items.Clear();
+                    foreach (var j in cacheList)
+                    {
+                        this.SetLb(j);
+                    }
+                    index = 1;
                 }
             }
         }

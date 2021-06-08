@@ -37,16 +37,18 @@ namespace AADS.Views.Polygon
             }
             else
             {
-                polygonManager.CreatePolygon(points);
-                polygonManager.isPreview = false;
-                //polygonManager.CreateRealPoints(points);
-                AddDataToCollection(txtName.Text, new List<PointLatLng>(main._pointsPoly), cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
-                Reset();
-                main.SetPolygonFuncClick(false);
-                this.isEdit = false;
-                polygonManager.ClearIndex();
-                main._pointsPoly.Clear();
-                main.isRdClicked = false;
+                DialogResult dialogResult = MessageBox.Show("ยืนยันที่จะสร้างอาณาเขตนี้หรือไม่", "อาณาเขต", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dialogResult == DialogResult.Yes)
+                    polygonManager.CreatePolygon(points);
+                    polygonManager.isPreview = false;
+                    //polygonManager.CreateRealPoints(points);
+                    AddDataToCollection(txtName.Text, new List<PointLatLng>(main._pointsPoly), cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
+                    Reset();
+                    main.SetPolygonFuncClick(false);
+                    this.isEdit = false;
+                    polygonManager.ClearIndex();
+                    main._pointsPoly.Clear();
+                    main.isRdClicked = false;
             }
         }
 
@@ -200,7 +202,12 @@ namespace AADS.Views.Polygon
                     var polygon = new GMapPolygon(cacheList, "polygon");
                     previewOverlay.Polygons.Clear();
                     previewOverlay.Polygons.Add(polygon);
-                    
+                    lbPoints.Items.Clear();
+                    foreach (var j in cacheList)
+                    {
+                        this.SetListBox(j);
+                    }
+                    count = 1;
                 }
             }
         }
