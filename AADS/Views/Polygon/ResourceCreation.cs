@@ -42,7 +42,7 @@ namespace AADS.Views.Polygon
                     polygonManager.CreatePolygon(points);
                     polygonManager.isPreview = false;
                     //polygonManager.CreateRealPoints(points);
-                    AddDataToCollection(txtName.Text, new List<PointLatLng>(main._pointsPoly), cmbStatusEx.SelectedItem.ToString(), cmbStatusIn.SelectedItem.ToString(), polygonManager.polygon);
+                    AddDataToCollection(txtName.Text, new List<PointLatLng>(main._pointsPoly), cmbStatusEx.SelectedItem.ToString(), "None", polygonManager.polygon);
                     Reset();
                     main.SetPolygonFuncClick(false);
                     this.isEdit = false;
@@ -262,6 +262,11 @@ namespace AADS.Views.Polygon
             main.isGeoClicked = false;
             main.isRaClicked = false;
             main.isRdClicked = false;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

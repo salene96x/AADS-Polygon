@@ -49,20 +49,20 @@ namespace AADS.Views.Polygon
             // 
             this.lbPoints.Font = new System.Drawing.Font("TH SarabunPSK", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPoints.FormattingEnabled = true;
-            this.lbPoints.ItemHeight = 22;
-            this.lbPoints.Location = new System.Drawing.Point(128, 157);
+            this.lbPoints.ItemHeight = 18;
+            this.lbPoints.Location = new System.Drawing.Point(128, 111);
             this.lbPoints.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
             this.lbPoints.Name = "lbPoints";
-            this.lbPoints.Size = new System.Drawing.Size(223, 290);
+            this.lbPoints.Size = new System.Drawing.Size(223, 274);
             this.lbPoints.TabIndex = 23;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 157);
+            this.label4.Location = new System.Drawing.Point(20, 111);
             this.label4.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 28);
+            this.label4.Size = new System.Drawing.Size(96, 24);
             this.label4.TabIndex = 22;
             this.label4.Text = "พิกัดอาณาเขต :";
             // 
@@ -71,7 +71,7 @@ namespace AADS.Views.Polygon
             this.txtName.Location = new System.Drawing.Point(128, 36);
             this.txtName.Margin = new System.Windows.Forms.Padding(5, 11, 5, 11);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(171, 35);
+            this.txtName.Size = new System.Drawing.Size(171, 31);
             this.txtName.TabIndex = 19;
             // 
             // label3
@@ -80,19 +80,21 @@ namespace AADS.Views.Polygon
             this.label3.Location = new System.Drawing.Point(-1, 111);
             this.label3.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(119, 28);
+            this.label3.Size = new System.Drawing.Size(117, 24);
             this.label3.TabIndex = 18;
             this.label3.Text = "สถานะการจัดการ :";
+            this.label3.Visible = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 74);
+            this.label2.Location = new System.Drawing.Point(59, 73);
             this.label2.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 28);
+            this.label2.Size = new System.Drawing.Size(57, 24);
             this.label2.TabIndex = 17;
-            this.label2.Text = "สถานะบริหาร :";
+            this.label2.Text = "สถานะ :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label5
             // 
@@ -100,7 +102,7 @@ namespace AADS.Views.Polygon
             this.label5.Location = new System.Drawing.Point(29, 39);
             this.label5.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 28);
+            this.label5.Size = new System.Drawing.Size(87, 24);
             this.label5.TabIndex = 16;
             this.label5.Text = "ชื่ออาณาเขต :";
             // 
@@ -112,7 +114,7 @@ namespace AADS.Views.Polygon
             "Inactive"});
             this.cmbStatusEx.Location = new System.Drawing.Point(128, 73);
             this.cmbStatusEx.Name = "cmbStatusEx";
-            this.cmbStatusEx.Size = new System.Drawing.Size(121, 36);
+            this.cmbStatusEx.Size = new System.Drawing.Size(121, 32);
             this.cmbStatusEx.TabIndex = 24;
             // 
             // cmbStatusIn
@@ -123,12 +125,13 @@ namespace AADS.Views.Polygon
             "Inactive"});
             this.cmbStatusIn.Location = new System.Drawing.Point(128, 111);
             this.cmbStatusIn.Name = "cmbStatusIn";
-            this.cmbStatusIn.Size = new System.Drawing.Size(121, 36);
+            this.cmbStatusIn.Size = new System.Drawing.Size(121, 32);
             this.cmbStatusIn.TabIndex = 25;
+            this.cmbStatusIn.Visible = false;
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(58, 461);
+            this.btnConfirm.Location = new System.Drawing.Point(58, 415);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(113, 46);
             this.btnConfirm.TabIndex = 26;
@@ -138,7 +141,7 @@ namespace AADS.Views.Polygon
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(7, 215);
+            this.btnEdit.Location = new System.Drawing.Point(7, 169);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(113, 46);
             this.btnEdit.TabIndex = 28;
@@ -149,7 +152,7 @@ namespace AADS.Views.Polygon
             // 
             // btnDel
             // 
-            this.btnDel.Location = new System.Drawing.Point(7, 339);
+            this.btnDel.Location = new System.Drawing.Point(7, 293);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(113, 46);
             this.btnDel.TabIndex = 27;
@@ -164,13 +167,13 @@ namespace AADS.Views.Polygon
             this.label1.Font = new System.Drawing.Font("TH SarabunPSK", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(78, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 39);
+            this.label1.Size = new System.Drawing.Size(187, 33);
             this.label1.TabIndex = 29;
             this.label1.Text = "พื้นที่กระจายทรัพยากร";
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(216, 461);
+            this.btnCancel.Location = new System.Drawing.Point(216, 415);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(113, 46);
             this.btnCancel.TabIndex = 30;
@@ -180,7 +183,7 @@ namespace AADS.Views.Polygon
             // 
             // btnEditConfirm
             // 
-            this.btnEditConfirm.Location = new System.Drawing.Point(7, 277);
+            this.btnEditConfirm.Location = new System.Drawing.Point(7, 231);
             this.btnEditConfirm.Name = "btnEditConfirm";
             this.btnEditConfirm.Size = new System.Drawing.Size(113, 46);
             this.btnEditConfirm.TabIndex = 31;
@@ -191,7 +194,7 @@ namespace AADS.Views.Polygon
             // 
             // ResourceCreation
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 28F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnEditConfirm);
             this.Controls.Add(this.btnEdit);
